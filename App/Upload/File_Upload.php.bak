@@ -1,0 +1,111 @@
+<?php 
+
+namespace App\Upload;
+
+// 使用别名: use Common\Response 相当于 use Common\Response as Response
+use Common\Response;
+//header('content-type:text/html;charset=utf-8');
+
+class File_Upload {
+
+	function saveFile($params,$connect) {
+		$filename = params['filename'];
+		$filetmpname = params['filetmpname'];
+		$filetype = params['filetype'];
+		$filesize = params['filesize'];
+		$fileerror = params['fileerror'];
+		if ($fileerror == UPLOAD_ERR_OK) {
+				if(move_uploaded_file($fileTmpName,'./uploads/'.$filename)) {
+						echo '文件'.$filename.'上传成功';
+						//Common\Response::show(700,'File upload Ok');
+				} else {
+
+						echo '文件'.$filename.'上传失败';
+				}
+		} else {
+				switch ($fileerror) {
+						case 1:
+								//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+								echo '上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值';
+								break;
+						case 2:
+								//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+								echo '上传文件的大小超过了 HTML 表单中 MAX_FILE_SIZE 选项指定的值';
+								break;
+						case 3:
+								//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+								echo '文件只有部分被上传';
+								break;
+						case 4:
+								//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+								echo '没有文件被上传';
+								break;
+						case 6:
+								//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+								echo '找不到临时文件夹';
+								break;
+						case 7:
+								//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+								echo '文件写入失败';
+								break;
+			}
+		}
+
+	}
+	
+	$fileInfo = $_FILES;
+	//print_r($fileInfo);
+	
+	$myfile = $fileInfo['myfile'];
+	
+	$filename = $myfile['name'];
+	$filetype = $myfile['type'];
+	$filesize = $myfile['size'];
+	$fileTmpName = $myfile['tmp_name'];
+	$error = $myfile['error'];
+	
+	if ($error == UPLOAD_ERR_OK) {
+		if(move_uploaded_file($fileTmpName,'./uploads/'.$filename)) {
+			echo '文件'.$filename.'上传成功';
+			//Common\Response::show(700,'File upload Ok');
+		} else {
+			
+			echo '文件'.$filename.'上传失败';
+		}
+	} else {
+		switch ($error) {
+			case 1:
+				//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+				echo '上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值';
+				break;
+			case 2:
+				//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+				echo '上传文件的大小超过了 HTML 表单中 MAX_FILE_SIZE 选项指定的值';
+				break;
+			case 3:
+				//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+				echo '文件只有部分被上传';
+				break;
+			case 4:
+				//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+				echo '没有文件被上传';
+				break;
+			case 6:
+				//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+				echo '找不到临时文件夹';
+				break;
+			case 7:
+				//Common\Response::show(700,'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
+				echo '文件写入失败';
+				break;
+		}
+	}
+}
+
+// 1. move file 
+//move_uploaded_file($fileTmpName,'./uploads/'.$filename);
+
+//2. copy file
+//copy($fileTmpName, './uploads/'.$filename);
+
+
