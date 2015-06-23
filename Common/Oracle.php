@@ -8,7 +8,7 @@
 
 namespace Common;
 
-class Db {
+class Oracle {
 	static private $_instance;
 	static private $_connectSource;
 
@@ -16,14 +16,6 @@ class Db {
     private $user = 'ant';
     private $pwd = 'ant';
     private $svr = '192.168.146.88/mobile';
-
-	//private $_dbConfig = array(
-	//	'host' => '127.0.0.1',
-	//	'user' => 'root',
-	//	'password' => 'j88j,ui7i97',
-	//	'database' => 'test',
-	//	//'database' => 'ant',
-	//);
 
 	// 单例模式，构造函数声明为私有
 	private function __construct() {
@@ -51,8 +43,8 @@ class Db {
 	}
 }
 
-/*
 
+/*
 $connect = Db::getInstance()->connect();
 
 $sql = "select * from login";

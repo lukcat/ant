@@ -7,7 +7,7 @@
  */
 
 // use aliases
-use Common\Db as Db;
+use Common\Oracle as Oracle;
 use Common\CommonAPI as CommonAPI;
 use App\Login\Mobile_Login as Mobile_Login;
 use App\Register\Mobile_Register as Mobile_Register;
@@ -27,31 +27,45 @@ spl_autoload_register('\\Common\\Loader::autoload');
 $check = new CommonAPI();
 $check->check();
 
-$username = $check->params['username'];
-$password = $check->params['password'];
+//$username = $check->params['username'];
+//$password = $check->params['password'];
 
-$action = $check->params['action'];
+//$action = $check->params['action'];
 
 try {
 	// generate database handle
-	$connect = Db::getInstance()->connect();
+	$connect = Oracle::getInstance()->connect();
 } catch (Exception $e) {
 	throw new Exception("Database connection error: " . mysql_error());
 }
+
+// for test
+$userInfo['loginname'] = 'chendq';
+$userInfo['email'] = 'chendq@test.com';
+$userInfo['cellphone'] = '12345678901';
+$userInfo['name'] = 'chendeqing';
+$userInfo['note'] = 'lanren';
+$userInfo['password'] = sha1(md5('test'));
+
+//$username = 'chendq';
+//$password = sha1(md5('test'));
+
+//$action = 'Register';
+$action = 'Login';
 
 // response user action 
 switch($action) {
 	case 'Login':
 		// use App\Login\Mobile_Login class
 		$ml = new Mobile_Login();
-		// varify username and password
-		$ml->varify($username, $password, $connect);
+		// varify loginname and password
+		$ml->login($userInfo, $connect);
 
 		break;
 	case 'Register':
 		// use App\Register\Mobile_Register class
 		$rg = new Mobile_Register();
-		$rg->register($username, $password, $connect);
+		$rg->register($userInfo, $connect);
 
 		break;
 	case 'Upload':

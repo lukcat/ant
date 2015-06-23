@@ -8,22 +8,16 @@
 
 namespace Common;
 
-class Db {
+class MySQL {
 	static private $_instance;
 	static private $_connectSource;
-
-    // parameters to connect database
-    private $user = 'ant';
-    private $pwd = 'ant';
-    private $svr = '192.168.146.88/mobile';
-
-	//private $_dbConfig = array(
-	//	'host' => '127.0.0.1',
-	//	'user' => 'root',
-	//	'password' => 'j88j,ui7i97',
-	//	'database' => 'test',
-	//	//'database' => 'ant',
-	//);
+	private $_dbConfig = array(
+		'host' => '127.0.0.1',
+		'user' => 'root',
+		'password' => 'j88j,ui7i97',
+		'database' => 'test',
+		//'database' => 'ant',
+	);
 
 	// 单例模式，构造函数声明为私有
 	private function __construct() {
@@ -39,20 +33,22 @@ class Db {
 
 	public function connect() {
 		if(!self::$_connectSource) {
-            self::$_connectSource = oci_connect($this->user,$this->pwd,$this->svr);
+			self::$_connectSource = @mysql_connect($this->_dbConfig['host'], $this->_dbConfig['user'], $this->_dbConfig['password']);	
 
 			if(!self::$_connectSource) {
-                $e = oci_error();
-                trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-			} 
+				throw new Exception('mysql connect error ' . mysql_error());
+				//die('mysql connect error' . mysql_error());
+			}
 			
+			mysql_select_db($this->_dbConfig['database'], self::$_connectSource);
+			mysql_query("set names UTF8", self::$_connectSource);
 		}
 		return self::$_connectSource;
 	}
 }
 
-/*
 
+/*
 $connect = Db::getInstance()->connect();
 
 $sql = "select * from login";

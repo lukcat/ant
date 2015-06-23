@@ -1,5 +1,4 @@
 <?php
-// by chendq 2015/4/21
 /*
  * CommonAPI.php
  * Description: this is common module, check/save user data 
@@ -7,29 +6,44 @@
  *      Author: Chen Deqing
  */
 
+/*
+$userInfo['loginname'] = 'chendq';
+$userInfo['email'] = 'chendq@test.com';
+$userInfo['cellphone'] = '12345678901';
+$userInfo['name'] = 'chendeqing';
+$userInfo['note'] = 'lanren';
+$userInfo['password'] = sha1(md5('test'));
+*/
 
 namespace Common;
-/**
- * 处理接口公共业务
- */
 
 class CommonAPI {
 	public $params;
 	public $app;
 	public function check() {
-		// user action
+		/*************
+         * User action
+         */
 		$this->params['action'] = $action = isset($_POST['action']) ? $_POST['action'] : '';
 
-		// user login and register 
+		/*****************
+         * User infomation
+         */
 		$this->params['username'] = $username = isset($_POST['username']) ? $_POST['username'] : '';
 		// use md5 and sha1 to encrypt user password
 		$this->params['password'] = $password = isset($_POST['password']) ? sha1(md5($_POST['password'],true)) : '';
+		$this->params['password'] = $password = isset($_POST['password']) ? sha1(md5($_POST['password'],true)) : '';
+		$this->params['password'] = $password = isset($_POST['password']) ? sha1(md5($_POST['password'],true)) : '';
 		$this->params['token'] = $token = isset($_POST['token']) ? $_POST['token'] : '';
 
-		// for vehicle inquiry
+		/*********************
+         * Vehicle information
+         */
 		$this->params['vehicleid'] = $vehicleid = isset($_POST['vehicleid']) ? $_POST['vehicleid'] : '';
 
-		// for single file upload 
+		/******************
+         * File information
+         */
 		$fileInfo = $_FILES;
 		$id = key($fileInfo); // in test, $id = 'myfile'
 		$myfile = $fileInfo[$id];
@@ -40,6 +54,9 @@ class CommonAPI {
 		$this->params['filesize'] = $filesize = isset($myfile['size']) ? $myfile['size'] : '';
 		$this->params['fileerror'] = $fileerror = isset($myfile['error']) ? $myfile['error'] : '';
 
+        /**
+         * Debug program
+         */
 		$test_value = 'filename: '.$filename.' '.'filetmpname'.$filetmpname.' '.'filetype'.$filetype.' '.'filesize'.$filesize. ' '.$fileerror;
 		//$info = file_get_contents('php://input');
 

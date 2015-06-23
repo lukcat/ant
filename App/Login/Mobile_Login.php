@@ -9,23 +9,27 @@
 namespace App\Login;
 
 // use Common\Response equals to Common\Response as Response
-use Common\Response;
+use Common\Response as Response;
 
-class Mobile_Login extends Response {
+class Mobile_Login {
 
-	public function varify($username, $password, $connect) {
+	public function login($userInfo, $connect) {
 		// query database for spacific user
-		$find_sql = 'select name, password from login where name = ' . '"' . $username . '"';
-		if (!$result = mysql_query($find_sql, $connect)) {
-			throw new Exception('Mysql query error: ' . mysql_error());
-			// response message to client
+		$find_sql = "select PASSWORD from APP_USER where LOGINNAME ='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";
+
+        // parse
+        $stid = oci_parse($connect, $find_sql);
+
+        // execute
+        if (!oci_execute($stid)) {
+            // TODO
 			Response::show(401,'Mobile_Login: query database by name error');
-			
-			return false;
-		}
-		if ($rows = mysql_fetch_array($result, MYSQL_ASSOC)) {
+        }
+
+        // get rows 
+		if ($rows = oci_fetch_array($stid, OCI_BOTH)) {
 			//if ($rows['password'] == $check->params['password']) {
-			if ($rows['password'] == $password) {
+			if ($rows['PASSWORD'] == $userInfo['password']) {
 				// response message to client
 				// TODO
 				// 产生token，返回给用户，这部分后期完善
@@ -35,14 +39,13 @@ class Mobile_Login extends Response {
 			}
 			else {
 				Response::show(402,'Mobile_Login: password error');
-				return false;
+				//return false;
 			}
 		}
 		else {
 			// response message to client, include token
 			// TODO
 			Response::show(403,'Mobile_Login: user do not exist');
-			return false;
 		}
 	}
 }
@@ -50,17 +53,26 @@ class Mobile_Login extends Response {
 /* test 
   * 测试Mobile_Login
 */
+
 /*
-require_once('/var/www/html/ant/Common/Db.php');
+require_once('/var/www/html/ant/Common/Oracle.php');
+require_once('/var/www/html/ant/Common/Response.php');
 
 // 生成数据库句柄
-//$connect = Common\Db::getInstance()->connect();
+//$connect = Common\Oracle::getInstance()->connect();
 try {
-	$connect = Db::getInstance()->connect();
+	$connect = Common\Oracle::getInstance()->connect();
 } catch (Exception $e) {
 	echo "error ocurrs: " , $e;
 }
 
 $ml = new Mobile_Login();
-$ml->varify('chendq', '123', $connect);
+$ln = 'chendq';
+$pwd = sha1(md5("test"));
+if ($ml->varify_loginname($ln, $pwd, $connect)) {
+    echo "OK";
+} else {
+    echo "FAL";
+}
 */
+
