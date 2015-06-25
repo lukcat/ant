@@ -24,45 +24,47 @@ class Mobile_Register {
             // query sentance
             // valid=0 means data is out of date, only valid=1 can be used
 		    $check_ln= "SELECT * FROM APP_USER where LOGINNAME='{$loginname}' AND VALID=1";
-		    $check_em= "SELECT * FROM APP_USER where EMAIL='{$loginname}' AND VALID=1";
-		    $check_cp= "SELECT * FROM APP_USER where CELLPHONE='{$loginname}' AND VALID=1";
+		    $check_em= "SELECT * FROM APP_USER where EMAIL='{$email}' AND VALID=1";
+		    $check_cp= "SELECT * FROM APP_USER where CELLPHONE='{$cellphone}' AND VALID=1";
 
             // parse sql
+
+            // check loginname
             $stln = oci_parse($connect, $check_ln);
-            $stem = oci_parse($connect, $check_em);
-            $stcp = oci_parse($connect, $check_cp);
-
-            // execute sql
             if (!oci_execute($stln)) {
-		        Response::show(5010,'Mobile_Register: query database error');
+		        Response::show(501,'Mobile_Register: query database error');
             }
-            if (!oci_execute($stcp)) {
-		        Response::show(5011,'Mobile_Register: query database error');
-            }
-            if (!oci_execute($stcp)) {
-		        Response::show(5012,'Mobile_Register: query database error');
-            }
-
-            // get rows
             $lnrows = oci_fetch_array($stln, OCI_BOTH);
-            $emrows = oci_fetch_array($stem, OCI_BOTH);
-            $cprows = oci_fetch_array($stcp, OCI_BOTH);
-
-            //if ($lnrows || $emrows || $cprows) 
+            //if (!empty($lnrows)) {
             if ($lnrows) {
                 // loginname already exists
                 Response::show(503,"Loginname already exists");
             }
+
+            // check email
+            $stem = oci_parse($connect, $check_em);
+            if (!oci_execute($stem)) {
+		        Response::show(501,'Mobile_Register: query database error');
+            }
+            $emrows = oci_fetch_array($stem, OCI_BOTH);
+            //if (!empty($emrows)) {
             if ($emrows) {
                 // loginname already exists
                 Response::show(504,"email already exists");
             }
+
+            // check cellphone
+            $stcp = oci_parse($connect, $check_cp);
+            if (!oci_execute($stcp)) {
+		        Response::show(501,'Mobile_Register: query database error');
+            }
+            $cprows = oci_fetch_array($stcp, OCI_BOTH);
+            //if (!empty($cprows)) {
             if ($cprows) {
                 // loginname already exists
                 Response::show(505,"cellphone already exists");
             }
 
-		    // data do not exists
             return false;
         }
 
@@ -87,16 +89,24 @@ class Mobile_Register {
             $note = $userInfo['note'];
             $password = $userInfo['password'];
 
-            $insertsql = "insert into APP_USER(USERID,LOGINNAME,NAME,EMAIL,CELLPHONE,NOTE,VALID,PASSWORD,CREATETIME,MODIFYTIME) values('{$userid}','{$loginname}','{$name}','{$email}','{$cellphone}','{$note}',{$valid},'{$password}',to_date('{$create_t}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modify_t}','yyyy-mm-dd hh24:mi:ss'))";
+            // generate token
+            $token = md5(uniqid(microtime(true),true));
+
+            $insertsql = "insert into APP_USER(USERID,LOGINNAME,NAME,EMAIL,CELLPHONE,NOTE,VALID,PASSWORD,TOKEN,CREATETIME,MODIFYTIME) values('{$userid}','{$loginname}','{$name}','{$email}','{$cellphone}','{$note}',{$valid},'{$password}','{$token}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
             // parse sql
-            $stid = oci_parse($conn, $insertsql);
+            $stid = oci_parse($connect, $insertsql);
             
             // execute sql
             if (!oci_execute($stid)) {
 			    Response::show(502,'Mobile_Register: inset into database error');
             } else {
-				Response::show(500,'Mobile_Register: register successful');
+                // response token to client
+                $responseData = array(
+                    'token' => $token,
+                );
+
+				Response::show(500,'Mobile_Register: register successful',$responseData);
             }
         }
 	}

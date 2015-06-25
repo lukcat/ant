@@ -13,40 +13,182 @@ use Common\Response as Response;
 
 class Mobile_Login {
 
-	public function login($userInfo, $connect) {
-		// query database for spacific user
-		$find_sql = "select PASSWORD from APP_USER where LOGINNAME ='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";
+    private function checkToken($userInfo, $connect) {
+        // check token in database
+        $get_token = "select PASSWORD from APP_USER where TOKEN = '{$userInfo['token']}'";
+        //echo $get_token;
+        //exit;
 
         // parse
-        $stid = oci_parse($connect, $find_sql);
+        $sttk = oci_parse($connect, $get_token);
 
         // execute
-        if (!oci_execute($stid)) {
+        if (!oci_execute($sttk)) {
+			Response::show(406,'Mobile_Login: query database by token error');
+        }
+        if ($tkrows = oci_fetch_array($sttk, OCI_BOTH)) {
+            // login successfully
+            return true;
+        } 
+        //else {
+        //    // token is out of date
+		//	Response::show(,'Mobile_Login: token do not exist');
+        //    //return false;
+        //}
+        return false;
+    }
+
+    //////////////
+    // user provide password to login
+    private function checkPassword($userInfo, $connect) {
+
+        // sql example
+		//$get_pwd= "select PASSWORD from APP_USER where LOGINNAME ='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";
+
+        // flag to indentity first condition
+        $isFirst = true;
+        // generate update sql
+        $get_pwd = "SELECT PASSWORD FROM APP_USER WHERE"; 
+        if (isset($userInfo['loginname'])) {
+            if ($userInfo['loginname'] != '') {
+                $get_pwd = $get_pwd . " LOGINNAME='{$userInfo['loginname']}'";
+                $isFirst = false;
+            }
+        }
+        if (isset($userInfo['email'])) {
+            if ($userInfo['email'] != '') {
+                if ($isFirst) {
+                    $get_pwd = $get_pwd . " EMAIL='{$userInfo['email']}'";
+                    $isFirst = false;
+                } else {
+                    $get_pwd = $get_pwd. " OR EMAIL='{$userInfo['email']}'";
+                }
+            }
+        }
+        if (isset($userInfo['cellphone'])) {
+            if ($userInfo['cellphone'] != '') {
+                if ($isFirst) {
+                    $get_pwd = $get_pwd . " CELLPHONE='{$userInfo['cellphone']}'";
+                    $isFirst = false;
+                } else {
+                    $get_pwd = $get_pwd . " OR CELLPHONE='{$userInfo['cellphone']}'";
+                }
+            }
+        }
+
+        // parse
+        $stpwd = oci_parse($connect, $get_pwd);
+
+        // execute
+        if (!oci_execute($stpwd)) {
             // TODO
-			Response::show(401,'Mobile_Login: query database by name error');
+			Response::show(407,'Mobile_Login-checkPassword: query database error');
         }
 
         // get rows 
-		if ($rows = oci_fetch_array($stid, OCI_BOTH)) {
-			//if ($rows['password'] == $check->params['password']) {
-			if ($rows['PASSWORD'] == $userInfo['password']) {
-				// response message to client
-				// TODO
-				// 产生token，返回给用户，这部分后期完善
-				Response::show(400,'Mobile_Login: login successful');
-
+		if ($pwdrows = oci_fetch_array($stpwd, OCI_BOTH)) {
+			if ($pwdrows['PASSWORD'] == $userInfo['password']) {
+                // login successfully
 				return true;
 			}
-			else {
-				Response::show(402,'Mobile_Login: password error');
-				//return false;
-			}
+            // wrong password 
+			return false;
 		}
 		else {
-			// response message to client, include token
-			// TODO
-			Response::show(403,'Mobile_Login: user do not exist');
+			Response::show(405,"Mobile_Login: user doesn't exist");
 		}
+    }
+
+    private function generateToken($userInfo, $connect) {
+        // generate token
+        $token = md5(uniqid(microtime(true),true));
+
+        // sql example
+        //$updateToken = "UPDATE APP_USER SET TOKEN='{$token}' WHERE LOGINNAME='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";
+
+        // flag to indentity first condition
+        $isFirst = true;
+
+        // generate update sql
+        $updateToken = "UPDATE APP_USER SET TOKEN='{$token}' WHERE";
+        if (isset($userInfo['loginname'])) {
+            if ($userInfo['loginname'] != '') {
+                $updateToken = $updateToken . " LOGINNAME='{$userInfo['loginname']}'";
+                $isFirst = false;
+            }
+        }
+
+        if (isset($userInfo['email'])) {
+            if ($userInfo['email'] != '') {
+                if ($isFirst) {
+                    $updateToken = $updateToken . " EMAIL='{$userInfo['email']}'";
+                    $isFirst = false;
+                } else {
+                    $updateToken = $updateToken . " OR EMAIL='{$userInfo['email']}'";
+                }
+            }
+        }
+
+        if (isset($userInfo['cellphone'])) {
+            if ($userInfo['cellphone'] != '') {
+                if ($isFirst) {
+                    $updateToken = $updateToken . " CELLPHONE='{$userInfo['cellphone']}'";
+                    $isFirst = false;
+                } else {
+                    $updateToken = $updateToken . " OR CELLPHONE='{$userInfo['cellphone']}'";
+                }
+            }
+        }
+
+        // parse
+        $sttk = oci_parse($connect, $updateToken);
+
+        // execute
+        if (!oci_execute($sttk)) {
+			Response::show(408,'Mobile_Login-generateToken: query database error, token generate failure');
+        }
+
+        oci_free_statement($sttk);
+
+        return $token;
+    }
+
+	public function login($userInfo, $connect) {
+        // check password
+        if (isset($userInfo['password'])) {
+            if ($userInfo['password'] != '') {
+                if ($this->checkPassword($userInfo, $connect)) {
+                    // TODO
+                    // update token and repsonse to client
+                    $token = $this->generateToken($userInfo, $connect);
+                    
+                    $responseData = array(
+                        'token' => $token
+                    );
+
+		        	Response::show(401,'Mobile_Login: login successful by password',$responseData);
+                } else {
+		        	Response::show(403,'Mobile_Login: wrong password');
+		        }
+            }
+        }
+
+        // check token
+        if (isset($userInfo['token'])) {
+            if ($userInfo['token'] != '') {
+                if ($this->checkToken($userInfo, $connect)) {
+                    // response OK message to client
+		        	Response::show(400,'Mobile_Login: login successful by token');
+                } else {
+                    // token is out of date
+		        	Response::show(402,'Mobile_Login: token is out of date');
+                    //return false;
+                }
+            }
+        }
+
+        Response::show(404,'Mobile_Login: lack of password or token');
+
 	}
 }
 
@@ -76,3 +218,40 @@ if ($ml->varify_loginname($ln, $pwd, $connect)) {
 }
 */
 
+
+        /*
+		// query database for spacific user
+		$get_pwd= "select PASSWORD from APP_USER where LOGINNAME ='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";
+
+        // only token without loginname
+
+        // parse
+        $stpwd = oci_parse($connect, $get_pwd);
+
+        // execute
+        if (!oci_execute($stpwd) || !oci_execute($sttk)) {
+            // TODO
+			Response::show(401,'Mobile_Login: query database by name error');
+        }
+
+        // get rows 
+		if ($pwdrows = oci_fetch_array($stpwd, OCI_BOTH)) {
+			if ($rows['PASSWORD'] == $userInfo['password']) {
+				// response message to client
+				// TODO
+				// 产生token，返回给用户，这部分后期完善
+				Response::show(400,'Mobile_Login: login successful');
+
+				return true;
+			}
+			else {
+				Response::show(402,'Mobile_Login: password error');
+				//return false;
+			}
+		}
+		else {
+			// response message to client, include token
+			// TODO
+			Response::show(403,'Mobile_Login: user do not exist');
+		}
+        */

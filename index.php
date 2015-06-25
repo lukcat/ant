@@ -6,6 +6,9 @@
  *      Author: Chen Deqing
  */
 
+// set timezone
+date_default_timezone_set('UTC');
+
 // use aliases
 use Common\Oracle as Oracle;
 use Common\CommonAPI as CommonAPI;
@@ -24,8 +27,8 @@ include BASEDIR . '/Common/Loader.php';
 spl_autoload_register('\\Common\\Loader::autoload');
 
 // check user post data
-$check = new CommonAPI();
-$check->check();
+//$check = new CommonAPI();
+//$check->check();
 
 //$username = $check->params['username'];
 //$password = $check->params['password'];
@@ -40,18 +43,21 @@ try {
 }
 
 // for test
-$userInfo['loginname'] = 'chendq';
-$userInfo['email'] = 'chendq@test.com';
-$userInfo['cellphone'] = '12345678901';
+$userInfo['loginname'] = 'cdq';
+$userInfo['email'] = 'cdq@test.com';
+$userInfo['cellphone'] = '12345678902';
 $userInfo['name'] = 'chendeqing';
-$userInfo['note'] = 'lanren';
+$userInfo['note'] = 'lanren2';
+//$userInfo['token'] = '15a9cdeaf10a34e6a820c780e3cb2a6c';
+//$userInfo['token'] = '';
+
 $userInfo['password'] = sha1(md5('test'));
 
 //$username = 'chendq';
 //$password = sha1(md5('test'));
 
-//$action = 'Register';
-$action = 'Login';
+$action = 'Register';
+//$action = 'Login';
 
 // response user action 
 switch($action) {
@@ -86,6 +92,7 @@ switch($action) {
 	default:
 		// no action matches
 		Response::show(601,"no action");
+
 		break;
 }
 
