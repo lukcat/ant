@@ -1,6 +1,7 @@
 <?php 
 
 // use aliases
+/*
 use Common\Db as Db;
 use Common\CommonAPI as CommonAPI;
 use App\Login\Mobile_Login as Mobile_Login;
@@ -29,6 +30,7 @@ $gm->generate_thumbnail();
 //echo "hello world";
 
 //echo key(rasmuslerdorf$fileInfo);
+*/
 
 /*
 echo md5(rasmuslerdorf);
@@ -42,5 +44,5 @@ echo "<hr/>";
 echo Crypt(rasmuslerdorf);
 */
 
-//echo phpinfo();
+echo phpinfo();
 

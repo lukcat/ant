@@ -1,8 +1,8 @@
 <?php
 /*
- * Db.php
+ * Oralce.php
  * Description: use Singleton pattern to connect database, and returns a handle to control database
- *  Created on: 2015/4/20
+ *  Created on: 2015/7/1
  *      Author: Chen Deqing
  */
 
@@ -31,9 +31,12 @@ class Oracle {
 
 	public function connect() {
 		if(!self::$_connectSource) {
+            //echo "before";
             self::$_connectSource = oci_connect($this->user,$this->pwd,$this->svr);
+            //echo "after";
 
 			if(!self::$_connectSource) {
+                //echo "error occur in Common\Oracle.php";
                 $e = oci_error();
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 			} 
@@ -45,7 +48,19 @@ class Oracle {
 
 
 /*
-$connect = Db::getInstance()->connect();
+$connect = Oracle::getInstance()->connect();
+$sql = "select * from app_user";
+$res = oci_parse($connect,$sql);
+if(!oci_execute($res)) {
+    echo "exit";
+}
+if ($testrows = oci_fetch_array($res, OCI_BOTH)) {
+    echo $testrows['NAME'];
+}
+*/
+
+/*
+$connect = Oracle::getInstance()->connect();
 
 $sql = "select * from login";
 $result = mysql_query($sql, $connect);
