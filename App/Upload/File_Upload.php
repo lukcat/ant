@@ -2,7 +2,7 @@
 /*
  * File_Upload.php
  * Description: process multiple files upload
- *  Created on: 2015/4/29
+ *  Created on: 2015/7/5
  *      Author: Chen Deqing
  */
 
@@ -23,7 +23,7 @@ class File_Upload {
      * Generate unique string 
      * @return string
      */
-    function getUniName(){
+    protected function getUniName(){
         return md5(uniqid(microtime(true),true));
     }
 
@@ -41,7 +41,7 @@ class File_Upload {
         //$allowExt=array('jpeg','jpg','gif','png');
         //$maxSize=1048576;//1M
         //判断错误号
-        print_r($fileInfo);
+        //print_r($fileInfo);
         if($fileInfo['error']===UPLOAD_ERR_OK){
             //检测上传得到小
             if($fileInfo['size']>$maxSize){
@@ -138,6 +138,5 @@ class File_Upload {
             return $res;
         }
     }
-
 }
 

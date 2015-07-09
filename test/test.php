@@ -2,10 +2,11 @@
 //echo phpinfo();
 //echo empty($test);
 
+function test() {
 $i = 0;
 $sum = 3;
 
-$resData = array();
+//$resData = array();
 
 for(;$i < $sum; $i++) {
     $filename = "filename".$i;
@@ -20,4 +21,9 @@ for(;$i < $sum; $i++) {
     $resData[$filename] = $data;
 }
 
-print_r($resData);
+return $resData;
+}
+
+$data = test();
+
+print_r($data);

@@ -70,18 +70,18 @@ if ($testrows = oci_fetch_array($res, OCI_BOTH)) {
 //$userInfo['note'] = 'lanren2';
 //$userInfo['password'] = sha1(md5('test'));
 
-//$loginname = $check->params['loginname'] = 'cdq';
-//$check->params['email'] = 'cdq@test.com';
-//$check->params['cellphone'] = '12345678902';
-//$check->params['name'] = 'chendeqing';
-//$check->params['note'] = 'lanren2';
-//$check->params['password'] = sha1(md5('test'));
+$check->params['loginname'] = 'cdq';
+$check->params['email'] = 'cdq@test.com';
+$check->params['cellphone'] = '12345678902';
+$check->params['name'] = 'chendeqing';
+$check->params['note'] = 'lanren2';
+$check->params['password'] = sha1(md5('test'));
 //$username = 'chendq';
 //$password = sha1(md5('test'));
 
 //echo $loginname;
 
-$action = 'Upload';
+$action = 'Complaint';
 //$action = 'Register';
 //$action = 'Login';
 //exit;
@@ -103,11 +103,11 @@ switch($action) {
 		$rg->register($check->params, $connect);
 
 		break;
-	case 'Upload':
+	case 'Complaint':
         //echo "upload";
         //Varify user's indentity first
-		//$ml = new Mobile_Login();
-		//$ml->login($check->params, $connect);
+		$ml = new Mobile_Login();
+		$ml->login($check->params, $connect);
 
         // get files
         //echo "print params in index";
@@ -122,9 +122,13 @@ switch($action) {
 		$fu = new File_Upload();
         $resData = array();
         foreach($files as $fileInfo) {
-            print_r($fileInfo);
+            //print_r($fileInfo);
             $res = $fu->uploadFile($fileInfo);
-            print_r($res);
+            //print_r($res);
+
+            // Insert infomation into database
+            // TODO
+
             if ($res) {
                 $filename = $fileInfo['name'];
                 $code = $res['code'];

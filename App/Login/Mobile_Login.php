@@ -166,8 +166,8 @@ class Mobile_Login {
                         'token' => $token
                     );
 
-		        	Response::show(401,'Mobile_Login: login successful by password',$responseData);
-                    //return true;
+		        	//Response::show(401,'Mobile_Login: login successful by password',$responseData);
+                    return 2;
                 } else {
 		        	Response::show(403,'Mobile_Login: wrong password');
                     //return false;
@@ -180,8 +180,8 @@ class Mobile_Login {
             if ($userInfo['token'] != '') {
                 if ($this->checkToken($userInfo, $connect)) {
                     // response OK message to client
-		        	Response::show(400,'Mobile_Login: login successful by token');
-                    //return true;
+		        	//Response::show(400,'Mobile_Login: login successful by token');
+                    return 1;
                 } else {
                     // token is out of date
 		        	Response::show(402,'Mobile_Login: token is out of date');
