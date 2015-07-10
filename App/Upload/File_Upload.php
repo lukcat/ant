@@ -95,8 +95,23 @@ class File_Upload {
                 return $res;
             }
 
+            $imageSize = $fileInfo['size'];
+            $imageLocalName = $uniName.'.'.$ext;
+            $imageOriginName = $fileInfo['name'];
+            $imageType = $ext;
+            $imagePath = $path;     // here is relative path
+            
+            $insertData = Array(
+                    'imageLocalName' => $imageLocalName,
+                    'imageOriginName' => $imageOriginName,
+                    'imageSize' => $imageSize,
+                    'imageType' => $imageType,
+                    'imagePath' => $imagePath
+                    );
+
             $res['code'] = 0;
-            $res['message']= $fileInfo['name'].' uploads successful';
+            $res['message'] = $fileInfo['name'].' uploads successful';
+            $res['data'] = $insertData;
             //$res['mes']=$fileInfo['name'].'上传成功';
             //$res['dest']=$destination;
             return $res;

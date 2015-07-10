@@ -57,7 +57,7 @@ class Image_Processing {
 
         // add origin name to array
         $imageSize = $image->getImageSize();
-        $imageLocalName = $uniName;
+        $imageLocalName = $uniName.'.'.$ext;
         $imageOriginName = basename($imagePath);
         $imageType = $ext;
         $imagePath = $savePath;     // here is relative path
