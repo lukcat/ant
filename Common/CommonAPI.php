@@ -6,15 +6,6 @@
  *      Author: Chen Deqing
  */
 
-/*
-$userInfo['loginname'] = 'chendq';
-$userInfo['email'] = 'chendq@test.com';
-$userInfo['cellphone'] = '12345678901';
-$userInfo['name'] = 'chendeqing';
-$userInfo['note'] = 'lanren';
-$userInfo['password'] = sha1(md5('test'));
-*/
-
 namespace Common;
 
 class CommonAPI {
@@ -54,6 +45,10 @@ class CommonAPI {
 		$this->params['token'] = $token = isset($_POST['token']) ? $_POST['token'] : '';
     }
 
+    protected function getComplaint() {
+        $this->params['complaint'] = $complaint = isset($_POST['complaint']) ? $_POST['complaint'] : '';
+    }
+
     public function check() {
 		/*************
          * User action
@@ -64,6 +59,11 @@ class CommonAPI {
          * User infomation
          */
         $this->getUsers();
+
+		/*************
+         * Complaint information
+         */
+        $this->getComplaint();
 
 		/*********************
          * Vehicle information

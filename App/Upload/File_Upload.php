@@ -36,7 +36,7 @@ class File_Upload {
      * @param array $allowExt
      * @return string
      */
-    public function uploadFile($fileInfo,$path='./uploads',$flag=false,$maxSize=1048576,$allowExt=array('jpeg','jpg','png','gif','txt')){
+    public function uploadFile($fileInfo,$path='./uploads/origin',$flag=false,$maxSize=1048576,$allowExt=array('jpeg','jpg','png','gif','txt')){
         //$flag=true;
         //$allowExt=array('jpeg','jpg','gif','png');
         //$maxSize=1048576;//1M
@@ -88,9 +88,10 @@ class File_Upload {
             }
             $uniName=$this->getUniName();
             $destination=$path.'/'.$uniName.'.'.$ext;
+            //echo $destination;
             if(!move_uploaded_file($fileInfo['tmp_name'],$destination)){
                 $res['code'] = 16;
-                $res['message'] = 'move file:'.$fileInfo['name'].'error';
+                $res['message'] = 'move file:'.$fileInfo['name'].' error';
                 //$res['mes']=$fileInfo['name'].'文件移动失败';
                 return $res;
             }
@@ -102,11 +103,12 @@ class File_Upload {
             $imagePath = $path;     // here is relative path
             
             $insertData = Array(
-                    'imageLocalName' => $imageLocalName,
+                    //'imageLocalName' => $imageLocalName,
+                    'imageLocalName' => $destination,
                     'imageOriginName' => $imageOriginName,
                     'imageSize' => $imageSize,
                     'imageType' => $imageType,
-                    'imagePath' => $imagePath
+                    //'imagePath' => $imagePath
                     );
 
             $res['code'] = 0;

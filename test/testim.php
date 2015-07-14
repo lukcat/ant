@@ -17,29 +17,31 @@ $image = new Imagick($imagePath);
 
 // If 0 is provided as a width or height parameter,
 // aspect ratio is maintained
-$image->thumbnailImage(100, 100);
-//$image->thumbnailImage(50, 0);
+//$image->thumbnailImage(100, 100);
+$image->thumbnailImage(50, 0);
 
 $savePath = "./first/second";
-$realpath = realpath($savePath);
+//$realpath1 = realpath($savePath);
+//echo $realpath;
+//exit;
 
-if(!file_exists($realpath)){
-    if(!mkdir($path,0777,true)) {
+if(!file_exists($savePath)){
+    if(!mkdir($savePath,0777,true)) {
         return false;
     }
-    chmod($path,0777);
+    chmod($savePath,0777);
 }
 
 $ext=getExt($imagePath);
 $uniName = getUniName();
-$destination = $realpath.'/'.$uniName.'.'.$ext;
+$destination = $savePath.'/'.$uniName.'.'.$ext;
 //echo $destination;
 
 //copy($image->getImageBlob(),$destination);
 $image->writeImage($destination);
 
-//header('Content-type: image/jpeg');
-//echo $image->getImageBlob();
+header('Content-type: image/jpeg');
+echo $image->getImageBlob();
 
 
 

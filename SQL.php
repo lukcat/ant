@@ -14,18 +14,19 @@ class SQL {
     * Insert user's complaint into database
     * @param Oracle $connect: database handler
     * @param Array $complaint: user's compaint information
+    * Test result: This module is OK
     */
     public function insertComplaint($connect, $complaint) {
 
         $complaintid = md5(uniqid(microtime(true),true));
-        $userid = $compliant['userid'];
-        $complaint = $complaint['complaint'];
+        $userid = $complaint['userid'];             // userid must exist or database would report error
+        $complaint = $complaint['complaint'];       // primariy key
         $valid = 1;
         $type = 0;
-        $createtime = date('Y-m-d H:i:s');
-        $modifytime = date('Y-m-d H:i:s');
+        $createtime = date('Y-m-d H:i:s');          // use oracle to_date function to format the date
+        $modifytime = date('Y-m-d H:i:s');          // use oracle to_date function to format the date
 
-        $sql="INSERT INTO COMPLAINT(COMPLAINTID,USER_USERID,COMPLAINT,VALID,TYPE,CREATETIME,MODIFYTIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$valid}','{$type}','{$createtime}','{$modifytime}')";
+        $sql="INSERT INTO COMPLAINT(COMPLAINTID,USE_USERID,COMPLAINT,VALID,TYPE,CREATETIME,MODIFYTIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$valid}','{$type}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
         $stid = oci_parse($connect,$sql);
 
@@ -102,14 +103,37 @@ class SQL {
 
 // for test
 
+// set timezone
+date_default_timezone_set('UTC');
+
+// global variable BASEDIR
+define('BASEDIR',__DIR__);
+include BASEDIR . '/Common/Loader.php';
+
+// using PSR-0 coding standard
+spl_autoload_register('\\Common\\Loader::autoload');
+
+// check user post data
+$check = new CommonAPI();
+// $check->getFiles();
+$check->check();
+
+//print_r($check->params);
+//echo "hello";
+
+// connect database
+try {
+	// generate database handle
+    $connect = Oracle::getInstance()->connect();
+} catch (Exception $e) {
+	throw new Exception("Database connection error: " . mysql_error());
+}
+
 // test data
-$compliant['userid'] = "chendq"
+$complaint['userid'] = "7fec24daf27dffbf18d188c7283bae58";
 $complaint['complaint'] = "This is man is so nice!";
 
 $ts = new SQL();
 $ts->insertComplaint($connect,$complaint);
-
-//public function insertComplaint($connect, $complaint) {
-
 
 

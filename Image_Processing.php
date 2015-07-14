@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Graphics;
+//namespace App\Graphics
 
 class Image_Processing {
     /**************************
@@ -20,16 +20,10 @@ class Image_Processing {
         return md5(uniqid(microtime(true),true));
     }
 
-    public function generateThumbnail($connect, $imagePath, $savePath='./uploads/thumbnail', $columns=50, $rows=50, $bestfit=true) {
+    //public function generateThumbnail($connect, $imagePath, $savePath='./uploads/thumbnail', $columns=50, $rows=50, $bestfit=true) {
+    public function generateThumbnail($imagePath, $savePath='./uploads/thumbnail', $columns=50, $rows=50, $bestfit=false) {
         try{
-            //echo "before imagick";
-            //echo realpath($imagePath);
-            $rp = realpath($imagePath);
-            //$image = new Imagick(realpath($imagePath));
-            //$image = new Imagick($rp);
-            $image = new \Imagick($rp);
-
-            //echo "after imagick";
+            $image = new Imagick(realpath($imagePath));
         } catch (Exception $e) {
             throw new Exception("error occur in Image_Processing\generateThumbnail");
         }
@@ -38,7 +32,8 @@ class Image_Processing {
         $image->thumbnailImage($columns,$rows,$bestfit);
         
         // get image size
-        $imageSize = $image->getImageSize();
+        //$imageSize = $image->getImageSize();
+        //$imageSize = $image->getImageSize();
 
         // save image to local disk, get local path and local name
         // 1.Create folder
@@ -64,7 +59,7 @@ class Image_Processing {
 
         // add origin name to array
         $imageSize = $image->getImageSize();
-        $imageLocalName = $uniName.'.'.$ext;
+        $imageLocalName = $uniName;
         $imageOriginName = basename($imagePath);
         $imageType = $ext;
         $imagePath = $savePath;     // here is relative path
@@ -85,3 +80,35 @@ class Image_Processing {
         // return data
     }
 }
+
+//test 
+date_default_timezone_set('UTC');
+
+// global variable BASEDIR
+define('BASEDIR',__DIR__);
+include BASEDIR . '/Common/Loader.php';
+
+// using PSR-0 coding standard
+spl_autoload_register('\\Common\\Loader::autoload');
+
+// check user post data
+$check = new CommonAPI();
+// $check->getFiles();
+$check->check();
+
+//print_r($check->params);
+//echo "hello";
+
+// connect database
+try {
+	// generate database handle
+    $connect = Oracle::getInstance()->connect();
+} catch (Exception $e) {
+	throw new Exception("Database connection error: " . mysql_error());
+}
+
+$ip = new Image_Processing();
+$ip = $ip->generateThumbnail('image.jpg');
+//print_r($ip);
+
+

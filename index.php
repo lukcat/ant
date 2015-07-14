@@ -17,7 +17,8 @@ use App\Register\Mobile_Register as Mobile_Register;
 use App\Upload\File_Upload as File_Upload;
 //use App\Upload\Graphic_Upload as Graphic_Upload;
 use App\Inquiry\Vehicle_Inquiry as Vehicle_Inquiry;
-use App\Graphics\Mobile_Graphics as Mobile_Graphics;
+//use App\Graphics\Mobile_Graphics as Mobile_Graphics;
+use App\Graphics\Image_Processing as Image_Processing;
 use Common\Response as Response;
 
 // global variable BASEDIR
@@ -104,50 +105,49 @@ switch($action) {
 
 		break;
 	case 'Complaint':
-        //echo "upload";
         //Varify user's indentity first
 		$ml = new Mobile_Login();
 		$ml->login($check->params, $connect);
 
+        // get complaint
+
         // get files
-        //echo "print params in index";
         $files = $check->params['files'];
-        //print_r($files);
-        //print_r($check->params['files']);
-        //if ($files == '') {
-        //    Response::show(720,'No files uploaded');
-        //}
 
-        // upload file
-		$fu = new File_Upload();
-        $resData = array();
-        foreach($files as $fileInfo) {
-            //print_r($fileInfo);
-            $res = $fu->uploadFile($fileInfo);
-            //print_r($res);
+        /* 
+         * Upload files 
+         */
+        if (!empty($files)) {
+        //if (empty($files)) {
+            $fu = new File_Upload();
+            $resData = array();
+            foreach($files as $fileInfo) {
+                /*
+                 * Porcess origin photo
+                 */
+                $res = $fu->uploadFile($fileInfo);
 
-            // Insert infomation into database
-            // TODO
+                // Insert infomation into database
+                // TODO
 
-            if ($res) {
-                $filename = $fileInfo['name'];
-                $code = $res['code'];
-                $msg = $res['message'];
+                if ($res) {
+                    //print_r($res);
+                    $imagePath = (string)$res['data']['imageLocalName'];
+                    
+                    array_push($resData,$res);
+                }
                 
-                $data = array(
-                        'code' => $code,
-                        'filename' => $filename,
-                        'msg' => $msg,
-                        );
-                
-                // add to response data
-                $resData[$filename] = $data;
+                $imagePath = "/var/www/html/ant/uploads/origin/761808130d2dcb61c46519a7344ae1f5.jpg";
+                if (isset($imagePath)) {
+                    /*
+                     * generate thumbnail photo
+                     */
+                    $ip = new Image_Processing();
 
+                    $ip->generateThumbnail($connect,realpath($imagePath));
+                    echo "leave image";
+                }
             }
-            // TODO
-            // response upload result
-            // Response::show(code,msg,data);
-            // 7 represent file 
         }
         Response::show(7,'File message',$resData);
 
