@@ -62,9 +62,8 @@ class SQL {
         $path = $imageInfo['path'];                     // file's relative path
         $description = $imageInfo['description'];       // file description
         $createtime = date('Y-m-d H:i:s');              // file's create_time
-        $modifytime = date('Y-m-d H:i:s');              // file's modify_time
-
-        $sql="INSERT INTO PHOTO(PHOTOID,COMMPLAINTID,LOCALNAME,ORIGINNAME,SIZE,TYPE,VALID,PATH,DESCRIPTION,CREATETIME,MODIFYTIME) VALUES ('{$photoid}','{$compaintid}','{$localname}','{$originname}','{$size}','{$valid}','{$path}','{$description}','{$createtime}','{$modifytime}')";
+        $modifytime = date('Y-m-d H:i:s');              // file's modify_time 
+        $sql="INSERT INTO PHOTO(PHOTOID,COMMPLAINTID,LOCALNAME,ORIGINNAME,SIZE,TYPE,VALID,PATH,DESCRIPTION,CREATETIME,MODIFYTIME) VALUES ('{$photoid}','{$complaintid}','{$localname}','{$originname}','{$size}','{$valid}','{$path}','{$description}','{$createtime}','{$modifytime}')";
 
         $stid = oci_parse($connect,$sql);
 
@@ -101,8 +100,8 @@ class SQL {
 
 }
 
-// for test
 
+// for test
 // set timezone
 date_default_timezone_set('UTC');
 
@@ -124,16 +123,21 @@ $check->check();
 // connect database
 try {
 	// generate database handle
+    echo "1";
     $connect = Oracle::getInstance()->connect();
+    echo "2";
+
 } catch (Exception $e) {
 	throw new Exception("Database connection error: " . mysql_error());
 }
 
 // test data
 $complaint['userid'] = "7fec24daf27dffbf18d188c7283bae58";
+//$complaint['userid'] = "fec24daf27dffbf18d188c7283bae58";
 $complaint['complaint'] = "This is man is so nice!";
 
 $ts = new SQL();
 $ts->insertComplaint($connect,$complaint);
+
 
 
