@@ -31,14 +31,12 @@ class Oracle {
 
 	public function connect() {
 		if(!self::$_connectSource) {
-            //echo "before";
             self::$_connectSource = oci_connect($this->user,$this->pwd,$this->svr);
-            //echo "after";
 
 			if(!self::$_connectSource) {
-                //echo "error occur in Common\Oracle.php";
-                $e = oci_error();
-                trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+                exit("Database connect error, please start your listener and instance");
+                //$e = oci_error();
+                //trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 			} 
 			
 		}
