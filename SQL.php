@@ -195,7 +195,6 @@ $ts->insertComplaint($connect,$complaint);
 /*
  * For thumbnail table
  */
-
 $photoInfo['complaintid'] = '7fec24daf27dffbf18d188c7283bae58';
 $photoInfo['photoid'] = '7fec24daf27dffbf18d188c7283bae58';
 $photoInfo['localname'] = 'localname';

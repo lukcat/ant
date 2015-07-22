@@ -19,6 +19,7 @@ use App\Upload\File_Upload as File_Upload;
 use App\Inquiry\Vehicle_Inquiry as Vehicle_Inquiry;
 //use App\Graphics\Mobile_Graphics as Mobile_Graphics;
 use App\Graphics\Image_Processing as Image_Processing;
+use App\Complaint\User_Complaint as User_Complaint;
 use Common\Response as Response;
 
 // global variable BASEDIR
@@ -107,9 +108,13 @@ switch($action) {
 	case 'Complaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
-		$ml->login($check->params, $connect);
+		$userid = $ml->login($check->params, $connect);
+        echo "userid is:\n";
+        echo $userid;
 
         // get complaint
+        $uc = new User_Complaint;
+        $complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
 
         // get files
         $files = $check->params['files'];
@@ -121,15 +126,48 @@ switch($action) {
         //if (empty($files)) {
             $fu = new File_Upload();
             $resData = array();
-            foreach($files as $fileInfo) {
+            //foreach($files as $fileInfo) {
                 /*
                  * Porcess origin photo
                  */
-                $res = $fu->uploadFile($fileInfo);
+                $res = $fu->uploadFile($files);
 
                 // Insert infomation into database
-                // TODO
+                // $res contains file basic information, include file's localname, photoid etc.
+                $infos = array();
+                foreach($res as $imageInfo) {
+                    $info = $fu->insertPhotoInfo($connect,$imageInfo,$complaintid);
+                    array_push($infos, $info);
 
+                }
+
+                //if (isset($imagePath)) {
+                $ip = new Image_Processing();
+                $ipRes = $ip->generateThumbnail($connect,$infos);
+                $ipInfos = array();
+                foreach($ipRes as $imageInfo) {
+                    //var_dump($imageInfo);
+                    //echo "\n";
+                    $info = $ip->insertthumbnailInfo($connect, $imageInfo, $complaintid);
+                    array_push($ipInfos, $info);
+                }
+                echo "ipInfos is: ";
+                var_dump($ipInfos);
+                echo "ipInfos ended";
+
+                // Insert infomation into database(thumbnail)
+                // $ipRes contains file basic information, include file's localname, photoid etc.
+
+
+
+
+                //echo "ipRes is: ";
+                //var_dump($ipRes);
+                //echo "ipRes is ended";
+                //echo "leave image";
+                //}
+
+                /*
                 if ($res) {
                     //print_r($res);
                     $imagePath = (string)$res['data']['imageLocalName'];
@@ -139,17 +177,21 @@ switch($action) {
                 
                 $imagePath = "/var/www/html/ant/uploads/origin/761808130d2dcb61c46519a7344ae1f5.jpg";
                 if (isset($imagePath)) {
-                    /*
-                     * generate thumbnail photo
-                     */
                     $ip = new Image_Processing();
 
                     $ip->generateThumbnail($connect,realpath($imagePath));
                     echo "leave image";
                 }
-            }
+                */
+            //}
         }
-        Response::show(7,'File message',$resData);
+        // Analysis resData
+        // If reData contains error, delete all other uploaded files
+        // User should uploads all files again
+
+        // TODO
+        //Response::show(7,'File message',$resData);
+        Response::show(7,'File message',$res);
 
 		// spacify file storage path
 		//$savePath = BASEDIR . "/uploads/";

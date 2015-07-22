@@ -15,7 +15,8 @@ class Mobile_Login {
 
     private function checkToken($userInfo, $connect) {
         // check token in database
-        $get_token = "select PASSWORD from APP_USER where TOKEN = '{$userInfo['token']}'";
+        //$get_token = "select PASSWORD from APP_USER where TOKEN = '{$userInfo['token']}'";
+        $get_token = "select USER_ID from APP_USER where TOKEN = '{$userInfo['token']}'";
         //echo $get_token;
         //exit;
 
@@ -28,7 +29,10 @@ class Mobile_Login {
         }
         if ($tkrows = oci_fetch_array($sttk, OCI_BOTH)) {
             // login successfully
-            return true;
+            echo "$tkrows is: ";
+            echo $tkrows;
+            return $tkrows['USER_ID'];
+            //return true;
         } 
         //else {
         //    // token is out of date
@@ -48,10 +52,12 @@ class Mobile_Login {
         // flag to indentity first condition
         $isFirst = true;
         // generate update sql
-        $get_pwd = "SELECT PASSWORD FROM APP_USER WHERE"; 
+        //$get_pwd = "SELECT PASSWORD FROM APP_USER WHERE"; 
+        $get_pwd = "SELECT PASSWORD,USER_ID FROM APP_USER WHERE"; 
+        //$get_pwd = "SELECT USER_ID FROM APP_USER WHERE"; 
         if (isset($userInfo['loginname'])) {
             if ($userInfo['loginname'] != '') {
-                $get_pwd = $get_pwd . " LOGINNAME='{$userInfo['loginname']}'";
+                $get_pwd = $get_pwd . " LOGIN_NAME='{$userInfo['loginname']}'";
                 $isFirst = false;
             }
         }
@@ -89,7 +95,9 @@ class Mobile_Login {
 		if ($pwdrows = oci_fetch_array($stpwd, OCI_BOTH)) {
 			if ($pwdrows['PASSWORD'] == $userInfo['password']) {
                 // login successfully
-				return true;
+				//return true;
+                var_dump($pwdrows);
+                return $pwdrows['USER_ID'];
 			}
             // wrong password 
 			return false;
@@ -113,7 +121,7 @@ class Mobile_Login {
         $updateToken = "UPDATE APP_USER SET TOKEN='{$token}' WHERE";
         if (isset($userInfo['loginname'])) {
             if ($userInfo['loginname'] != '') {
-                $updateToken = $updateToken . " LOGINNAME='{$userInfo['loginname']}'";
+                $updateToken = $updateToken . " LOGIN_NAME='{$userInfo['loginname']}'";
                 $isFirst = false;
             }
         }
@@ -157,7 +165,7 @@ class Mobile_Login {
         // check password
         if (isset($userInfo['password'])) {
             if ($userInfo['password'] != '') {
-                if ($this->checkPassword($userInfo, $connect)) {
+                if ($userid = $this->checkPassword($userInfo, $connect)) {
                     // TODO
                     // update token and repsonse to client
                     $token = $this->generateToken($userInfo, $connect);
@@ -167,7 +175,8 @@ class Mobile_Login {
                     );
 
 		        	//Response::show(401,'Mobile_Login: login successful by password',$responseData);
-                    return 2;
+                    //return 2;
+                    return $userid;
                 } else {
 		        	Response::show(403,'Mobile_Login: wrong password');
                     //return false;
@@ -178,10 +187,11 @@ class Mobile_Login {
         // check token
         if (isset($userInfo['token'])) {
             if ($userInfo['token'] != '') {
-                if ($this->checkToken($userInfo, $connect)) {
+                if ($userid = $this->checkToken($userInfo, $connect)) {
                     // response OK message to client
 		        	//Response::show(400,'Mobile_Login: login successful by token');
-                    return 1;
+                    //return 1;
+                    return $userid;
                 } else {
                     // token is out of date
 		        	Response::show(402,'Mobile_Login: token is out of date');

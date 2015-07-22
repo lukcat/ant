@@ -2,6 +2,8 @@
 
 namespace App\Graphics;
 
+use Common\Response as Response;
+
 class Image_Processing {
     /**************************
      * Get file extension
@@ -20,68 +22,119 @@ class Image_Processing {
         return md5(uniqid(microtime(true),true));
     }
 
-    public function generateThumbnail($connect, $imagePath, $savePath='./uploads/thumbnail', $columns=50, $rows=50, $bestfit=true) {
-        try{
-            //echo "before imagick";
-            //echo realpath($imagePath);
-            $rp = realpath($imagePath);
-            //$image = new Imagick(realpath($imagePath));
-            //$image = new Imagick($rp);
-            $image = new \Imagick($rp);
-
-            //echo "after imagick";
-        } catch (Exception $e) {
-            throw new Exception("error occur in Image_Processing\generateThumbnail");
-        }
-
-        // generate thumbnail image
-        $image->thumbnailImage($columns,$rows,$bestfit);
-        
-        // get image size
-        $imageSize = $image->getImageSize();
-
-        // save image to local disk, get local path and local name
-        // 1.Create folder
-        if(!file_exists($savePath)){
-            if(!mkdir($savePath,0777,true)){
-                $res['code'] = 1;
-                $res['message'] = 'Create folder failure';
-                return $res;
+    public function generateThumbnail($connect, $files, $savePath='./uploads/thumbnail', $columns=50, $rows=50, $bestfit=true) {
+        $resData = array();
+        foreach($files as $imageInfo) {
+            //echo "tag";
+            $imagePath = $imageInfo['path'] . '/' . $imageInfo['localname']; 
+            //echo $imagePath;
+            try{
+                $rp = realpath($imagePath);
+                $image = new \Imagick($rp);
+            } catch (Exception $e) {
+                throw new Exception("error occur in Image_Processing\generateThumbnail");
             }
-            chmod($savePath,0777);
+
+            // generate thumbnail image
+            $image->thumbnailImage($columns,$rows,$bestfit);
+
+            // get image size
+            $imageSize = $image->getImageSize();
+
+            // save image to local disk, get local path and local name
+            // 1.Create folder
+            if(!file_exists($savePath)){
+                if(!mkdir($savePath,0777,true)){
+                    $res['code'] = 1;
+                    $res['message'] = 'Create folder failure';
+                    //return $res;
+                    //Response::show(701,"Create folder failure");
+                }
+                chmod($savePath,0777);
+            }
+
+            // 2.get unique name, extension and destination, then move file to the destination
+            $ext=$this->getExt($imagePath);
+            $uniName = $this->getUniName();
+            $destination = $savePath.'/'.$uniName.'.'.$ext;
+
+            if(!$image->writeImage($destination)) {
+                $res['code'] = 2;
+                $res['message'] = 'Can not write image to local system';
+                //return $res;
+                //Response::show(701,"Create folder failure");
+            }
+
+            // add origin name to array
+            $imageSize = $image->getImageSize();
+            $imageLocalName = $uniName.'.'.$ext;
+            //$imageOriginName = basename($imagePath);
+            $imageOriginName = $imageInfo['originname'];
+            $imageType = $ext;
+            $imagePath = $savePath;     // here is relative path
+            $photoID = $imageInfo['photoid'];
+
+            /*
+            $insertData = Array(
+                    'imageLocalName' => $imageLocalName,
+                    'imageOriginName' => $imageOriginName,
+                    'imageSize' => $imageSize,
+                    'imageType' => $imageType,
+                    'imagePath' => $imagePath
+                    );
+            */
+
+            if (!isset($res['code'])) {
+                $res['code'] = 0;
+                $res['message'] = 'Thumbnail ' . $imageOriginName . ' generated successful';
+            }
+
+            $res['path'] = $imagePath;
+            $res['localname'] = $imageLocalName;
+            $res['type'] = $imageType;
+            $res['originname'] = $imageOriginName;
+            $res['size'] = $imageSize;
+            $res['description'] = 'No description yet';
+            $res['photoid'] = $photoID;
+
+            //$res['data'] = $fileInfo;
+            array_push($resData,$res);
+            //return $res;
+            // return data
         }
+        return $resData;
+    }
 
-        // 2.get unique name, extension and destination, then move file to the destination
-        $ext=$this->getExt($imagePath);
-        $uniName = $this->getUniName();
-        $destination = $savePath.'/'.$uniName.'.'.$ext;
 
-        if(!$image->writeImage($destination)) {
-            $res['code'] = 2;
-            $res['message'] = 'Can not write image to local system';
-            return $res;
+    public function insertThumbnailInfo($connect, $thumbnailInfo, $complaint_id) {
+
+
+        $thumbnailid = md5(uniqid(microtime(true),true));   // primary key
+        $photoid = $thumbnailInfo['photoid'];               // foreign key
+        //$complaintid = $thumbnailInfo['complaintid'];       // foreign key
+        $complaintid = $complaint_id;       // foreign key
+
+        $localname = $thumbnailInfo['localname'];           // file name in local system
+        $originname = $thumbnailInfo['originname'];         // file origin name
+        $size = $thumbnailInfo['size'];                     // file size
+        $type = $thumbnailInfo['type'];                     // file type
+        $valid = 1;                                     // 1 represent effective, 0 reprensent ineffective
+        $path = $thumbnailInfo['path'];                     // file's relative path
+        $description = $thumbnailInfo['description'];       // file description
+        $createtime = date('Y-m-d H:i:s');              // file's create_time
+        $modifytime = date('Y-m-d H:i:s');              // file's modify_time 
+        $sql="INSERT INTO THUMBNAIL(THUMBNAIL_ID,PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$thumbnailid}','{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+
+        //echo $sql;
+        $thumbnailInfo['thumbnailid'] = $thumbnailid;
+
+        $stid = oci_parse($connect,$sql);
+
+        if(!oci_execute($stid)) {
+            return false;
+        } else {
+            return $thumbnailInfo;
         }
-
-        // add origin name to array
-        $imageSize = $image->getImageSize();
-        $imageLocalName = $uniName.'.'.$ext;
-        $imageOriginName = basename($imagePath);
-        $imageType = $ext;
-        $imagePath = $savePath;     // here is relative path
-
-        $insertData = Array(
-                'imageLocalName' => $imageLocalName,
-                'imageOriginName' => $imageOriginName,
-                'imageSize' => $imageSize,
-                'imageType' => $imageType,
-                'imagePath' => $imagePath
-                );
-
-        $res['code'] = 0;
-        $res['message'] = 'Insert thoes data into database';
-        $res['data'] = $insertData;
-
-        return $res;
-        // return data
+        
     }
 }

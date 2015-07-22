@@ -23,7 +23,7 @@ class Mobile_Register {
         if ($loginname !='' && $email !='' && $cellphone !='') {
             // query sentance
             // valid=0 means data is out of date, only valid=1 can be used
-		    $check_ln= "SELECT * FROM APP_USER where LOGINNAME='{$loginname}' AND VALID=1";
+		    $check_ln= "SELECT * FROM APP_USER where LOGIN_NAME='{$loginname}' AND VALID=1";
 		    $check_em= "SELECT * FROM APP_USER where EMAIL='{$email}' AND VALID=1";
 		    $check_cp= "SELECT * FROM APP_USER where CELLPHONE='{$cellphone}' AND VALID=1";
 
@@ -92,7 +92,7 @@ class Mobile_Register {
             // generate token
             $token = md5(uniqid(microtime(true),true));
 
-            $insertsql = "insert into APP_USER(USERID,LOGINNAME,NAME,EMAIL,CELLPHONE,NOTE,VALID,PASSWORD,TOKEN,CREATETIME,MODIFYTIME) values('{$userid}','{$loginname}','{$name}','{$email}','{$cellphone}','{$note}',{$valid},'{$password}','{$token}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+            $insertsql = "insert into APP_USER(USER_ID,LOGIN_NAME,NAME,EMAIL,CELLPHONE,NOTE,VALID,PASSWORD,TOKEN,CREATE_TIME,MODIFY_TIME) values('{$userid}','{$loginname}','{$name}','{$email}','{$cellphone}','{$note}',{$valid},'{$password}','{$token}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
             // parse sql
             $stid = oci_parse($connect, $insertsql);
