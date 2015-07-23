@@ -78,12 +78,15 @@ $check->params['cellphone'] = '12345678902';
 $check->params['name'] = 'chendeqing';
 $check->params['note'] = 'lanren2';
 $check->params['password'] = sha1(md5('test'));
+
+$check->params['complaint'] = 'shit';
 //$username = 'chendq';
 //$password = sha1(md5('test'));
 
 //echo $loginname;
 
-$action = 'Complaint';
+$action = 'GetComplaint';
+//$action = 'Complaint';
 //$action = 'Register';
 //$action = 'Login';
 //exit;
@@ -109,11 +112,11 @@ switch($action) {
         //Varify user's indentity first
 		$ml = new Mobile_Login();
 		$userid = $ml->login($check->params, $connect);
-        echo "userid is:\n";
-        echo $userid;
+        //echo "userid is:\n";
+        //echo $userid;
 
         // get complaint
-        $uc = new User_Complaint;
+        $uc = new User_Complaint();
         $complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
 
         // get files
@@ -200,6 +203,16 @@ switch($action) {
 		//$fu->uploadFile($check->params, $connect);
 
 		break;
+    case 'GetComplaint':
+        //Varify user's indentity first
+		$ml = new Mobile_Login();
+		$userid = $ml->login($check->params, $connect);
+
+        // Get user complaint
+        $uc = new User_Complaint();
+        $uc->GetComplaint($connect, $userid);
+
+        break;
 	case 'InquiryVehicle':
 		$iv = new Vehicle_Inquiry();
 		$iv->getVehicleInfo($check->params['vehicleid'], $connect);

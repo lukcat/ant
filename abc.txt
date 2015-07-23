@@ -1,0 +1,17 @@
+SQL> select c.complaint,t.photo_id from complaint c,thumbnail t where c.complaint_id=t.complaint_id;
+
+COMPLAINT                                                                       
+--------------------------------------------------------------------------------
+PHOTO_ID                                                                        
+------------------------------------                                            
+                                                                                
+f00d38dcfc530f5b7c130e73e21ca4d3                                                
+                                                                                
+                                                                                
+bc1eaf768418ebfc3259394f70f940ba                                                
+                                                                                
+                                                                                
+6c0f4394a8e191e99393381913b12d01                                                
+                                                                                
+
+SQL> spool off;
