@@ -112,8 +112,6 @@ switch($action) {
         //Varify user's indentity first
 		$ml = new Mobile_Login();
 		$userid = $ml->login($check->params, $connect);
-        //echo "userid is:\n";
-        //echo $userid;
 
         // get complaint
         $uc = new User_Complaint();
@@ -126,83 +124,34 @@ switch($action) {
          * Upload files 
          */
         if (!empty($files)) {
-        //if (empty($files)) {
             $fu = new File_Upload();
             $resData = array();
-            //foreach($files as $fileInfo) {
-                /*
-                 * Porcess origin photo
-                 */
-                $res = $fu->uploadFile($files);
+            $res = $fu->uploadFile($files);
 
-                // Insert infomation into database
-                // $res contains file basic information, include file's localname, photoid etc.
-                $infos = array();
-                foreach($res as $imageInfo) {
-                    $info = $fu->insertPhotoInfo($connect,$imageInfo,$complaintid);
-                    array_push($infos, $info);
+            // Insert infomation into database
+            // $res contains file basic information, include file's localname, photoid etc.
+            $infos = array();
+            foreach($res as $imageInfo) {
+                $info = $fu->insertPhotoInfo($connect,$imageInfo,$complaintid);
+                array_push($infos, $info);
 
-                }
+            }
 
-                //if (isset($imagePath)) {
-                $ip = new Image_Processing();
-                $ipRes = $ip->generateThumbnail($connect,$infos);
-                $ipInfos = array();
-                foreach($ipRes as $imageInfo) {
-                    //var_dump($imageInfo);
-                    //echo "\n";
-                    $info = $ip->insertthumbnailInfo($connect, $imageInfo, $complaintid);
-                    array_push($ipInfos, $info);
-                }
-                echo "ipInfos is: ";
-                var_dump($ipInfos);
-                echo "ipInfos ended";
+            $ip = new Image_Processing();
+            $ipRes = $ip->generateThumbnail($connect,$infos);
+            $ipInfos = array();
+            foreach($ipRes as $imageInfo) {
+                $info = $ip->insertthumbnailInfo($connect, $imageInfo, $complaintid);
+                array_push($ipInfos, $info);
+            }
+            //echo "ipInfos is: ";
+            //var_dump($ipInfos);
+            //echo "ipInfos ended";
 
-                // Insert infomation into database(thumbnail)
-                // $ipRes contains file basic information, include file's localname, photoid etc.
-
-
-
-
-                //echo "ipRes is: ";
-                //var_dump($ipRes);
-                //echo "ipRes is ended";
-                //echo "leave image";
-                //}
-
-                /*
-                if ($res) {
-                    //print_r($res);
-                    $imagePath = (string)$res['data']['imageLocalName'];
-                    
-                    array_push($resData,$res);
-                }
-                
-                $imagePath = "/var/www/html/ant/uploads/origin/761808130d2dcb61c46519a7344ae1f5.jpg";
-                if (isset($imagePath)) {
-                    $ip = new Image_Processing();
-
-                    $ip->generateThumbnail($connect,realpath($imagePath));
-                    echo "leave image";
-                }
-                */
-            //}
         }
-        // Analysis resData
-        // If reData contains error, delete all other uploaded files
-        // User should uploads all files again
-
-        // TODO
-        //Response::show(7,'File message',$resData);
         Response::show(7,'File message',$res);
 
-		// spacify file storage path
-		//$savePath = BASEDIR . "/uploads/";
-
-		// save file and insert file information into database
-		//$fu->uploadFile($check->params, $connect);
-
-		break;
+        break;
     case 'GetComplaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();

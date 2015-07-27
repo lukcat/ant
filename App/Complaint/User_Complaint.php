@@ -26,6 +26,10 @@ class User_Complaint {
         return $complaintid;
     }
 
+    protected function getPhotoAddr($hostname,$path,$filename) {
+        return $hostname . substr($path,1) . '/' . $filename;
+    }
+
     public function GetComplaint($connect, $userID) {
         // TODO
         // query by userid,and return complaint information
