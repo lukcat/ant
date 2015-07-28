@@ -29,8 +29,8 @@ class Mobile_Login {
         }
         if ($tkrows = oci_fetch_array($sttk, OCI_BOTH)) {
             // login successfully
-            echo "$tkrows is: ";
-            echo $tkrows;
+            //echo "$tkrows is: ";
+            //echo $tkrows;
             return $tkrows['USER_ID'];
             //return true;
         } 
@@ -96,7 +96,7 @@ class Mobile_Login {
 			if ($pwdrows['PASSWORD'] == $userInfo['password']) {
                 // login successfully
 				//return true;
-                var_dump($pwdrows);
+                //var_dump($pwdrows);
                 return $pwdrows['USER_ID'];
 			}
             // wrong password 

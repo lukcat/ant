@@ -44,7 +44,8 @@ class User_Complaint {
         }
 
         // init varibles
-        $hostName = 'http://192.168.146.88/ant';
+        //$hostName = 'http://192.168.146.88/ant';
+        $hostName = 'http://172.16.0.49/ant';
 
         $complaintID = ''; 
         $complaint = ''; 
