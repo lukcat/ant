@@ -15,7 +15,8 @@ class Oracle {
     // parameters to connect database
     private $user = 'ant';
     private $pwd = 'ant';
-    private $svr = '192.168.146.88/mobile';
+    private $svr = '172.16.0.49/mobile';
+    //private $svr = '192.168.146.88/mobile';
 
 	// 单例模式，构造函数声明为私有
 	private function __construct() {
