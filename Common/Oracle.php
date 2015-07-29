@@ -29,9 +29,13 @@ class Oracle {
 		return self::$_instance;
 	}
 
-	public function connect() {
+	//public function connect() {
+	public function connect($hostname,$instance,$username,$password) {
 		if(!self::$_connectSource) {
-            self::$_connectSource = oci_connect($this->user,$this->pwd,$this->svr);
+            //self::$_connectSource = oci_connect($this->user,$this->pwd,$this->svr);
+            $server = $hostname . "/" . $instance;
+            echo $server;
+            self::$_connectSource = oci_connect($username,$password,$server);
 
 			if(!self::$_connectSource) {
                 exit("Database connect error, please start your listener and instance");

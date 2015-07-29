@@ -21,8 +21,6 @@ spl_autoload_register('\\Common\\Loader::autoload');
 $gm = new Mobile_Graphics();
 $gm->generate_thumbnail();
 
-
-
 //echo phpinfo();
 //$fileInfo = $_FILES;
 //print_r($_FILES);
@@ -46,32 +44,19 @@ echo Crypt(rasmuslerdorf);
 
 //echo phpinfo();
 
-
 // test xml 
 $file = './config/config';
-
-/*
-//if (file_exists('./config/config')) {
 if (file_exists($file)) {
-    $xml_str = file_get_contents($file);
-    $xml = simplexml_load_string($xml_str);
-    if ($xml) {
-        //$xml = simplexml_load_file($file);
-        //print_r($xml);
-        //print_r($xml->myString);
-        $mystr = $xml->myString;
-        print_r($mystr);
-        //var_dump($xml['myString']);
-    }
+    $xml = simplexml_load_file($file);
+    //print_r($xml);
+    print_r((string)$xml->hostname);
+    print_r((string)$xml->instance);
+    /*
+    foreach($xml as $item) {
+        //print_r($item);
+        print_r((string)$item);
+    } */
+    //var_dump($xml['myString']);
 }
-*/
 
-$content = file_get_contents($file);
-//$content = get_utf8_string($content);
-$dom = DOMDocument::loadXML($content);
-//$dom = new DOMDocument();
-//$mystr = $dom->getElementsByTagName('myConfig');
-$mystr = $dom->getElementsByTagName('myString');
-print_r($mystr);
-//var_dump($mystr);
 

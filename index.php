@@ -21,6 +21,7 @@ use App\Inquiry\Vehicle_Inquiry as Vehicle_Inquiry;
 use App\Graphics\Image_Processing as Image_Processing;
 use App\Complaint\User_Complaint as User_Complaint;
 use Common\Response as Response;
+use Common\Get_Config as Get_Config;
 
 // global variable BASEDIR
 define('BASEDIR',__DIR__);
@@ -31,8 +32,28 @@ spl_autoload_register('\\Common\\Loader::autoload');
 
 // check user post data
 $check = new CommonAPI();
-// $check->getFiles();
 $check->check();
+
+// get configure data, including hostname, $instance, $user and $password
+$configPath = './config/config';
+
+//echo realpath($configPath);
+//if (file_exists($configPath)) {
+//    echo "file exists";
+//}
+
+$getConfig = new Get_Config($configPath);
+if (!$getConfig->readConfig()) {
+    exit('read configure file failure');
+}
+
+// remove enter and space in string 
+$hostname = preg_replace("/\s/","",$getConfig->hostname);
+$instance = preg_replace("/\s/","",$getConfig->instance);
+$username = preg_replace("/\s/","",$getConfig->username);
+$password = preg_replace("/\s/","",$getConfig->password);
+
+//echo $hostname . ' ' . $instance . ' ' . $username . ' ' . $password;
 
 //print_r($check->params);
 //echo "hello";
@@ -40,7 +61,8 @@ $check->check();
 // connect database
 try {
 	// generate database handle
-    $connect = Oracle::getInstance()->connect();
+    //$connect = Oracle::getInstance()->connect();
+    $connect = Oracle::getInstance()->connect($hostname,$instance,$username,$password);
 } catch (Exception $e) {
 	throw new Exception("Database connection error: " . mysql_error());
 }

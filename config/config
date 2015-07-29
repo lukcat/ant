@@ -1,5 +1,19 @@
-<myConfig>
-  <myString>
-    This is my string!
-  </myString>
-</myConfig>
+<ant>
+
+  <hostname>
+    192.168.146.88
+  </hostname>
+
+  <instance>
+    mobile
+  </instance>
+
+  <username>
+    ant
+  </username>
+
+  <password>
+    ant
+  </password>
+
+</ant>
