@@ -30,11 +30,13 @@ class User_Complaint {
         return $hostname . substr($path,1) . '/' . $filename;
     }
 
-    public function GetComplaint($connect, $userID) {
+    public function GetComplaint($connect, $userID, $hostName) {
         // TODO
         // query by userid,and return complaint information
         $sql = "select c.complaint_id, c.complaint, c.feedback, c.create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and user_id='{$userID}'";
         //echo $sql;
+
+        //echo $userID;
 
         // parse sql
         $stgc = oci_parse($connect, $sql);
@@ -45,7 +47,7 @@ class User_Complaint {
 
         // init varibles
         //$hostName = 'http://192.168.146.88/ant';
-        $hostName = 'http://172.16.0.49/ant';
+        //$hostName = 'http://172.16.0.49/ant';
 
         $complaintID = ''; 
         $complaint = ''; 
@@ -53,6 +55,9 @@ class User_Complaint {
         $photoPath = ''; 
         $photoName = ''; 
         $createTime= ''; 
+
+        // flag
+        $hasComplaint = false;
 
         $resData = array('userID' => $userID);
         // Store photos temprarily
@@ -62,6 +67,9 @@ class User_Complaint {
 
         // get data from database
         if ($gcRows = oci_fetch_array($stgc, OCI_BOTH)) {
+            // user has complaint
+            $hasComplaint = true;
+
             $complaintID = $gcRows['COMPLAINT_ID'];
             $complaint = $gcRows['COMPLAINT'];
             $feedback  = $gcRows['FEEDBACK'];
@@ -83,7 +91,7 @@ class User_Complaint {
             //exit;
 
         // Push userid to resData
-        //$data = array('');
+        //$data = array('')
         //var_dump($data);
         //exit;
 
@@ -96,6 +104,8 @@ class User_Complaint {
                 $photoPath = $gcRows['PATH'];
                 $photoName = $gcRows['LOCAL_NAME'];
                 $photoAddr = $this->getPhotoAddr($hostName,$photoPath,$photoName);
+                //echo "photoAddr";
+                //echo $photoAddr;
                 //echo $photoAddr;
 
                 array_push($photoAddrs, $photoAddr);
@@ -121,15 +131,31 @@ class User_Complaint {
                         'createTime' => $createTime);
             }
         }
-        $photoURL = array('photoURL' => $photoAddrs);
+        //echo "photoAddrs";
+        //var_dump($photoAddrs);
+
+        //$photoURL = array('photoURL' => $photoAddrs);
+        //var_dump($photoURL);
+
         $complaintInfo = $complaintInfo + $photoURL;
 
         array_push($data, $complaintInfo);
         //$data = $data . $photoAddrs;
-        $complaintData = array('data' => $data);
-        $resData = $resData + $complaintData;
         //var_dump($resData);
-        var_dump($resData);
+        if ($hasComplaint) {
+            $complaintData = array('data' => $data);
+            $resData = $resData + $complaintData;
+
+            return $resData;
+            //var_dump($resData);
+        } else {
+            $data = '';
+            $complaintData = array('data' => $data);
+            $resData = $resData + $complaintData;
+
+            return $resData;
+            //var_dump($resData);
+        }
 
         // return value formate
         /*

@@ -19,20 +19,23 @@ class Response {
 	* return string
 	*/
 	//public static function show($code, $message = '', $data = array(), $type = self::JSON) {
-	public static function show($code, $message = '', $data = array()) {
+	public static function show($code, $message = '', $data = array(),$type = self::JSON) {
 		if(!is_numeric($code)) {
 			return '';
 		}
 
 		$type = isset($_GET['format']) ? $_GET['format'] : self::JSON;
+        //var_dump($data);
 
 		$result = array(
 			'code' => $code,
 			'message' => $message,
-			'data' => $data,
+			'data' => $data
 		);
+        //var_dump($result);
 
 		if($type == 'json') {
+            //echo "json";
 			self::json($code, $message, $data);
 			exit;
 		} elseif($type == 'array') {
@@ -63,9 +66,12 @@ class Response {
 			'data' => $data
 		);
 
-		//echo json_encode($result);
-		//exit;
-		exit(json_encode($result));
+        // erase \ in front of /
+        exit(str_replace("\\/","/", json_encode($result)));
+
+        // for php version >= 5.4.0
+		//exit(json_encode($result,JSON_UNESCAPED_SLASHES));
+
 	}
 
 	/**
