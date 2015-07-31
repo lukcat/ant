@@ -18,10 +18,12 @@ class Get_Config {
     public function readConfig() {
         if (file_exists($this->file)) {
             $xml = simplexml_load_file($this->file);
-            $this->hostname = (string)$xml->hostname;
-            $this->instance = (string)$xml->instance;
-            $this->username = (string)$xml->username;
-            $this->password = (string)$xml->password;
+
+            // remove enter and space in string 
+            $this->hostname = preg_replace("/\s/","",(string)$xml->hostname);
+            $this->instance = preg_replace("/\s/","",(string)$xml->instance);
+            $this->username = preg_replace("/\s/","",(string)$xml->username);
+            $this->password = preg_replace("/\s/","",(string)$xml->password);
             
             return true;
         } else {

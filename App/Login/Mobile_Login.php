@@ -97,7 +97,9 @@ class Mobile_Login {
                 // login successfully
 				//return true;
                 //var_dump($pwdrows);
-                return $pwdrows['USER_ID'];
+                $userid = preg_replace("/\s/","",$pwdrows['USER_ID']);
+                return $userid;
+                //return $pwdrows['USER_ID'];
 			}
             // wrong password 
 			return false;
@@ -166,6 +168,7 @@ class Mobile_Login {
         if (isset($userInfo['password'])) {
             if ($userInfo['password'] != '') {
                 if ($userid = $this->checkPassword($userInfo, $connect)) {
+                    //echo $userid;
                     // TODO
                     // update token and repsonse to client
                     $token = $this->generateToken($userInfo, $connect);
@@ -176,6 +179,7 @@ class Mobile_Login {
 
 		        	//Response::show(401,'Mobile_Login: login successful by password',$responseData);
                     //return 2;
+                    //echo 'pwd';
                     return $userid;
                 } else {
 		        	Response::show(403,'Mobile_Login: wrong password');
