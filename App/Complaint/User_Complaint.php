@@ -104,6 +104,8 @@ class User_Complaint {
                 $photoPath = $gcRows['PATH'];
                 $photoName = $gcRows['LOCAL_NAME'];
                 $photoAddr = $this->getPhotoAddr($hostName,$photoPath,$photoName);
+                //echo "photoAddr";
+                //echo $photoAddr;
                 //echo $photoAddr;
 
                 array_push($photoAddrs, $photoAddr);
@@ -129,7 +131,12 @@ class User_Complaint {
                         'createTime' => $createTime);
             }
         }
-        $photoURL = array('photoURL' => $photoAddrs);
+        //echo "photoAddrs";
+        //var_dump($photoAddrs);
+
+        //$photoURL = array('photoURL' => $photoAddrs);
+        //var_dump($photoURL);
+
         $complaintInfo = $complaintInfo + $photoURL;
 
         array_push($data, $complaintInfo);

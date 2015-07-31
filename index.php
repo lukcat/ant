@@ -53,6 +53,8 @@ $instance = $getConfig->instance;
 $username = $getConfig->username;
 $password = $getConfig->password;
 
+$rootPath = $hostname . '/ant';
+
 // connect database
 try {
 	// generate database handle
@@ -173,7 +175,8 @@ switch($action) {
 
         // Get user complaint
         $uc = new User_Complaint();
-        $res = $uc->GetComplaint($connect, $userid, $hostname);
+        $res = $uc->GetComplaint($connect, $userid, $rootPath);
+        //var_dump($res);
 
         Response::show(8,"User complaint",$res);
 
