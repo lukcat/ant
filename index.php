@@ -47,16 +47,11 @@ if (!$getConfig->readConfig()) {
     exit('read configure file failure');
 }
 
-// remove enter and space in string 
-$hostname = preg_replace("/\s/","",$getConfig->hostname);
-$instance = preg_replace("/\s/","",$getConfig->instance);
-$username = preg_replace("/\s/","",$getConfig->username);
-$password = preg_replace("/\s/","",$getConfig->password);
-
-//echo $hostname . ' ' . $instance . ' ' . $username . ' ' . $password;
-
-//print_r($check->params);
-//echo "hello";
+// Get parameters from xml
+$hostname = $getConfig->hostname;
+$instance = $getConfig->instance;
+$username = $getConfig->username;
+$password = $getConfig->password;
 
 // connect database
 try {
@@ -166,9 +161,6 @@ switch($action) {
                 $info = $ip->insertthumbnailInfo($connect, $imageInfo, $complaintid);
                 array_push($ipInfos, $info);
             }
-            //echo "ipInfos is: ";
-            //var_dump($ipInfos);
-            //echo "ipInfos ended";
 
         }
         Response::show(7,'File message',$res);
@@ -181,7 +173,9 @@ switch($action) {
 
         // Get user complaint
         $uc = new User_Complaint();
-        $uc->GetComplaint($connect, $userid);
+        $res = $uc->GetComplaint($connect, $userid, $hostname);
+
+        Response::show(8,"User complaint",$res);
 
         break;
 	case 'InquiryVehicle':
