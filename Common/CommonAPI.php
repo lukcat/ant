@@ -49,6 +49,10 @@ class CommonAPI {
         $this->params['complaint'] = $complaint = isset($_POST['complaint']) ? $_POST['complaint'] : '';
     }
 
+    protected function getComplaintID() {
+        $this->params['complaintid'] = $complaint = isset($_POST['complaintid']) ? $_POST['complaintid'] : '';
+    }
+
     public function check() {
 		/*************
          * User action
@@ -61,9 +65,14 @@ class CommonAPI {
         $this->getUsers();
 
 		/*************
-         * Complaint information
+         * Complaint text
          */
         $this->getComplaint();
+        
+		/*************
+         * Complaint ID
+         */
+        $this->getComplaintID();
 
 		/*********************
          * Vehicle information
