@@ -10,6 +10,18 @@ namespace Common;
 
 class SQL {
 
+    public function getBusInfo($cityName) {
+        $getCityIDSQL = "";
+        
+        $ctid = oci_parse($connect,$getCityIDSQL);
+
+        if(!oci_execute($ctid)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /**
     * Insert user's complaint into database
     * @param Oracle $connect: database handler

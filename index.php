@@ -34,6 +34,7 @@ spl_autoload_register('\\Common\\Loader::autoload');
 $check = new CommonAPI();
 $check->check();
 
+
 // get configure data, including hostname, $instance, $user and $password
 $configPath = './config/config';
 
@@ -99,11 +100,14 @@ $check->params['note'] = 'lanren2';
 $check->params['password'] = sha1(md5('test'));
 
 $check->params['complaint'] = 'shit';
+$check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
 //$username = 'chendq';
 //$password = sha1(md5('test'));
 
-//echo $loginname;
+$userDataSet = $check->params;
+//$userDataSet['complaintid'] = kkkkk
 
+//$action = 'DeleteComplaint';
 $action = 'GetComplaint';
 //$action = 'Complaint';
 //$action = 'Register';
@@ -118,26 +122,31 @@ switch($action) {
 		// use App\Login\Mobile_Login class
 		$ml = new Mobile_Login();
 		// varify loginname and password
-		$ml->login($check->params, $connect);
+		//$ml->login($check->params, $connect);
+		$ml->login($userDataSet, $connect);
 
 		break;
 	case 'Register':
 		// use App\Register\Mobile_Register class
 		$rg = new Mobile_Register();
-		$rg->register($check->params, $connect);
+		//$rg->register($check->params, $connect);
+		$rg->register($userDataSet, $connect);
 
 		break;
 	case 'Complaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
-		$userid = $ml->login($check->params, $connect);
+		//$userid = $ml->login($check->params, $connect);
+		$userid = $ml->login($userDataSet, $connect);
 
         // get complaint
         $uc = new User_Complaint();
-        $complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
+        //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
+        $complaintid = $uc->ReceiveComplaint($connect,$userDataSet, $userid);
 
         // get files
-        $files = $check->params['files'];
+        //$files = $check->params['files'];
+        $files = $userDataSet['files'];
 
         /* 
          * Upload files 
@@ -171,7 +180,8 @@ switch($action) {
     case 'GetComplaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
-		$userid = $ml->login($check->params, $connect);
+		//$userid = $ml->login($check->params, $connect);
+		$userid = $ml->login($userDataSet, $connect);
 
         // Get user complaint
         $uc = new User_Complaint();
@@ -181,9 +191,23 @@ switch($action) {
         Response::show(8,"User complaint",$res);
 
         break;
+    case 'DeleteComplaint':
+        //Varify user's indentity first
+		$ml = new Mobile_Login();
+		$userid = $ml->login($userDataSet, $connect);
+
+        $dc = new User_complaint();
+        $res = $dc->deleteComplaint($connect, $userDataSet);
+        if ($res) {
+            echo "successful";
+        } else {
+            echo "failure";
+        }
+        break;
 	case 'InquiryVehicle':
 		$iv = new Vehicle_Inquiry();
-		$iv->getVehicleInfo($check->params['vehicleid'], $connect);
+		//$iv->getVehicleInfo($check->params['vehicleid'], $connect);
+		$iv->getVehicleInfo($userDataSet['vehicleid'], $connect);
 		Response::show(1,"this is InquiryVehicle");
 
 		break;

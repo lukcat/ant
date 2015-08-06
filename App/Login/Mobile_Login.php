@@ -97,6 +97,7 @@ class Mobile_Login {
                 // login successfully
 				//return true;
                 //var_dump($pwdrows);
+                // erase space
                 $userid = preg_replace("/\s/","",$pwdrows['USER_ID']);
                 return $userid;
                 //return $pwdrows['USER_ID'];
