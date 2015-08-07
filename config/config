@@ -1,7 +1,7 @@
 <ant>
 
   <hostname>
-    192.168.146.88
+    172.16.3.12
   </hostname>
 
   <instance>
