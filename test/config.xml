@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+ 
+<DbVisualizer-Export>
+    <ROWSET>
+        <ROW>
+            <GEO_ID>1101</GEO_ID>
+            <OF_GEO>11</OF_GEO>
+            <GEO_TYPE>03</GEO_TYPE>
+            <GEO_NAME>aa</GEO_NAME>
+            <GEO_CODE>(null)</GEO_CODE>
+            <ABBREV>(null)</ABBREV>
+            <COMMENTS>(null)</COMMENTS>
+        </ROW>
+        <ROW>
+            <GEO_ID>12</GEO_ID>
+            <OF_GEO>null</OF_GEO>
+            <GEO_TYPE>03</GEO_TYPE>
+            <GEO_NAME>bb</GEO_NAME>
+            <GEO_CODE>(null)</GEO_CODE>
+            <ABBREV>(null)</ABBREV>
+            <COMMENTS>(null)</COMMENTS>
+        </ROW>
+    </ROWSET>
+</DbVisualizer-Export>

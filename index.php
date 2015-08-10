@@ -101,14 +101,15 @@ $check->params['password'] = sha1(md5('test'));
 
 $check->params['complaint'] = 'shit';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
+$check->params['vehicleid'] = 'GBI0142';
 //$username = 'chendq';
 //$password = sha1(md5('test'));
 
 $userDataSet = $check->params;
-//$userDataSet['complaintid'] = kkkkk
-
+//$userDataSet['complaintid'] = kkkk
+$action = 'InquiryVehicle';
 //$action = 'DeleteComplaint';
-$action = 'GetComplaint';
+//$action = 'GetComplaint';
 //$action = 'Complaint';
 //$action = 'Register';
 //$action = 'Login';
@@ -119,24 +120,23 @@ $action = 'GetComplaint';
 // response user action 
 switch($action) {
 	case 'Login':
-		// use App\Login\Mobile_Login class
+        // 4
 		$ml = new Mobile_Login();
 		// varify loginname and password
-		//$ml->login($check->params, $connect);
 		$ml->login($userDataSet, $connect);
 
 		break;
+
 	case 'Register':
-		// use App\Register\Mobile_Register class
+        // 5
 		$rg = new Mobile_Register();
-		//$rg->register($check->params, $connect);
 		$rg->register($userDataSet, $connect);
 
 		break;
+
 	case 'Complaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
-		//$userid = $ml->login($check->params, $connect);
 		$userid = $ml->login($userDataSet, $connect);
 
         // get complaint
@@ -174,9 +174,10 @@ switch($action) {
             }
 
         }
-        Response::show(7,'File message',$res);
+        Response::show(6,'File message',$res);
 
         break;
+
     case 'GetComplaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
@@ -188,9 +189,10 @@ switch($action) {
         $res = $uc->GetComplaint($connect, $userid, $rootPath);
         //var_dump($res);
 
-        Response::show(8,"User complaint",$res);
+        Response::show(7,"User complaint",$res);
 
         break;
+
     case 'DeleteComplaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
@@ -199,21 +201,27 @@ switch($action) {
         $dc = new User_complaint();
         $res = $dc->deleteComplaint($connect, $userDataSet);
         if ($res) {
-            echo "successful";
+            $data = array('code' => 0, 'msg' => 'Successful');
+            Response::show(8,"Delete Complaint information");
+            
         } else {
-            echo "failure";
+            $data = array('code' => 0, 'msg' => 'Failure', $data);
+            Response::show(8,"Delete Complaint information", $data);
         }
+
         break;
+
 	case 'InquiryVehicle':
 		$iv = new Vehicle_Inquiry();
-		//$iv->getVehicleInfo($check->params['vehicleid'], $connect);
-		$iv->getVehicleInfo($userDataSet['vehicleid'], $connect);
-		Response::show(1,"this is InquiryVehicle");
+		$resData = $iv->getVehicleInfo($connect, $userDataSet['vehicleid']);
+		Response::show(9,"this is InquiryVehicle", $resData);
 
 		break;
+
 	default:
 		// no action matches
-		Response::show(601,"no action");
+        $data = array('code' => 0, 'msg' => 'No action spacified');
+		Response::show(3,"Default Message", $data);
 
 		break;
 }
