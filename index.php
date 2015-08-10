@@ -189,7 +189,7 @@ switch($action) {
         $res = $uc->GetComplaint($connect, $userid, $rootPath);
         //var_dump($res);
 
-        Response::show(7,"User complaint",$res);
+        Response::show(700,"Get User's Complaint Successful",$res);
 
         break;
 
@@ -201,12 +201,12 @@ switch($action) {
         $dc = new User_complaint();
         $res = $dc->deleteComplaint($connect, $userDataSet);
         if ($res) {
-            $data = array('code' => 0, 'msg' => 'Successful');
-            Response::show(8,"Delete Complaint information");
+            //$data = array('code' => 1, 'msg' => 'Successful');
+            Response::show(800,"Delete Complaint Information Successful");
             
         } else {
-            $data = array('code' => 0, 'msg' => 'Failure', $data);
-            Response::show(8,"Delete Complaint information", $data);
+            //$data = array('code' => 0, 'msg' => 'Failure', $data);
+            Response::show(801,"Delete Complaint Information Failure");
         }
 
         break;
@@ -214,7 +214,12 @@ switch($action) {
 	case 'InquiryVehicle':
 		$iv = new Vehicle_Inquiry();
 		$resData = $iv->getVehicleInfo($connect, $userDataSet['vehicleid']);
-		Response::show(9,"this is InquiryVehicle", $resData);
+        if ($resData) {
+		    Response::show(900,"Vehicle Exist", $resData);
+        } else {
+		    Response::show(901,"Vehicle Do Not Exist");
+            //$reData = array('code' => 0, 'msg' => 'Vehicle not exist');
+        }
 
 		break;
 
