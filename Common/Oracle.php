@@ -8,6 +8,8 @@
 
 namespace Common;
 
+use Common\Response as Response;
+
 class Oracle {
 	static private $_instance;
 	static private $_connectSource;
@@ -33,13 +35,12 @@ class Oracle {
 	//public function connect() {
 	public function connect($hostname,$instance,$username,$password) {
 		if(!self::$_connectSource) {
-            //self::$_connectSource = oci_connect($this->user,$this->pwd,$this->svr);
             $server = $hostname . "/" . $instance;
-            //echo $server;
             self::$_connectSource = oci_connect($username,$password,$server);
 
 			if(!self::$_connectSource) {
-                exit("Database connect error, please start your listener and instance");
+                Response::show(101,"Database connect error, please start your listener and instance");
+                //exit("Database connect error, please start your listener and instance");
                 //$e = oci_error();
                 //trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 			} 

@@ -37,7 +37,7 @@ class Vehicle_Inquiry {
 
         // commit 
         if(!oci_execute($ivid)) {
-            echo "commit failure";
+            //echo "commit failure";
             return false;
         }
 
@@ -66,35 +66,11 @@ class Vehicle_Inquiry {
                     'district' => $district,
                     'region' => $region
                     );
-            //echo '$vehicleInfo';
-            //var_dump($vehicleInfo);
             return $vehicleInfo;
         } else {
-            //echo "no data";
             return false;
         }
-        //echo '$vehicleInfo';
-        //var_dump($vehicleInfo);
 		
-        /*
-		if (!$result = mysql_query($sql, $connect)) {
-			Response::show(801,'Vehicle_Inquiry: query database error');
-		}
-
-		if ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-			$data = array(
-				'vehicle_type' => $row['vehicle_type'],
-				'owner_id' => $row['owner_id'],
-				'owner' => $row['owner_phone'],
-				'owner_phone' => $row['owner_phone'],
-				'start_year' => $row['start_year']
-			);
-			
-			Response::show(800, 'query data exist', $data);
-		} else {
-			Response::show(802, 'query data do not exist');
-		}
-        */
 	}
 }
 
