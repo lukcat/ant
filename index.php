@@ -227,7 +227,8 @@ switch($userDataSet['action']) {
 	default:
 		// no action matches
         //$data = array('code' => 0, 'msg' => 'No action spacified');
-		Response::show(300,"Default Message: No Action Spacified");
+        $data = array('action' => $userDataSet['action']);
+		Response::show(300,"Default Message: No Action Spacified",$data);
 
 		break;
 }

@@ -1,19 +1,11 @@
 <ant>
 
-  <hostname>
-    172.16.3.12
-  </hostname>
+  <hostname> 172.16.3.12 </hostname>
 
-  <instance>
-    bgdata
-  </instance>
+  <instance> bgdata </instance>
 
-  <username>
-    ant
-  </username>
+  <username> ant </username>
 
-  <password>
-    ant
-  </password>
+  <password> ant </password>
 
 </ant>
