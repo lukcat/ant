@@ -22,6 +22,7 @@ use App\Graphics\Image_Processing as Image_Processing;
 use App\Complaint\User_Complaint as User_Complaint;
 use Common\Response as Response;
 use Common\Get_Config as Get_Config;
+use Common\Config as Config;
 
 // global variable BASEDIR
 define('BASEDIR',__DIR__);
@@ -37,11 +38,22 @@ $check->check();
 
 // get configure data, including hostname, $instance, $user and $password
 $configPath = './config/config';
+$configFile = './config/sys_config.xml';
 
 //echo realpath($configPath);
 //if (file_exists($configPath)) {
 //    echo "file exists";
 //}
+
+//new config
+$cfg = new Config();
+
+$configInfo = $cfg->getXml($configFile);
+
+//var_dump($configInfo);
+//exit;
+
+///////////////
 
 $getConfig = new Get_Config($configPath);
 if (!$getConfig->readConfig()) {
@@ -60,7 +72,12 @@ $rootPath = $hostname . '/ant';
 try {
 	// generate database handle
     //$connect = Oracle::getInstance()->connect();
-    $connect = Oracle::getInstance()->connect($hostname,$instance,$username,$password);
+    //$connect = Oracle::getInstance()->connect($hostname,$instance,$username,$password);
+    // two connect instance
+    // one for ant, another for mobile
+    $antConnect    = Oracle::getInstance()->connect($configInfo['serverSet']['antServer']);
+    $mobileConnect = Oracle::getInstance()->connect($configInfo['serverSet']['mobileServer']);
+
 } catch (Exception $e) {
 	throw new Exception("Database connection error: " . mysql_error());
 }
@@ -101,13 +118,14 @@ $check->params['password'] = sha1(md5('test'));
 
 $check->params['complaint'] = 'shit';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
-$check->params['vehicleid'] = 'GBI0142';
+//$check->params['vehicleid'] = 'GBI0142';
 //$username = 'chendq';
 //$password = sha1(md5('test'));
 
 $userDataSet = $check->params;
+$action = $userDataSet['action'];
 //$userDataSet['complaintid'] = kkkk
-$action = 'InquiryVehicle';
+//$action = 'InquiryVehicle';
 //$action = 'DeleteComplaint';
 //$action = 'GetComplaint';
 //$action = 'Complaint';
@@ -117,32 +135,33 @@ $action = 'InquiryVehicle';
 
 ///////////////end of test////////////////////////////////////
 
+
 // response user action 
 switch($action) {
 	case 'Login':
         // 4
 		$ml = new Mobile_Login();
 		// varify loginname and password
-		$ml->login($userDataSet, $connect);
+		$ml->login($userDataSet, $mobileConnect);
 
 		break;
 
 	case 'Register':
         // 5
 		$rg = new Mobile_Register();
-		$rg->register($userDataSet, $connect);
+		$rg->register($userDataSet, $mobileConnect);
 
 		break;
 
 	case 'Complaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
-		$userid = $ml->login($userDataSet, $connect);
+		$userid = $ml->login($userDataSet, $mobielConnect);
 
         // get complaint
         $uc = new User_Complaint();
         //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
-        $complaintid = $uc->ReceiveComplaint($connect,$userDataSet, $userid);
+        $complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
 
         // get files
         //$files = $check->params['files'];
@@ -182,24 +201,28 @@ switch($action) {
         //Varify user's indentity first
 		$ml = new Mobile_Login();
 		//$userid = $ml->login($check->params, $connect);
-		$userid = $ml->login($userDataSet, $connect);
+		$userid = $ml->login($userDataSet, $mobileConnect);
 
         // Get user complaint
         $uc = new User_Complaint();
-        $res = $uc->GetComplaint($connect, $userid, $rootPath);
+        $res = $uc->GetComplaint($mobileConnect, $userid, $rootPath);
         //var_dump($res);
 
-        Response::show(700,"Get User's Complaint Successful",$res);
+        if ($res) {
+            Response::show(700,"Get User's Complaint Successful",$res);
+        } else {
+            Response::show(701,"Get User's Complaint Error");
+        }
 
         break;
 
     case 'DeleteComplaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
-		$userid = $ml->login($userDataSet, $connect);
+		$userid = $ml->login($userDataSet, $mobileConnect);
 
         $dc = new User_complaint();
-        $res = $dc->deleteComplaint($connect, $userDataSet);
+        $res = $dc->deleteComplaint($mobileConnect, $userDataSet);
         if ($res) {
             //$data = array('code' => 1, 'msg' => 'Successful');
             Response::show(800,"Delete Complaint Information Successful");
@@ -212,8 +235,9 @@ switch($action) {
         break;
 
 	case 'InquiryVehicle':
+
 		$iv = new Vehicle_Inquiry();
-		$resData = $iv->getVehicleInfo($connect, $userDataSet['vehicleid']);
+		$resData = $iv->getVehicleInfo($antConnect, $userDataSet['vehicleid']);
         if ($resData) {
 		    Response::show(900,"Vehicle Exist", $resData);
         } else {
