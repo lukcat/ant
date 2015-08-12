@@ -107,7 +107,7 @@ $check->params['vehicleid'] = 'GBI0142';
 
 $userDataSet = $check->params;
 //$userDataSet['complaintid'] = kkkk
-$action = 'InquiryVehicle';
+//$action = 'InquiryVehicle';
 //$action = 'DeleteComplaint';
 //$action = 'GetComplaint';
 //$action = 'Complaint';
@@ -118,7 +118,8 @@ $action = 'InquiryVehicle';
 ///////////////end of test////////////////////////////////////
 
 // response user action 
-switch($action) {
+//switch($action) {
+switch($userDataSet['action']) {
 	case 'Login':
         // 4
 		$ml = new Mobile_Login();
@@ -225,8 +226,8 @@ switch($action) {
 
 	default:
 		// no action matches
-        $data = array('code' => 0, 'msg' => 'No action spacified');
-		Response::show(3,"Default Message", $data);
+        //$data = array('code' => 0, 'msg' => 'No action spacified');
+		Response::show(300,"Default Message: No Action Spacified");
 
 		break;
 }
