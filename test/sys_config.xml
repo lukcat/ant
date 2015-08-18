@@ -1,0 +1,25 @@
+<ant>
+
+  <serverSet>
+    <antServer>
+      <hostname> 172.16.3.12 </hostname>
+
+      <instance> bgdata </instance>
+
+      <username> ant </username>
+
+      <password> ant </password>
+    </antServer>
+
+    <mobileServer>
+      <hostname> 172.16.3.12 </hostname>
+
+      <instance> mobile </instance>
+
+      <username> ant </username>
+
+      <password> ant </password>
+    </mobileServer>
+  </serverSet>
+
+</ant>

@@ -2,6 +2,7 @@
 //echo phpinfo();
 //echo empty($test);
 
+/*
 function test() {
 $i = 0;
 $sum = 3;
@@ -23,7 +24,16 @@ for(;$i < $sum; $i++) {
 
 return $resData;
 }
-
 $data = test();
 
 print_r($data);
+*/
+
+$arr1 = array('a','b','c','d');
+$arr2 = array();
+
+for ($i=0; $i<10; $i++) {
+    array_push($arr2, $arr1);
+}
+
+var_dump($arr2);

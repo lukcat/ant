@@ -35,7 +35,8 @@ class User_Complaint {
         // query by userid,and return complaint information
         //$sql = "select c.complaint_id, c.complaint, c.feedback, c.create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and user_id='{$userID}'";
         // valid equal to 1 means the data is effective
-        $sql = "select c.complaint_id, c.complaint, c.feedback, c.create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and c.user_id='{$userID}' and c.valid=1";
+        //$sql_bak = "select c.complaint_id, c.complaint, c.feedback, c.create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and c.user_id='{$userID}' and c.valid=1";
+        $sql = "select c.complaint_id, c.complaint, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and c.user_id='{$userID}' and c.valid=1";
 
         // parse sql
         $stgc = oci_parse($connect, $sql);

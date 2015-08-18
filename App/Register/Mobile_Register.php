@@ -88,6 +88,10 @@ class Mobile_Register {
             $cellphone = $userInfo['cellphone'];
             $note = $userInfo['note'];
             $password = $userInfo['password'];
+            if (empty($password)) {
+                Response::show(506,"Password is invalid");
+                //return false;
+            }
 
             // generate token
             $token = md5(uniqid(microtime(true),true));

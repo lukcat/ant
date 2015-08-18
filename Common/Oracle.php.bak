@@ -11,11 +11,8 @@ namespace Common;
 use Common\Response as Response;
 
 class Oracle {
-	//static private $_mobileInstance;
-	//static private $_bgdataInstance;
-	//static private $_connectSource;
-	private $_instance;
-	private $_connectSource;
+	static private $_instance;
+	static private $_connectSource;
 
     // parameters to connect database
     //private $user = 'ant';
@@ -29,37 +26,27 @@ class Oracle {
 
 	// 对外接口函数, 类内部生成对象实例
 	static public function getInstance() {
-		//if(!(self::$_instance instanceof self)) {
-			//self::$_instance = new self();
-            //$this->_instance = new self();
-            $_instance = new self();
-		//}
-		//return self::$_instance;
-		//return $this->_instance;
-		return $_instance;
+		if(!(self::$_instance instanceof self)) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
 	}
 
 	//public function connect() {
-	//public function connect($hostname,$instance,$username,$password) {
-	public function connect($serverInfo) {
-        $hostname = $serverInfo['hostname'];
-        $instance = $serverInfo['instance'];
-        $username = $serverInfo['username'];
-        $password = $serverInfo['password'];
-
-		//if(!self::$_connectSource) {
-		//if(!$_connectSource) {
+	public function connect($hostname,$instance,$username,$password) {
+		if(!self::$_connectSource) {
             $server = $hostname . "/" . $instance;
-            //self::$_connectSource = oci_connect($username,$password,$server);
-            $_connectSource = oci_connect($username,$password,$server);
+            self::$_connectSource = oci_connect($username,$password,$server);
 
-			//if(!self::$_connectSource) {
-			if(!$_connectSource) {
+			if(!self::$_connectSource) {
                 Response::show(101,"Database connect error, please start your listener and instance");
+                //exit("Database connect error, please start your listener and instance");
+                //$e = oci_error();
+                //trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 			} 
 			
-		//}
-		return $_connectSource;
+		}
+		return self::$_connectSource;
 	}
 }
 
