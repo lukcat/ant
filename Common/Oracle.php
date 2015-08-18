@@ -11,7 +11,8 @@ namespace Common;
 use Common\Response as Response;
 
 class Oracle {
-	//static private $_instance;
+	//static private $_mobileInstance;
+	//static private $_bgdataInstance;
 	//static private $_connectSource;
 	private $_instance;
 	private $_connectSource;
@@ -45,10 +46,6 @@ class Oracle {
         $instance = $serverInfo['instance'];
         $username = $serverInfo['username'];
         $password = $serverInfo['password'];
-        //echo $hostname;
-        //echo $instance;
-        //echo $username;
-        //echo $password;
 
 		//if(!self::$_connectSource) {
 		//if(!$_connectSource) {
