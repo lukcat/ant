@@ -31,7 +31,8 @@ class CommonAPI {
                 }
             }
         }
-        return $files;
+        //return $files;
+        $this->params['files'] = $files;
     }
 
     protected function getUsers() {
@@ -53,11 +54,29 @@ class CommonAPI {
         $this->params['complaintid'] = $complaint = isset($_POST['complaintid']) ? $_POST['complaintid'] : '';
     }
 
+    protected function getCityName() {
+        $this->params['cityname'] = $cityname = isset($POST['cityname']) ? $POST['cityname'] : '';
+    }
+
+    protected function getUserAction() {
+		$this->params['action'] = $action = isset($_POST['action']) ? $_POST['action'] : '';
+    }
+
+    protected function getVehicleID() {
+		$this->params['vehicleid'] = $vehicleid = isset($_POST['vehicleid']) ? $_POST['vehicleid'] : '';
+    }
+
     public function check() {
 		/*************
          * User action
          */
-		$this->params['action'] = $action = isset($_POST['action']) ? $_POST['action'] : '';
+		//$this->params['action'] = $action = isset($_POST['action']) ? $_POST['action'] : '';
+        $this->getUserAction();
+        
+		/*************
+         * City name 
+         */
+        $this->getCityName();
 
 		/*****************
          * User infomation
@@ -77,12 +96,14 @@ class CommonAPI {
 		/*********************
          * Vehicle information
          */
-		$this->params['vehicleid'] = $vehicleid = isset($_POST['vehicleid']) ? $_POST['vehicleid'] : '';
+		//$this->params['vehicleid'] = $vehicleid = isset($_POST['vehicleid']) ? $_POST['vehicleid'] : '';
+        $this->getVehicleID();
 
 		/******************
          * File information
          */
-        $this->params['files'] = $this->getFiles();
+        $this->getFiles();
+        //$this->params['files'] = $this->getFiles();
         //echo "print params in common";
         //var_dump($this->params['files']);
 

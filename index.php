@@ -20,6 +20,7 @@ use App\Inquiry\Vehicle_Inquiry as Vehicle_Inquiry;
 //use App\Graphics\Mobile_Graphics as Mobile_Graphics;
 use App\Graphics\Image_Processing as Image_Processing;
 use App\Complaint\User_Complaint as User_Complaint;
+use App\Bus\BusInformation as BusInformation;
 use Common\Response as Response;
 use Common\Get_Config as Get_Config;
 use Common\Config as Config;
@@ -37,7 +38,6 @@ $check->check();
 
 
 // get configure data, including hostname, $instance, $user and $password
-$configPath = './config/config';
 $configFile = './config/sys_config.xml';
 
 //echo realpath($configPath);
@@ -53,7 +53,9 @@ $configInfo = $cfg->getXml($configFile);
 //var_dump($configInfo);
 //exit;
 
-///////////////
+///////////////////test data///////////////////
+/// out of date
+$configPath = './config/config';
 
 $getConfig = new Get_Config($configPath);
 if (!$getConfig->readConfig()) {
@@ -65,7 +67,9 @@ $hostname = $getConfig->hostname;
 $instance = $getConfig->instance;
 $username = $getConfig->username;
 $password = $getConfig->password;
+///////////////////test data///////////////////
 
+$hostname = $configInfo['host'];
 $rootPath = $hostname . '/ant';
 
 // connect database
@@ -118,9 +122,21 @@ $check->params['password'] = sha1(md5('test'));
 
 $check->params['complaint'] = 'shit';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
-//$check->params['vehicleid'] = 'GBI0142';
+$check->params['vehicleid'] = 'GBI0142';
+// insert user parameters into userDataSet
+$userDataSet = $check->params;
 //$username = 'chendq';
 //$password = sha1(md5('test'));
+$userDataSet['cityname'] = 'beijing';
+//$userDataSet['action'] = 'InquiryBus';
+//$userDataSet['action'] = 'GetComplaint';
+//$userDataSet['action'] = 'Register';
+//$userDataSet['action'] = 'Complaint';
+//$userDataSet['action'] = 'GetComplaint';
+$userDataSet['action'] = 'InquiryVehicle';
+//$userDataSet['action'] = 'Login';
+
+/////////////end of test//////////////
 
 $userDataSet = $check->params;
 $action = $userDataSet['action'];
@@ -138,12 +154,20 @@ $action = $userDataSet['action'];
 
 
 // response user action 
+$action = $userDataSet['action'];
+//var_dump($userDataSet);
+//exit;
 switch($action) {
 	case 'Login':
         // 4
 		$ml = new Mobile_Login();
 		// varify loginname and password
-		$ml->login($userDataSet, $mobileConnect);
+		$userid = $ml->login($userDataSet, $mobileConnect);
+        if (!empty($userid)) {
+            Response::show(400,"User Login Successful");
+        } else {
+            Response::show(401,"User Login Failure");
+        }
 
 		break;
 
@@ -157,7 +181,10 @@ switch($action) {
 	case 'Complaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
-		$userid = $ml->login($userDataSet, $mobielConnect);
+		$userid = $ml->login($userDataSet, $mobileConnect);
+        if (empty($userid)) {
+            Response::show(401,"User Login Failure");
+        }
 
         // get complaint
         $uc = new User_Complaint();
@@ -180,16 +207,16 @@ switch($action) {
             // $res contains file basic information, include file's localname, photoid etc.
             $infos = array();
             foreach($res as $imageInfo) {
-                $info = $fu->insertPhotoInfo($connect,$imageInfo,$complaintid);
+                $info = $fu->insertPhotoInfo($mobileConnect,$imageInfo,$complaintid);
                 array_push($infos, $info);
 
             }
 
             $ip = new Image_Processing();
-            $ipRes = $ip->generateThumbnail($connect,$infos);
+            $ipRes = $ip->generateThumbnail($mobileConnect,$infos);
             $ipInfos = array();
             foreach($ipRes as $imageInfo) {
-                $info = $ip->insertthumbnailInfo($connect, $imageInfo, $complaintid);
+                $info = $ip->insertthumbnailInfo($mobileConnect, $imageInfo, $complaintid);
                 array_push($ipInfos, $info);
             }
 
@@ -243,15 +270,26 @@ switch($action) {
 		    Response::show(900,"Vehicle Exist", $resData);
         } else {
 		    Response::show(901,"Vehicle Do Not Exist");
-            //$reData = array('code' => 0, 'msg' => 'Vehicle not exist');
         }
 
 		break;
 
+    case 'InquiryBus':
+        // Get bus information
+        $ib = new BusInformation();
+        $busInfo = $ib->getBusInformation($mobileConnect, $userDataSet['cityname']);
+        if ($busInfo) {
+            Response::show(300,"Bus Basic Information",$busInfo);
+        } else {
+            Response::show(301,"No Bus In City {$userDataSet['cityname']}");
+        }
+
+        break;
+
 	default:
 		// no action matches
         $data = array('code' => 0, 'msg' => 'No action spacified');
-		Response::show(3,"Default Message", $data);
+		Response::show(2,"Default Message", $data);
 
 		break;
 }

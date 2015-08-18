@@ -2,7 +2,7 @@
 
   <serverSet>
     <antServer>
-      <hostname> 172.16.3.12 </hostname>
+      <hostname> 127.16.3.12 </hostname>
 
       <instance> bgdata </instance>
 
@@ -12,7 +12,7 @@
     </antServer>
 
     <mobileServer>
-      <hostname> 172.16.3.12 </hostname>
+      <hostname> 127.16.3.12 </hostname>
 
       <instance> mobile </instance>
 
@@ -21,5 +21,7 @@
       <password> ant </password>
     </mobileServer>
   </serverSet>
+
+  <host> 127.16.3.12 </host>
 
 </ant>
