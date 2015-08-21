@@ -24,10 +24,12 @@ use App\Bus\BusInformation as BusInformation;
 use Common\Response as Response;
 use Common\Get_Config as Get_Config;
 use Common\Config as Config;
+use Common\PHPMailer\Mailer as Mailer;
 
 // global variable BASEDIR
 define('BASEDIR',__DIR__);
 include BASEDIR . '/Common/Loader.php';
+include BASEDIR . '/Common/PHPMailer/PHPMailer.php';
 
 // using PSR-0 coding standard
 spl_autoload_register('\\Common\\Loader::autoload');
@@ -50,6 +52,7 @@ $cfg = new Config();
 
 $configInfo = $cfg->getXml($configFile);
 
+
 //var_dump($configInfo);
 //exit;
 
@@ -71,6 +74,18 @@ $password = $getConfig->password;
 
 $hostname = $configInfo['host'];
 $rootPath = $hostname . '/ant';
+
+///////////test mail//////////////////
+/*
+$address = 'chendeqing@ceiec.com.cn';
+$body = 'This is a test from chendq';
+
+$mailer = new Mailer();
+$mailer->sendmails($configInfo, $address, $body);
+*/
+//exit;
+
+//////////end test of mail//////////////
 
 // connect database
 try {
@@ -263,6 +278,7 @@ switch($action) {
 
 		$iv = new Vehicle_Inquiry();
 		$resData = $iv->getVehicleInfo($antConnect, $userDataSet['vehicleid']);
+        // send email to user????
         if ($resData) {
 		    Response::show(900,"Vehicle Exist", $resData);
         } else {
