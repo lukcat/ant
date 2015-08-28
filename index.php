@@ -136,7 +136,6 @@ $check->params['loginname'] = 'aaaaa';
 $check->params['password'] = sha1(md5('aaaaa'));
 */
 
-/*
 $check->params['loginname'] = 'cdq';
 $check->params['password'] = sha1(md5('test'));
 $check->params['email'] = 'cdq@test.com';
@@ -147,6 +146,7 @@ $check->params['note'] = 'lanren2';
 $check->params['complaint'] = 'shit';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
 $check->params['vehicleid'] = 'GBI0142';
+/*
 */
 ////////////////end of test data//////////////////////
 

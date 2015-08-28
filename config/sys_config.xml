@@ -16,7 +16,7 @@
     </mobileServer>
   </serverSet>
 
-  <host> 172.16.3.12 </host>
+  <host> 192.168.146.88 </host>
 
   <mail>
     <host> smtp.126.com </host>
