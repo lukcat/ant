@@ -39,7 +39,9 @@ class CommonAPI {
 		$this->params['loginname'] = $loginname = isset($_POST['loginname']) ? $_POST['loginname'] : '';
         $this->params['email'] = $email = isset($_POST['email']) ? $_POST['email'] : '';
 		$this->params['cellphone'] = $cellphone = isset($_POST['cellphone']) ? $_POST['cellphone'] : '';
-		$this->params['password'] = $password = isset($_POST['password']) ? sha1(md5($_POST['password'],true)) : '';
+		//$this->params['password'] = $password = isset($_POST['password']) ? sha1(md5($_POST['password'],true)) : '';
+		$this->params['password'] = $password = isset($_POST['password']) ? sha1(md5($_POST['password'])) : '';
+		//$this->params['password'] = $password = isset($_POST['password']) ? $_POST['password'] : '';
 		$this->params['name'] = $name = isset($_POST['name']) ? $_POST['name'] : '';
 		$this->params['note'] = $note = isset($_POST['note']) ? $_POST['note'] : '';
 		// use md5 and sha1 to encrypt user password

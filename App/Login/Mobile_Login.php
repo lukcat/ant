@@ -88,7 +88,7 @@ class Mobile_Login {
         // execute
         if (!oci_execute($stpwd)) {
             // TODO
-			Response::show(407,'Mobile_Login-checkPassword: query database error');
+			Response::show(407,'Mobile_Login-check Password: query database error');
         }
 
         // get rows 

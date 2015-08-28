@@ -128,47 +128,49 @@ if ($testrows = oci_fetch_array($res, OCI_BOTH)) {
 //$userInfo['note'] = 'lanren2';
 //$userInfo['password'] = sha1(md5('test'));
 
+//////////////////////////////
+// useful test data
+//////////////////////////////
+/* dumingjun
+$check->params['loginname'] = 'aaaaa';
+$check->params['password'] = sha1(md5('aaaaa'));
+*/
+
+/*
 $check->params['loginname'] = 'cdq';
+$check->params['password'] = sha1(md5('test'));
 $check->params['email'] = 'cdq@test.com';
 $check->params['cellphone'] = '12345678902';
 $check->params['name'] = 'chendeqing';
 $check->params['note'] = 'lanren2';
-$check->params['password'] = sha1(md5('test'));
 
 $check->params['complaint'] = 'shit';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
 $check->params['vehicleid'] = 'GBI0142';
+*/
+////////////////end of test data//////////////////////
+
+
 // insert user parameters into userDataSet
 $userDataSet = $check->params;
 //$username = 'chendq';
 //$password = sha1(md5('test'));
+//$password = sha1(md5('test',true));
 $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'InquiryBus';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'Register';
 //$userDataSet['action'] = 'Complaint';
 //$userDataSet['action'] = 'GetComplaint';
-$userDataSet['action'] = 'InquiryVehicle';
+//$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';
 
-/////////////end of test//////////////
-
-//$userDataSet['complaintid'] = kkkk
-//$action = 'InquiryVehicle';
-//$action = 'DeleteComplaint';
-//$action = 'GetComplaint';
-//$action = 'Complaint';
-//$action = 'Register';
-//$action = 'Login';
-//exit;
-
-///////////////end of test////////////////////////////////////
-
+// return password to user
+//$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
+//Response::show(0,"This is test message",$testdata);
 
 // response user action 
 $action = $userDataSet['action'];
-//var_dump($userDataSet);
-//exit;
 switch($action) {
 	case 'Login':
         // 4
@@ -210,6 +212,7 @@ switch($action) {
         /* 
          * Upload files 
          */
+        $res = array();
         if (!empty($files)) {
             $fu = new File_Upload();
             $resData = array();
@@ -233,7 +236,7 @@ switch($action) {
             }
 
         }
-        Response::show(6,'File message',$res);
+        Response::show(6,'Complaint message',$res);
 
         break;
 
@@ -279,9 +282,11 @@ switch($action) {
 		$iv = new Vehicle_Inquiry();
 		$resData = $iv->getVehicleInfo($antConnect, $userDataSet['vehicleid']);
         // send email to user????
+
         if ($resData) {
 		    Response::show(900,"Vehicle Exist", $resData);
         } else {
+		    //Response::show(901,"Vehicle Do Not Exist",$testData);
 		    Response::show(901,"Vehicle Do Not Exist");
         }
 
