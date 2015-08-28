@@ -45,7 +45,8 @@ class Vehicle_Inquiry {
         if ($ivRows = oci_fetch_array($ivid, OCI_BOTH)) {
             //var_dump($ivRows);
             $vehicleid = isset($ivRows['VEHICLE_ID']) ? $ivRows['VEHICLE_ID'] : '';
-            $vehicleType = isset($ivRows['VEHICLE_TYPE']) ? $ivRows['VEHICLE_TYPE'] : '';
+            //$vehicleType = isset($ivRows['VEHICLE_TYPE']) ? $ivRows['VEHICLE_TYPE'] : '';
+            $vehicleTypeNum = isset($ivRows['VEHICLE_TYPE']) ? $ivRows['VEHICLE_TYPE'] : '';
             $brandModel = isset($ivRows['BRAND_MODEL']) ? $ivRows['BRAND_MODEL'] : '';
             $startYear = isset($ivRows['START_YEAR']) ? $ivRows['START_YEAR'] : '';
             $operationLicense = isset($ivRows['OPERATION_LICENSE']) ? $ivRows['OPERATION_LICENSE'] : '';
@@ -53,6 +54,22 @@ class Vehicle_Inquiry {
             $company = isset($ivRows['COMPANY']) ? $ivRows['COMPANY'] : '';
             $district = isset($ivRows['DISTRICT']) ? $ivRows['DISTRICT'] : '';
             $region = isset($ivRows['REGION']) ? $ivRows['REGION'] : '';
+
+            // Resolve vehicle type 
+            switch ($vehicleTypeNum) {
+                case '1':
+                    $vehicleType = 'Taxi';
+                    break;
+                case '2':
+                    $vehicleType = 'Bus';
+                    break;
+                case '3':
+                    $vehicleType = 'Intercity Bus';
+                    break;
+                default:
+                    $vehicleType = 'Unknown Type';
+                    break;
+            }
 
             // struct data
             $vehicleInfo = array(
