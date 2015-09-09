@@ -26,6 +26,7 @@ use Common\Get_Config as Get_Config;
 use Common\Config as Config;
 use Common\PHPMailer\Mailer as Mailer;
 use App\UserInformation\User_Info as User_Info;
+use App\UserInformation\User_Modify as User_Modify;
 
 // global variable BASEDIR
 define('BASEDIR',__DIR__);
@@ -140,8 +141,9 @@ $check->params['password'] = sha1(md5('aaaaa'));
 //$check->params['loginid'] = 'cdq';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['loginid'] = '12345678902';
+$check->params['newpassword'] = sha1(md5('test'));
 //$check->params['loginname'] = 'cdq';
-$check->params['password'] = sha1(md5('test'));
+$check->params['password'] = sha1(md5('test2'));
 //$check->params['email'] = 'cdq@test.com';
 $check->params['email'] = 'chendeqing@ceiec.com.cn';
 $check->params['cellphone'] = '12345678902';
@@ -169,6 +171,7 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';
+$userDataSet['action'] = 'ModifyPWD';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -333,6 +336,14 @@ switch($action) {
         } else {
             Response::show(301,"No Bus In City {$userDataSet['cityname']}");
         }
+
+        break;
+
+    case 'ModifyPWD':
+        $um = new User_Modify();
+
+        // modify password
+        $um->modifyPassword($mobileConnect, $userDataSet);
 
         break;
 

@@ -73,6 +73,11 @@ class CommonAPI {
         $this->params['loginid'] = $loginid = isset($_POST['loginid']) ? $_POST['loginid'] : '';
     }
 
+    protected function getNewPassword() {
+		$this->params['newpassword'] = $newpassword = isset($_POST['newpassword']) ? sha1(md5($_POST['newpassword'])) : '';
+        //$this->params['newpassword'] = $newpassword = isset($_POST['newpassword']) ? $_POST['newpassword'] : '';
+    }
+
     public function check() {
 		/*************
          * User action
@@ -94,6 +99,11 @@ class CommonAPI {
          * Login ID
          */
         $this->getLoginID();
+
+		/*****************
+         * New password
+         */
+        $this->getNewPassword();
 
 		/*************
          * Complaint text
