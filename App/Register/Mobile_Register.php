@@ -88,6 +88,8 @@ class Mobile_Register {
             $cellphone = $userInfo['cellphone'];
             $note = $userInfo['note'];
             $password = $userInfo['password'];
+            $icardid = $userInfo['icardid'];
+
             if (empty($password)) {
                 Response::show(506,"Password is invalid");
                 //return false;
@@ -96,7 +98,7 @@ class Mobile_Register {
             // generate token
             $token = md5(uniqid(microtime(true),true));
 
-            $insertsql = "insert into APP_USER(USER_ID,LOGIN_NAME,NAME,EMAIL,CELLPHONE,NOTE,VALID,PASSWORD,TOKEN,CREATE_TIME,MODIFY_TIME) values('{$userid}','{$loginname}','{$name}','{$email}','{$cellphone}','{$note}',{$valid},'{$password}','{$token}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+            $insertsql = "insert into APP_USER(USER_ID,LOGIN_NAME,USER_NAME,EMAIL,CELLPHONE,ICARD_ID,NOTE,VALID,PASSWORD,TOKEN,CREATE_TIME,MODIFY_TIME) values('{$userid}','{$loginname}','{$name}','{$email}','{$cellphone}','{$icardid}','{$note}',{$valid},'{$password}','{$token}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
             // parse sql
             $stid = oci_parse($connect, $insertsql);

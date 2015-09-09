@@ -2,6 +2,8 @@
 
 namespace App\Complaint;
 
+use Common\Response as Response;
+
 class User_Complaint {
     public function ReceiveComplaint($connect, $params, $user_id) {
 
@@ -20,7 +22,8 @@ class User_Complaint {
         $stid = oci_parse($connect,$sql);
 
         if(!oci_execute($stid)) {
-            return false;
+            Response::show(703,'User_Complaint: Query database error');
+            //return false;
         } 
 
         return $complaintid;
@@ -45,7 +48,7 @@ class User_Complaint {
         $stgc = oci_parse($connect, $sql);
 
         if (!oci_execute($stgc)) {
-            return false;
+            Response::show(704,'User_Complaint: Query database error');
         }
 
         // init varibles
@@ -201,8 +204,9 @@ class User_Complaint {
 
             // execute
             if(!oci_execute($dcid)) {
+            Response::show(705,'User_Complaint: Query database error');
                 //echo 'db';
-                return false;
+                //return false;
             } 
             return true;
         }

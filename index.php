@@ -142,9 +142,9 @@ $check->params['password'] = sha1(md5('aaaaa'));
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['loginid'] = '12345678902';
 $check->params['newpassword'] = sha1(md5('test'));
-//$check->params['loginname'] = 'cdq';
-$check->params['password'] = sha1(md5('test2'));
-//$check->params['email'] = 'cdq@test.com';
+$check->params['loginname'] = 'cdqing';
+$check->params['password'] = sha1(md5('test'));
+$check->params['icardid'] = '123321200010010908';
 $check->params['email'] = 'chendeqing@ceiec.com.cn';
 $check->params['cellphone'] = '12345678902';
 $check->params['name'] = 'chendeqing';
@@ -171,7 +171,8 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';
-$userDataSet['action'] = 'ModifyPWD';
+//$userDataSet['action'] = 'ModifyPWD';
+//$userDataSet['action'] = 'GetUserInfo';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -344,6 +345,14 @@ switch($action) {
 
         // modify password
         $um->modifyPassword($mobileConnect, $userDataSet);
+
+        break;
+
+    case 'GetUserInfo':
+        $ui = new User_Info();
+
+        // Get user's basic information
+        $ui->getUserBasicInfo($mobileConnect, $userDataSet);
 
         break;
 

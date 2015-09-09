@@ -75,7 +75,11 @@ class CommonAPI {
 
     protected function getNewPassword() {
 		$this->params['newpassword'] = $newpassword = isset($_POST['newpassword']) ? sha1(md5($_POST['newpassword'])) : '';
-        //$this->params['newpassword'] = $newpassword = isset($_POST['newpassword']) ? $_POST['newpassword'] : '';
+    }
+
+    // get user's identity number
+    protected function getIDNumber() {
+        $this->params['icardid'] = $icardid = isset($_POST['icardid']) ? $_POST['icardid'] : '';
     }
 
     public function check() {
@@ -99,6 +103,11 @@ class CommonAPI {
          * Login ID
          */
         $this->getLoginID();
+
+		/*****************
+         * IDNumber
+         */
+        $this->getIDNumber();
 
 		/*****************
          * New password
