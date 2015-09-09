@@ -4,10 +4,6 @@ namespace Common\PHPMailer;
 
 class Mailer {
     function sendmails($config, $address, $body, $altbody = '请使用兼容HTML格式邮箱'){
-        // require PHPmailer
-        //include_once BASEDIR . '/Common/PHPMailer/PHPMailerAutoload.php';
-        //require_once "/var/www/html/ant/Common/PHPMailer/PHPMailerAutoload.php";
-        //require_once BASEDIR . "/Common/PHPMailer/PHPMailerAutoload.php";
 
         $mail = new PHPMailer();
         $mail->IsSMTP(); //设置PHPMailer应用SMTP发送Email
@@ -21,10 +17,8 @@ class Mailer {
         //设置SMTP用户名和密码
         //$mail->Username = 'lukcatchen@126.com';
         $mail->Username = $config['mail']['username'];
-        echo $config['mail']['username'];
         //$mail->Password = 'j88j,ui7i97';
         $mail->Password = $config['mail']['password'];
-        echo $config['mail']['password'];
         //$mail->From = 'lukcatchen@126.com'; //指定发送邮件地址
         $mail->From = $config['mail']['fromaddress']; //指定发送邮件地址
         //$mail->FromName = '想学网测试服务器'; //为发送邮件地址命名
