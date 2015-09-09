@@ -68,6 +68,10 @@ class CommonAPI {
 		$this->params['vehicleid'] = $vehicleid = isset($_POST['vehicleid']) ? $_POST['vehicleid'] : '';
     }
 
+    protected function getLoginID() {
+        $this->params['loginid'] = $loginid = isset($_POST['loginid']) ? $_POST['loginid'] : '';
+    }
+
     public function check() {
 		/*************
          * User action
@@ -84,6 +88,11 @@ class CommonAPI {
          * User infomation
          */
         $this->getUsers();
+
+		/*****************
+         * Login ID
+         */
+        $this->getLoginID();
 
 		/*************
          * Complaint text

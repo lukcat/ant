@@ -25,6 +25,7 @@ use Common\Response as Response;
 use Common\Get_Config as Get_Config;
 use Common\Config as Config;
 use Common\PHPMailer\Mailer as Mailer;
+use App\UserInformation\User_Info as User_Info;
 
 // global variable BASEDIR
 define('BASEDIR',__DIR__);
@@ -82,8 +83,8 @@ $body = 'This is a test from chendq';
 
 $mailer = new Mailer();
 $mailer->sendmails($configInfo, $address, $body);
+exit;
 */
-//exit;
 
 //////////end test of mail//////////////
 
@@ -136,6 +137,7 @@ $check->params['loginname'] = 'aaaaa';
 $check->params['password'] = sha1(md5('aaaaa'));
 */
 
+$check->params['loginid'] = 'cdq';
 $check->params['loginname'] = 'cdq';
 $check->params['password'] = sha1(md5('test'));
 $check->params['email'] = 'cdq@test.com';
@@ -157,12 +159,12 @@ $userDataSet = $check->params;
 //$password = sha1(md5('test'));
 //$password = sha1(md5('test',true));
 $userDataSet['cityname'] = 'beijing';
-$userDataSet['action'] = 'InquiryBus';
+//$userDataSet['action'] = 'InquiryBus';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'Register';
 //$userDataSet['action'] = 'Complaint';
 //$userDataSet['action'] = 'GetComplaint';
-//$userDataSet['action'] = 'InquiryVehicle';
+$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';
 
 // return password to user
@@ -279,10 +281,21 @@ switch($action) {
 
 	case 'InquiryVehicle':
 
+        // get vehicle's information
 		$iv = new Vehicle_Inquiry();
 		$resData = $iv->getVehicleInfo($antConnect, $userDataSet['vehicleid']);
-        // send email to user????
 
+        // send result to user's email box
+        $ui = new User_Info();
+        $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
+        $body = json_encode($resData);
+
+        if ($emailaddr) {
+            $mailer = new Mailer();
+            $mailer->sendmails($configInfo, $emailaddr, $body);
+        }
+
+        // response result to client
         if ($resData) {
 		    Response::show(900,"Vehicle Exist", $resData);
         } else {
