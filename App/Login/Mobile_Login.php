@@ -53,8 +53,10 @@ class Mobile_Login {
         $isFirst = true;
         // generate update sql
         //$get_pwd = "SELECT PASSWORD FROM APP_USER WHERE"; 
+
+        /***********************
+         * The start of old sql version
         $get_pwd = "SELECT PASSWORD,USER_ID FROM APP_USER WHERE"; 
-        //$get_pwd = "SELECT USER_ID FROM APP_USER WHERE"; 
         if (isset($userInfo['loginname'])) {
             if ($userInfo['loginname'] != '') {
                 $get_pwd = $get_pwd . " LOGIN_NAME='{$userInfo['loginname']}'";
@@ -81,6 +83,21 @@ class Mobile_Login {
                 }
             }
         }
+        * The end of old sql version
+        ******************/
+
+        /************
+         * Start of new version using loginid 
+         */
+        
+        //  Get loginid first
+        $loginid = $userInfo['loginid'];
+        // Generate sql santence
+        $get_pwd = "SELECT PASSWORD,USER_ID FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'"; 
+
+        /***********
+         * End of new version using loginid
+         */
 
         // parse
         $stpwd = oci_parse($connect, $get_pwd);
@@ -120,6 +137,9 @@ class Mobile_Login {
         // flag to indentity first condition
         $isFirst = true;
 
+        /***************
+          * Old version of update sql
+          **************
         // generate update sql
         $updateToken = "UPDATE APP_USER SET TOKEN='{$token}' WHERE";
         if (isset($userInfo['loginname'])) {
@@ -150,6 +170,22 @@ class Mobile_Login {
                 }
             }
         }
+        * End of old version update sql
+        ********************/
+
+        /*****************
+         * Start of new version update sql
+         *****************/
+        
+        // Get user login id: loginid 
+        $loginid = $userInfo['loginid'];
+        // Generate sql santence
+        $updateToken = "UPDATE APP_USER SET TOKEN='{$token}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
+
+
+        /****************
+         * End of new version update sql
+         ****************/
 
         // parse
         $sttk = oci_parse($connect, $updateToken);
@@ -174,16 +210,18 @@ class Mobile_Login {
                     // update token and repsonse to client
                     $token = $this->generateToken($userInfo, $connect);
                     
-                    $responseData = array(
+                    $resData = array(
+                        'userid' => $userid,
                         'token' => $token
                     );
 
 		        	//Response::show(401,'Mobile_Login: login successful by password',$responseData);
                     //return 2;
                     //echo 'pwd';
-                    return $userid;
+                    return $resData;
+                    //return $userid;
                 } else {
-		        	Response::show(403,'Mobile_Login: wrong password');
+		        	Response::show(403,'Mobile_Login: Wrong password');
                     //return false;
 		        }
             }
@@ -196,7 +234,14 @@ class Mobile_Login {
                     // response OK message to client
 		        	//Response::show(400,'Mobile_Login: login successful by token');
                     //return 1;
-                    return $userid;
+                    $resData = array(
+                        'userid' => $userid,
+                        'token' => $userInfo['token']
+                    );
+
+                    return $resData;
+
+                    //return $userid;
                 } else {
                     // token is out of date
 		        	Response::show(402,'Mobile_Login: token is out of date');

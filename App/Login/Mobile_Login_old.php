@@ -174,18 +174,16 @@ class Mobile_Login {
                     // update token and repsonse to client
                     $token = $this->generateToken($userInfo, $connect);
                     
-                    $resData = array(
-                        'userid' => $userid,
+                    $responseData = array(
                         'token' => $token
                     );
 
 		        	//Response::show(401,'Mobile_Login: login successful by password',$responseData);
                     //return 2;
                     //echo 'pwd';
-                    return $resData;
-                    //return $userid;
+                    return $userid;
                 } else {
-		        	Response::show(403,'Mobile_Login: Wrong password');
+		        	Response::show(403,'Mobile_Login: wrong password');
                     //return false;
 		        }
             }

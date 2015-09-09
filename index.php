@@ -137,10 +137,13 @@ $check->params['loginname'] = 'aaaaa';
 $check->params['password'] = sha1(md5('aaaaa'));
 */
 
-$check->params['loginid'] = 'cdq';
-$check->params['loginname'] = 'cdq';
+//$check->params['loginid'] = 'cdq';
+//$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
+$check->params['loginid'] = '12345678902';
+//$check->params['loginname'] = 'cdq';
 $check->params['password'] = sha1(md5('test'));
-$check->params['email'] = 'cdq@test.com';
+//$check->params['email'] = 'cdq@test.com';
+$check->params['email'] = 'chendeqing@ceiec.com.cn';
 $check->params['cellphone'] = '12345678902';
 $check->params['name'] = 'chendeqing';
 $check->params['note'] = 'lanren2';
@@ -164,7 +167,7 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'Register';
 //$userDataSet['action'] = 'Complaint';
 //$userDataSet['action'] = 'GetComplaint';
-$userDataSet['action'] = 'InquiryVehicle';
+//$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';
 
 // return password to user
@@ -176,11 +179,18 @@ $action = $userDataSet['action'];
 switch($action) {
 	case 'Login':
         // 4
-		$ml = new Mobile_Login();
 		// varify loginname and password
-		$userid = $ml->login($userDataSet, $mobileConnect);
+		$ml = new Mobile_Login();
+
+        // Return a array contains userid and token
+		$arrayInfo = $ml->login($userDataSet, $mobileConnect);
+
+        // Get userid 
+        $userid = $arrayInfo['userid'];
+        
+        // Response information to client
         if (!empty($userid)) {
-            Response::show(400,"User Login Successful");
+            Response::show(400,"User Login Successful",$arrayInfo);
         } else {
             Response::show(401,"User Login Failure");
         }
@@ -197,7 +207,10 @@ switch($action) {
 	case 'Complaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
-		$userid = $ml->login($userDataSet, $mobileConnect);
+        // login return a array which contains userid and token 
+		$arrayInfo = $ml->login($userDataSet, $mobileConnect);
+        $userid = $arrayInfo['userid'];
+
         if (empty($userid)) {
             Response::show(401,"User Login Failure");
         }
@@ -245,8 +258,10 @@ switch($action) {
     case 'GetComplaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
-		//$userid = $ml->login($check->params, $connect);
-		$userid = $ml->login($userDataSet, $mobileConnect);
+
+        // login return a array which contains userid and token 
+		$arrayInfo = $ml->login($userDataSet, $mobileConnect);
+        $userid = $arrayInfo['userid'];
 
         // Get user complaint
         $uc = new User_Complaint();
@@ -264,7 +279,11 @@ switch($action) {
     case 'DeleteComplaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
-		$userid = $ml->login($userDataSet, $mobileConnect);
+		//$userid = $ml->login($userDataSet, $mobileConnect);
+
+        // login return a array which contains userid and token 
+		$arrayInfo = $ml->login($userDataSet, $mobileConnect);
+        $userid = $arrayInfo['userid'];
 
         $dc = new User_complaint();
         $res = $dc->deleteComplaint($mobileConnect, $userDataSet);

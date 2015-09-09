@@ -68,6 +68,7 @@ class CommonAPI {
 		$this->params['vehicleid'] = $vehicleid = isset($_POST['vehicleid']) ? $_POST['vehicleid'] : '';
     }
 
+    // save login_name, email or cellphone
     protected function getLoginID() {
         $this->params['loginid'] = $loginid = isset($_POST['loginid']) ? $_POST['loginid'] : '';
     }
