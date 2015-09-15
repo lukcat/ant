@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('UTC');
 
 //echo "ssss\n";
 $conn = oci_connect("ant", "ant", "192.168.146.88/mobile");
@@ -13,14 +14,46 @@ if(!$conn) {
     echo "conn is OK\n";
 }
 
-$stid = oci_parse($conn, 'select table_name from user_tables');
+$sql = "SELECT to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME FROM APP_USER WHERE LOGIN_NAME='cdqing'";
 
-if(oci_execute($stid)) {
-    echo "execute OK";
+//$stid = oci_parse($conn, 'select table_name from user_tables');
+$stid = oci_parse($conn, $sql);
+
+if(!oci_execute($stid)) {
+    echo "execute failure";
 }
 
 while (($row = oci_fetch_assoc($stid)) != false) {
-    echo $row['TABLE_NAME']."\n";
+    //echo $row['TABLE_NAME']."\n";
+
+    /*
+    $time = $row['CREATE_TIME'];
+    echo $time;
+
+    $realtime = strtotime($time);
+    echo $realtime;
+
+    
+
+    //$plustime = $realtime + 3600;
+    echo $realtime;
+    */
+
+    $curtime = new DateTime();
+    $curtimestr = $curtime->format('Y-m-d H:i:s');
+    
+    echo $curtimestr.'\n';
+    $curtimestr = $curtime->modify('+2 day');
+    $curtimestr = $curtime->format('Y-m-d H:i:s');
+    echo strtotime($curtime);
+
+
+    $test = "cdqchendeqing@ceiec.com.cn123";
+    $sn = sha1(md5($test));
+    echo $sn;
+
+    //echo date('Y-m-d H:i:s');
+
 }
 
 /*

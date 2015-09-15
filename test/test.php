@@ -29,11 +29,29 @@ $data = test();
 print_r($data);
 */
 
-$arr1 = array('a','b','c','d');
-$arr2 = array();
+//$arr1 = array('a','b','c','d');
+//$arr2 = array();
+//
+//for ($i=0; $i<10; $i++) {
+//    array_push($arr2, $arr1);
+//}
+//
+//var_dump($arr2);
 
-for ($i=0; $i<10; $i++) {
-    array_push($arr2, $arr1);
+/*
+$len = 4;
+$min = 0;
+$max = 9;
+$securityCode = '';
+for ($i=0; $i<$len; $i++) {
+    $securityCode .= rand($min, $max);
 }
+echo $securityCode;
+*/
 
-var_dump($arr2);
+$sql = "SELECT CREATE_TIME FROM APP_USER WHERE LOGIN_NAME='cdqing'";
+
+$stts = oci_parse(
+
+
+

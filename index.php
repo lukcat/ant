@@ -27,6 +27,7 @@ use Common\Config as Config;
 use Common\PHPMailer\Mailer as Mailer;
 use App\UserInformation\User_Info as User_Info;
 use App\UserInformation\User_Modify as User_Modify;
+use App\UserInformation\User_ForgetPWD as User_ForgetPWD;
 
 // global variable BASEDIR
 define('BASEDIR',__DIR__);
@@ -138,12 +139,12 @@ $check->params['loginname'] = 'aaaaa';
 $check->params['password'] = sha1(md5('aaaaa'));
 */
 
-//$check->params['loginid'] = 'cdq';
+$check->params['loginid'] = 'cdq';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['loginid'] = '12345678902';
 $check->params['newpassword'] = sha1(md5('test'));
-$check->params['loginname'] = 'cdqing';
-$check->params['password'] = sha1(md5('test'));
+//$check->params['loginname'] = 'cdqing';
+$check->params['password'] = sha1(md5('test2'));
 $check->params['icardid'] = '123321200010010908';
 $check->params['email'] = 'chendeqing@ceiec.com.cn';
 $check->params['cellphone'] = '12345678902';
@@ -173,6 +174,8 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'Login';
 //$userDataSet['action'] = 'ModifyPWD';
 //$userDataSet['action'] = 'GetUserInfo';
+//$userDataSet['action'] = 'ForgetPassword';
+$userDataSet['action'] = 'GetSecurityCode';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -353,6 +356,36 @@ switch($action) {
 
         // Get user's basic information
         $ui->getUserBasicInfo($mobileConnect, $userDataSet);
+
+        break;
+
+    case 'ForgetPassword':
+
+        break;
+
+    case 'GetSecurityCode':
+        $uf = new User_ForgetPWD();
+
+        // get basic information
+        $resData = $uf->getSecurityCode($mobileConnect, $userDataSet);
+
+        // Get parameters
+        $loginid = $resData['loginid'];
+        $email = $resData['email'];
+        $securitycode = $resData['securitycode'];
+        $sn = $resData['sn'];
+
+        // sent security code to user's email address
+        $responseData = array('loginid' => $loginid, 'email' => $email, 'securitycode' => $securitycode);
+        $body = json_encode($responseData);
+
+        if (!empty($email)) {
+            $mailer = new Mailer();
+            $mailer->sendmails($configInfo, $email, $body);
+        }
+
+        // response serial number, loginid and email to client
+        Response::show(1000, 'Get security code successful', $responseData);
 
         break;
 

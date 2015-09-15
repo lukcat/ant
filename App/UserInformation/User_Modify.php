@@ -6,27 +6,17 @@ use Common\Response as Response;
 
 class User_Modify {
 
-    public function modifyPassword($connect, $userInfo) {
+    // varify user's identity
+    public function varifyUser($connect, $userInfo) {
         // get loginid and password
         $loginid = $userInfo['loginid'];
         $password = $userInfo['password'];
-
-        // update password
-        $newpassword = $userInfo['newpassword'];
-
-        if (empty($userInfo['loginid'])) {
-            Response::show(1110,'Login id is empty');
+        
+        if (empty($userInfo['loginid']) || empty($userInfo['password'])) {
+            Response::show(1101,'Login id is empty');
         }
 
-        if (empty($userInfo['password'])) {
-            Response::show(1111,'Password is empty');
-        }
-
-        if (empty($userInfo['newpassword'])) {
-            Response::show(1112,'New password is empty');
-        }
-
-        $get_pwd = "SELECT PASSWORD,USER_ID FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'"; 
+        $get_pwd = "SELECT USER_ID FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' AND PASSWORD='{$password}'"; 
 
         // parse
         $stpwd = oci_parse($connect, $get_pwd);
@@ -34,32 +24,130 @@ class User_Modify {
         // execute
         if (!oci_execute($stpwd)) {
             // TODO
-			Response::show(1107,'User_Modify-check Password: query database error');
+			Response::show(1102,'User_Modify-check Password: query database error');
         }
 
         // get rows 
 		if ($pwdrows = oci_fetch_array($stpwd, OCI_BOTH)) {
-			if ($pwdrows['PASSWORD'] == $userInfo['password']) {
+            return true;
+        }
 
-                // Generate update sql
-                $updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
+	    Response::show(1103,"User_Modify-varifyUser: User doesn't exist OR wrong password");
+    }
 
-                // parse
-                $stup = oci_parse($connect, $updatePwd);
+    // modify user's password
+    public function modifyPassword($connect, $userInfo) {
+        if ($this->varifyUser($connect, $userInfo)) {
+            // get loginid and password
+            $loginid = $userInfo['loginid'];
+            //$password = $userInfo['password'];
+            $newpassword = $userInfo['newpassword'];
 
-                // execute
-                if (!oci_execute($stup)) {
-                    // TODO
-		        	Response::show(1107,'User_Modify-ModifyPassword: query database error');
-                }
-                // response success message
-                Response::show(1100,'User_Modify-ModifyPassword: User password modified successful');
-			}
-            // wrong password 
-            Response::show(1108,'User_Modify-ModifyPassword: Wrong password');
-		}
-		else {
-			Response::show(1109,"Mobile_Login: User doesn't exist");
-		}
+            $updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
+
+            // parse
+            $stup = oci_parse($connect, $updatePwd);
+
+            // execute
+            if (!oci_execute($stup)) {
+                // TODO
+		    	Response::show(1104,'User_Modify-ModifyPassword: query database error');
+            }
+            // response success message
+            Response::show(1100,'User_Modify-ModifyPassword: User password modified successful');
+        } 
+    }
+
+    //******************************************************************************************//
+
+    public function getUserID($connect, $userInfo) {
+        // get loginid and password
+        $loginid = $userInfo['loginid'];
+
+        // get userid sql
+        $gusql = "SELECT USER_ID FROM APP_USER WHERE EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR LOGIN_NAME='{$loginid}'";
+
+        // parse
+        $stgu = oci_parse($connect, $gusql);
+
+        // execute
+        if (!oci_execute($stgu)) {
+		    Response::show(1121,'User_Modify-getUserId: query database error');
+        }
+
+		if ($gurows = oci_fetch_array($stgu, OCI_BOTH)) {
+            $userid = preg_replace("/\s/","",$pwdrows['USER_ID']);
+            return $userid;
+        }
+
+    }
+
+    // generate random number serial
+    public function generateRandNumber($len) {
+        $min = 0;
+        $max = 9;
+        $securityCode = '';
+
+        for ($i=0; $i<$len; $i++) {
+            $securityCode .= rand($min, $max);
+        }
+
+        return $securityCode;
+    }
+
+    //***********************************************//
+    public function checkSecurityCode($connect, $userid) {
+        // check sql
+        $checksql = "SELECT SECURITY_CODE, EXPIRATION_TIME FROM SECURITY_CODE WHERE USER_ID='{$userid}'";
+
+        // parse
+        $stcs = oci_parse($connect, $checksql);
+
+        // execute
+        if (!oci_execute($stcs)) {
+		    Response::show(1122,'User_Modify-checkUserID: query database error');
+        }
+
+        if ($csrow = oci_fetch_array($stcs, OCI_BOTH)) {
+
+        } else {
+            // insert security code into database
+        }
+    }
+
+    public function insertSecuritCode($connect, $userid, $securitycode) {
+    }
+
+    public function generateSecurityCode($connect, $userid, $securitycode) {
+        // checkuser, whether securityCode is exist and valid
+        // if exist and valid, then return SecurityCode
+        // if exist and invalid, then update and return securityCode
+        // if don't exist, then insert userid and securityCode
+    }
+
+    // sent security code to user's email address and cellphone
+    public function getSecurityCode($connect, $userInfo) {
+        // generate security code (4)
+        $securityCode = $this->generateRandNumber(4);
+
+        // save it into database
+        $userid = $this->getUserID($connect, $userInfo);
+
+        // return to user(email or cellphone)
+        
+    }
+
+    // varify security code 
+    public function varifySecurityCode($connect, $userInfo) {
+        // get security code by loginid from databse
+        // compare security code 
+        // generate a string seed by security code and return it to user
+    }
+
+    public function forgetPassword($connect, $userInfo) {
+        // Get password by email
+        // varify email and login_name
+        // sent scurity code to user's email address
+        // varidy security code and modify user password
     }
 }

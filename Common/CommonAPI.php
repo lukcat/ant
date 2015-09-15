@@ -79,7 +79,7 @@ class CommonAPI {
 
     // get user's identity number
     protected function getIDNumber() {
-        $this->params['icardid'] = $icardid = isset($_POST['icardid']) ? $_POST['icardid'] : '';
+        $this->params['icardid'] = $icardid = isset($_POST['idnumber']) ? $_POST['idnumber'] : '';
     }
 
     public function check() {
