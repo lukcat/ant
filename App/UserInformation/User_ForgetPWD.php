@@ -193,6 +193,52 @@ class User_ForgetPWD {
         return $resData;
     }
 
+    public function modifyPwdBySecurityCode($connect, $userInfo) {
+
+        // Get parameters from user
+        $loginid = $userInfo['loginid'];
+        $email = $userInfo['email'];
+        $securitycode = $userInfo['securitycode'];
+        $newpassword = $userInfo['newpassword'];
+        $sn = $userInfo['sn'];
+
+        // varify serial number(sn)
+        // seed for encription
+        $seed = $loginid.$email.$securitycode;
+        //echo $seed;
+        //echo "\n";
+
+        // Generate serail number
+        $newsn = sha1(md5($seed));
+        //echo $newsn;
+        //exit;
+
+        // compare
+        if ($sn == $newsn) {
+
+            // valid sn and security code, then modify password
+            $updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
+
+            // parse
+            $stup = oci_parse($connect, $updatePwd);
+
+            // execute
+            if (!oci_execute($stup)) {
+                // TODO
+		    	Response::show(1126,'User_ForgetPWD-ModifyPwdBySecurityCode: query database error');
+            }
+
+            // response success message
+            Response::show(1100,'User_ForgetPWD-ModifyPwdBySecurityCode: User password modified successful');
+
+        } else {
+            // invalid security code 
+            Response::show(1128, 'User_ForgetPWD-ModifyPwdBySecurityCode:Invlid security code');
+        }
+        
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////
     // varify user's identity
     /*
     public function varifyUser($connect, $userInfo) {

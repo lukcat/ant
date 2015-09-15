@@ -139,10 +139,13 @@ $check->params['loginname'] = 'aaaaa';
 $check->params['password'] = sha1(md5('aaaaa'));
 */
 
+/*
 $check->params['loginid'] = 'cdq';
+$check->params['securitycode'] = '7724';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
-$check->params['loginid'] = '12345678902';
+//$check->params['loginid'] = '12345678902';
 $check->params['newpassword'] = sha1(md5('test'));
+$check->params['sn'] = 'e67bd4f23672ad2ca4d45d1a27381dc7852b88ca';
 //$check->params['loginname'] = 'cdqing';
 $check->params['password'] = sha1(md5('test2'));
 $check->params['icardid'] = '123321200010010908';
@@ -154,7 +157,6 @@ $check->params['note'] = 'lanren2';
 $check->params['complaint'] = 'shit';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
 $check->params['vehicleid'] = 'GBI0142';
-/*
 */
 ////////////////end of test data//////////////////////
 
@@ -175,7 +177,7 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'ModifyPWD';
 //$userDataSet['action'] = 'GetUserInfo';
 //$userDataSet['action'] = 'ForgetPassword';
-$userDataSet['action'] = 'GetSecurityCode';
+//$userDataSet['action'] = 'GetSecurityCode';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -359,10 +361,6 @@ switch($action) {
 
         break;
 
-    case 'ForgetPassword':
-
-        break;
-
     case 'GetSecurityCode':
         $uf = new User_ForgetPWD();
 
@@ -376,8 +374,10 @@ switch($action) {
         $sn = $resData['sn'];
 
         // sent security code to user's email address
-        $responseData = array('loginid' => $loginid, 'email' => $email, 'securitycode' => $securitycode);
-        $body = json_encode($responseData);
+        $responseData = array('loginid' => $loginid, 'email' => $email, 'sn' => $sn);
+
+        //$body = json_encode($emailcontent);
+        $body = "Scurity Code is:{$securitycode}";
 
         if (!empty($email)) {
             $mailer = new Mailer();
@@ -386,6 +386,13 @@ switch($action) {
 
         // response serial number, loginid and email to client
         Response::show(1000, 'Get security code successful', $responseData);
+
+        break;
+
+    case 'ForgetPassword':
+        $uf = new User_ForgetPWD();
+
+        $uf->modifyPwdBySecurityCode($mobileConnect, $userDataSet);
 
         break;
 
