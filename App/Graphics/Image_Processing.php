@@ -22,7 +22,7 @@ class Image_Processing {
         return md5(uniqid(microtime(true),true));
     }
 
-    public function generateThumbnail($connect, $files, $savePath='./uploads/thumbnail', $columns=50, $rows=50, $bestfit=true) {
+    public function generateThumbnail($connect, $files, $savePath='./uploads/thumbnail', $columns=100, $rows=100, $bestfit=true) {
         $resData = array();
         foreach($files as $imageInfo) {
             //echo "tag";

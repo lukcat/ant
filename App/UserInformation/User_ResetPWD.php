@@ -4,7 +4,7 @@ namespace App\UserInformation;
 
 use Common\Response as Response;
 
-class User_ForgotPWD {
+class User_ResetPWD {
 
     // Varify security code
     public function varifySecurityCode($userInfo) {

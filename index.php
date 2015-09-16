@@ -184,7 +184,7 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'GetUserInfo';
 //$userDataSet['action'] = 'GetSecurityCode';
 //$userDataSet['action'] = 'VarifySecurityCode';
-//$userDataSet['action'] = 'ForgotPassword';
+//$userDataSet['action'] = 'ResetPassword';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -369,6 +369,7 @@ switch($action) {
         break;
 
     case 'GetSecurityCode':
+
         $uf = new User_ForgotPWD();
 
         // get basic information
@@ -398,14 +399,17 @@ switch($action) {
         break;
 
     case 'VarifySecurityCode':
+        // 12
         $uf = new User_ForgotPWD();
 
         $uf->varifySecurityCode($userDataSet);
 
         break;
 
-    case 'ForgotPassword':
-        $uf = new User_ForgotPWD();
+    // params
+    case 'ResetPassword':
+        // 11
+        $uf = new User_ResetPWD();
 
         $uf->changePwdBySecurityCode($mobileConnect, $userDataSet);
 
