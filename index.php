@@ -27,7 +27,7 @@ use Common\Config as Config;
 use Common\PHPMailer\Mailer as Mailer;
 use App\UserInformation\User_Info as User_Info;
 use App\UserInformation\User_ChangePWD as User_ChangePWD;
-use App\UserInformation\User_ForgotPWD as User_ForgotPWD;
+use App\UserInformation\User_ResetPWD as User_ResetPWD;
 
 // global variable BASEDIR
 define('BASEDIR',__DIR__);
@@ -139,13 +139,13 @@ $check->params['loginname'] = 'aaaaa';
 $check->params['password'] = sha1(md5('aaaaa'));
 */
 
-/*
 $check->params['email'] = 'chendeqing@ceiec.com.cn';
 $check->params['securitycode'] = '9627';
 $check->params['sn'] = '454542be7f0edc3e2d95e259119cfd116b8127cd';
 $check->params['newpassword'] = sha1(md5('test'));
 
 
+/*
 $check->params['loginid'] = 'cdq';
 //$check->params['securitycode'] = '7724';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
@@ -182,7 +182,7 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'Login';
 //$userDataSet['action'] = 'ChangePWD';
 //$userDataSet['action'] = 'GetUserInfo';
-//$userDataSet['action'] = 'GetSecurityCode';
+$userDataSet['action'] = 'GetSecurityCode';
 //$userDataSet['action'] = 'VarifySecurityCode';
 //$userDataSet['action'] = 'ResetPassword';
 
@@ -370,7 +370,7 @@ switch($action) {
 
     case 'GetSecurityCode':
 
-        $uf = new User_ForgotPWD();
+        $uf = new User_ResetPWD();
 
         // get basic information
         $resData = $uf->getSecurityCode($mobileConnect, $userDataSet);
