@@ -182,8 +182,8 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'Login';
 //$userDataSet['action'] = 'ChangePWD';
 //$userDataSet['action'] = 'GetUserInfo';
-$userDataSet['action'] = 'GetSecurityCode';
-//$userDataSet['action'] = 'VarifySecurityCode';
+//$userDataSet['action'] = 'GetSecurityCode';
+//$userDataSet['action'] = 'VerifySecurityCode';
 //$userDataSet['action'] = 'ResetPassword';
 
 // return password to user
@@ -195,7 +195,7 @@ $action = $userDataSet['action'];
 switch($action) {
 	case 'Login':
         // 4
-		// varify loginname and password
+		// verify loginname and password
 		$ml = new Mobile_Login();
 
         // Return a array contains userid and token
@@ -398,11 +398,11 @@ switch($action) {
 
         break;
 
-    case 'VarifySecurityCode':
+    case 'VerifySecurityCode':
         // 12
-        $uf = new User_ForgotPWD();
+        $uf = new User_ResetPWD();
 
-        $uf->varifySecurityCode($userDataSet);
+        $uf->verifySecurityCode($userDataSet);
 
         break;
 

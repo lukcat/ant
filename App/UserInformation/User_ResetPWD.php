@@ -7,7 +7,7 @@ use Common\Response as Response;
 class User_ResetPWD {
 
     // Varify security code
-    public function varifySecurityCode($userInfo) {
+    public function verifySecurityCode($userInfo) {
         // Get parameters from user
         //$loginid = $userInfo['loginid'];
         $email = $userInfo['email'];
@@ -16,10 +16,10 @@ class User_ResetPWD {
         $sn = $userInfo['sn'];
 
         if (empty($email) || empty($sn) || empty($securitycode)) {
-            Response::show(1202, 'User_ForgotPWD-varifySecurityCode: Email, sn and security code can not be empty');
+            Response::show(1202, 'User_ForgotPWD-verifySecurityCode: Email, sn and security code can not be empty');
         }
 
-        // varify serial number(sn)
+        // verify serial number(sn)
         // seed for encription
         $seed = $email.$securitycode;
 
@@ -29,10 +29,10 @@ class User_ResetPWD {
         // compare
         if ($sn == $newsn) {
             // successful
-            Response::show(1200, 'User_ForgotPWD-varifySecurityCode: Effective security code');
+            Response::show(1200, 'User_ForgotPWD-verifySecurityCode: Effective security code');
         } else {
             // failure
-            Response::show(1201, 'User_ForgotPWD-varifySecurityCode: Invalid security code');
+            Response::show(1201, 'User_ForgotPWD-verifySecurityCode: Invalid security code');
         }
     }
 
@@ -214,7 +214,7 @@ class User_ResetPWD {
         // get security code
         $securitycode = $this->generateSecurityCode($connect, $userid);
 
-        // generate serial number to varify security code
+        // generate serial number to verify security code
         //$loginid = $userInfo['loginid'];
         $email = $userInfo['email'];
 
@@ -257,7 +257,7 @@ class User_ResetPWD {
         $newpassword = $userInfo['newpassword'];
         $sn = $userInfo['sn'];
 
-        // varify serial number(sn)
+        // verify serial number(sn)
         // seed for encription
         $seed = $email.$securitycode;
         //echo $seed;
@@ -299,9 +299,9 @@ class User_ResetPWD {
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////
-    // varify user's identity
+    // verify user's identity
     /*
-    public function varifyUser($connect, $userInfo) {
+    public function verifyUser($connect, $userInfo) {
         // get loginid and password
         $loginid = $userInfo['loginid'];
         $password = $userInfo['password'];
@@ -326,11 +326,11 @@ class User_ResetPWD {
             return true;
         }
 
-	    Response::show(1103,"User_Change-varifyUser: User doesn't exist OR wrong password");
+	    Response::show(1103,"User_Change-verifyUser: User doesn't exist OR wrong password");
     }
     // modify user's password
     public function modifyPassword($connect, $userInfo) {
-        if ($this->varifyUser($connect, $userInfo)) {
+        if ($this->verifyUser($connect, $userInfo)) {
             // get loginid and password
             $loginid = $userInfo['loginid'];
             //$password = $userInfo['password'];
@@ -430,16 +430,10 @@ class User_ResetPWD {
         
     }
 
-    // varify security code 
-    public function varifySecurityCode($connect, $userInfo) {
-        // get security code by loginid from databse
-        // compare security code 
-        // generate a string seed by security code and return it to user
-    }
 
     public function forgetPassword($connect, $userInfo) {
         // Get password by email
-        // varify email and login_name
+        // verify email and login_name
         // sent scurity code to user's email address
         // varidy security code and modify user password
     }
