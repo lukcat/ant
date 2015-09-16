@@ -82,6 +82,10 @@ class CommonAPI {
         $this->params['icardid'] = $icardid = isset($_POST['idnumber']) ? $_POST['idnumber'] : '';
     }
 
+    protected function getSN() {
+        $this->params['sn'] = $sn = isset($_POST['sn']) ? $_POST['sn'] : '';
+    }
+
     public function check() {
 		/*************
          * User action
@@ -113,6 +117,11 @@ class CommonAPI {
          * New password
          */
         $this->getNewPassword();
+
+		/*****************
+         * Serial number
+         */
+        $this->getSN();
 
 		/*************
          * Complaint text

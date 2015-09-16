@@ -141,16 +141,16 @@ $check->params['password'] = sha1(md5('aaaaa'));
 
 /*
 $check->params['loginid'] = 'cdq';
-$check->params['securitycode'] = '7724';
+//$check->params['securitycode'] = '7724';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 //$check->params['loginid'] = '12345678902';
 $check->params['newpassword'] = sha1(md5('test'));
 $check->params['sn'] = 'e67bd4f23672ad2ca4d45d1a27381dc7852b88ca';
-//$check->params['loginname'] = 'cdqing';
-$check->params['password'] = sha1(md5('test2'));
+$check->params['loginname'] = 'cdq';
+$check->params['password'] = sha1(md5('test'));
 $check->params['icardid'] = '123321200010010908';
 $check->params['email'] = 'chendeqing@ceiec.com.cn';
-$check->params['cellphone'] = '12345678902';
+$check->params['cellphone'] = '12345678901';
 $check->params['name'] = 'chendeqing';
 $check->params['note'] = 'lanren2';
 
