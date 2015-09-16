@@ -353,6 +353,7 @@ switch($action) {
         break;
 
     case 'ChangePWD':
+        //  11
         $um = new User_ChangePWD();
 
         // modify password
@@ -361,6 +362,7 @@ switch($action) {
         break;
 
     case 'GetUserInfo':
+        // 1
         $ui = new User_Info();
 
         // Get user's basic information
@@ -369,6 +371,7 @@ switch($action) {
         break;
 
     case 'GetSecurityCode':
+        // 10
 
         $uf = new User_ResetPWD();
 
@@ -398,7 +401,7 @@ switch($action) {
 
         break;
 
-    case 'VarifySecurityCode':
+    case 'VerifySecurityCode':
         // 12
         $uf = new User_ForgotPWD();
 
