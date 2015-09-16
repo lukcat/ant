@@ -4,7 +4,7 @@ namespace App\UserInformation;
 
 use Common\Response as Response;
 
-class User_Modify {
+class User_ChangePWD {
 
     // varify user's identity
     public function varifyUser($connect, $userInfo) {
@@ -36,7 +36,7 @@ class User_Modify {
     }
 
     // modify user's password
-    public function modifyPassword($connect, $userInfo) {
+    public function changePassword($connect, $userInfo) {
         if ($this->varifyUser($connect, $userInfo)) {
             // get loginid and password
             $loginid = $userInfo['loginid'];

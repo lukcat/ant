@@ -26,8 +26,8 @@ use Common\Get_Config as Get_Config;
 use Common\Config as Config;
 use Common\PHPMailer\Mailer as Mailer;
 use App\UserInformation\User_Info as User_Info;
-use App\UserInformation\User_Modify as User_Modify;
-use App\UserInformation\User_ForgetPWD as User_ForgetPWD;
+use App\UserInformation\User_ChangePWD as User_ChangePWD;
+use App\UserInformation\User_ForgotPWD as User_ForgotPWD;
 
 // global variable BASEDIR
 define('BASEDIR',__DIR__);
@@ -174,9 +174,9 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';
-//$userDataSet['action'] = 'ModifyPWD';
+//$userDataSet['action'] = 'ChangePWD';
 //$userDataSet['action'] = 'GetUserInfo';
-//$userDataSet['action'] = 'ForgetPassword';
+//$userDataSet['action'] = 'ForgotPassword';
 //$userDataSet['action'] = 'GetSecurityCode';
 
 // return password to user
@@ -345,11 +345,11 @@ switch($action) {
 
         break;
 
-    case 'ModifyPWD':
-        $um = new User_Modify();
+    case 'ChangePWD':
+        $um = new User_ChangePWD();
 
         // modify password
-        $um->modifyPassword($mobileConnect, $userDataSet);
+        $um->changePassword($mobileConnect, $userDataSet);
 
         break;
 
@@ -362,7 +362,7 @@ switch($action) {
         break;
 
     case 'GetSecurityCode':
-        $uf = new User_ForgetPWD();
+        $uf = new User_ForgotPWD();
 
         // get basic information
         $resData = $uf->getSecurityCode($mobileConnect, $userDataSet);
@@ -389,8 +389,8 @@ switch($action) {
 
         break;
 
-    case 'ForgetPassword':
-        $uf = new User_ForgetPWD();
+    case 'ForgotPassword':
+        $uf = new User_ForgotPWD();
 
         $uf->modifyPwdBySecurityCode($mobileConnect, $userDataSet);
 

@@ -4,7 +4,7 @@ namespace App\UserInformation;
 
 use Common\Response as Response;
 
-class User_ForgetPWD {
+class User_ForgotPWD {
 
     // Get user id
     public function getUserID($connect, $userInfo) {
@@ -13,7 +13,7 @@ class User_ForgetPWD {
         $email = $userInfo['email'];
 
         if (empty($loginid) || empty($email)) {
-		    Response::show(1126,'User_Forget-getUserID: loginid Or email is empty');
+		    Response::show(1126,'User_Forgot-getUserID: loginid Or email is empty');
         }
 
         // get userid sql
@@ -24,7 +24,7 @@ class User_ForgetPWD {
 
         // execute
         if (!oci_execute($stgu)) {
-		    Response::show(1127,'User_Modify-getUserId: query database error');
+		    Response::show(1127,'User_Change-getUserId: query database error');
         }
 
 		if ($gurows = oci_fetch_array($stgu, OCI_BOTH)) {
@@ -32,7 +32,7 @@ class User_ForgetPWD {
             return $userid;
         }
 
-		Response::show(1122,'User_Modify-getUserId: No such user');
+		Response::show(1122,'User_Change-getUserId: No such user');
 
     }
 
@@ -59,7 +59,7 @@ class User_ForgetPWD {
 
         // execute
         if (!oci_execute($stgs)) {
-			Response::show(1123,'User_ForgetPWD-getSecurityCode: query database error');
+			Response::show(1123,'User_ForgotPWD-getSecurityCode: query database error');
         }
 
         $currenttime = new \DateTime();
@@ -94,7 +94,7 @@ class User_ForgetPWD {
                 // execute
                 if (!oci_execute($stus)) {
                     // sql execute failure
-			        Response::show(1124,'User_ForgetPWD-getSecurityCode: query database error');
+			        Response::show(1124,'User_ForgotPWD-getSecurityCode: query database error');
                 }
 
                 return $secutityCode;
@@ -121,7 +121,7 @@ class User_ForgetPWD {
                     // execute
                     if (!oci_execute($stus)) {
                         // sql execute failure
-			            Response::show(1124,'User_ForgetPWD-getSecurityCode: query database error');
+			            Response::show(1124,'User_ForgotPWD-getSecurityCode: query database error');
                     }
 
                     return $securityCode;
@@ -154,7 +154,7 @@ class User_ForgetPWD {
             // execute
             if (!oci_execute($stis)) {
                 // sql execute failure
-			    Response::show(1125,'User_ForgetPWD-getSecurityCode: query database error');
+			    Response::show(1125,'User_ForgotPWD-getSecurityCode: query database error');
             }
 
             return $securityCode;
@@ -225,15 +225,15 @@ class User_ForgetPWD {
             // execute
             if (!oci_execute($stup)) {
                 // TODO
-		    	Response::show(1126,'User_ForgetPWD-ModifyPwdBySecurityCode: query database error');
+		    	Response::show(1126,'User_ForgotPWD-ChangePwdBySecurityCode: query database error');
             }
 
             // response success message
-            Response::show(1100,'User_ForgetPWD-ModifyPwdBySecurityCode: User password modified successful');
+            Response::show(1100,'User_ForgotPWD-ChangePwdBySecurityCode: User password modified successful');
 
         } else {
             // invalid security code 
-            Response::show(1128, 'User_ForgetPWD-ModifyPwdBySecurityCode:Invlid security code');
+            Response::show(1128, 'User_ForgotPWD-ChangePwdBySecurityCode:Invlid security code');
         }
         
     }
@@ -258,7 +258,7 @@ class User_ForgetPWD {
         // execute
         if (!oci_execute($stpwd)) {
             // TODO
-			Response::show(1102,'User_Modify-check Password: query database error');
+			Response::show(1102,'User_Change-check Password: query database error');
         }
 
         // get rows 
@@ -266,7 +266,7 @@ class User_ForgetPWD {
             return true;
         }
 
-	    Response::show(1103,"User_Modify-varifyUser: User doesn't exist OR wrong password");
+	    Response::show(1103,"User_Change-varifyUser: User doesn't exist OR wrong password");
     }
     // modify user's password
     public function modifyPassword($connect, $userInfo) {
@@ -284,10 +284,10 @@ class User_ForgetPWD {
             // execute
             if (!oci_execute($stup)) {
                 // TODO
-		    	Response::show(1104,'User_Modify-ModifyPassword: query database error');
+		    	Response::show(1104,'User_Change-ChangePassword: query database error');
             }
             // response success message
-            Response::show(1100,'User_Modify-ModifyPassword: User password modified successful');
+            Response::show(1100,'User_Change-ChangePassword: User password modified successful');
         } 
     }
 
@@ -305,14 +305,14 @@ class User_ForgetPWD {
 
         // execute
         if (!oci_execute($stgu)) {
-		    Response::show(1121,'User_Modify-getUserId: query database error');
+		    Response::show(1121,'User_Change-getUserId: query database error');
         }
 
 		if ($gurows = oci_fetch_array($stgu, OCI_BOTH)) {
             $userid = preg_replace("/\s/","",$pwdrows['USER_ID']); return $userid;
         }
 
-		Response::show(1122,'User_Modify-getUserId: No such user');
+		Response::show(1122,'User_Change-getUserId: No such user');
 
     }
 
@@ -338,7 +338,7 @@ class User_ForgetPWD {
 
         // execute
         if (!oci_execute($stcs)) {
-		    Response::show(1122,'User_Modify-checkUserID: query database error');
+		    Response::show(1122,'User_Change-checkUserID: query database error');
         }
 
         if ($csrow = oci_fetch_array($stcs, OCI_BOTH)) {
