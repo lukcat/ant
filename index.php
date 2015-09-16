@@ -140,6 +140,12 @@ $check->params['password'] = sha1(md5('aaaaa'));
 */
 
 /*
+$check->params['email'] = 'chendeqing@ceiec.com.cn';
+$check->params['securitycode'] = '9627';
+$check->params['sn'] = '454542be7f0edc3e2d95e259119cfd116b8127cd';
+$check->params['newpassword'] = sha1(md5('test'));
+
+
 $check->params['loginid'] = 'cdq';
 //$check->params['securitycode'] = '7724';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
@@ -176,8 +182,9 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'Login';
 //$userDataSet['action'] = 'ChangePWD';
 //$userDataSet['action'] = 'GetUserInfo';
-//$userDataSet['action'] = 'ForgotPassword';
 //$userDataSet['action'] = 'GetSecurityCode';
+//$userDataSet['action'] = 'VarifySecurityCode';
+//$userDataSet['action'] = 'ForgotPassword';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -368,13 +375,14 @@ switch($action) {
         $resData = $uf->getSecurityCode($mobileConnect, $userDataSet);
 
         // Get parameters
-        $loginid = $resData['loginid'];
+        //$loginid = $resData['loginid'];
         $email = $resData['email'];
         $securitycode = $resData['securitycode'];
         $sn = $resData['sn'];
 
         // sent security code to user's email address
-        $responseData = array('loginid' => $loginid, 'email' => $email, 'sn' => $sn);
+        //$responseData = array('loginid' => $loginid, 'email' => $email, 'sn' => $sn);
+        $responseData = array('email' => $email, 'sn' => $sn);
 
         //$body = json_encode($emailcontent);
         $body = "Scurity Code is:{$securitycode}";
@@ -389,10 +397,17 @@ switch($action) {
 
         break;
 
+    case 'VarifySecurityCode':
+        $uf = new User_ForgotPWD();
+
+        $uf->varifySecurityCode($userDataSet);
+
+        break;
+
     case 'ForgotPassword':
         $uf = new User_ForgotPWD();
 
-        $uf->modifyPwdBySecurityCode($mobileConnect, $userDataSet);
+        $uf->changePwdBySecurityCode($mobileConnect, $userDataSet);
 
         break;
 

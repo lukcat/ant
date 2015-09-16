@@ -6,18 +6,50 @@ use Common\Response as Response;
 
 class User_ForgotPWD {
 
+    // Varify security code
+    public function varifySecurityCode($userInfo) {
+        // Get parameters from user
+        //$loginid = $userInfo['loginid'];
+        $email = $userInfo['email'];
+        $securitycode = $userInfo['securitycode'];
+        //$newpassword = $userInfo['newpassword'];
+        $sn = $userInfo['sn'];
+
+        if (empty($email) || empty($sn) || empty($securitycode)) {
+            Response::show(1202, 'User_ForgotPWD-varifySecurityCode: Email, sn and security code can not be empty');
+        }
+
+        // varify serial number(sn)
+        // seed for encription
+        $seed = $email.$securitycode;
+
+        // Generate serail number
+        $newsn = sha1(md5($seed));
+
+        // compare
+        if ($sn == $newsn) {
+            // successful
+            Response::show(1200, 'User_ForgotPWD-varifySecurityCode: Effective security code');
+        } else {
+            // failure
+            Response::show(1201, 'User_ForgotPWD-varifySecurityCode: Invalid security code');
+        }
+    }
+
+
     // Get user id
     public function getUserID($connect, $userInfo) {
         // get loginid and password
-        $loginid = $userInfo['loginid'];
+        //$loginid = $userInfo['loginid'];
         $email = $userInfo['email'];
 
-        if (empty($loginid) || empty($email)) {
-		    Response::show(1126,'User_Forgot-getUserID: loginid Or email is empty');
+        //if (empty($loginid) || empty($email)) {
+        if (empty($email)) {
+		    Response::show(1126,'User_Forgot-getUserID: email is empty');
         }
 
         // get userid sql
-        $gusql = "SELECT USER_ID FROM APP_USER WHERE EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR LOGIN_NAME='{$loginid}' AND EMAIL='{$email}'";
+        $gusql = "SELECT USER_ID FROM APP_USER WHERE EMAIL='{$email}'";
 
         // parse
         $stgu = oci_parse($connect, $gusql);
@@ -97,7 +129,7 @@ class User_ForgotPWD {
 			        Response::show(1124,'User_ForgotPWD-getSecurityCode: query database error');
                 }
 
-                return $secutityCode;
+                return $securityCode;
                                             
             } else {
                 // valid security code
@@ -163,10 +195,10 @@ class User_ForgotPWD {
     }
 
     // Generate serial number
-    public function generateSerialNumber($loginid, $email, $securitycode) {
+    public function generateSerialNumber($email, $securitycode) {
 
         // seed for encription
-        $seed = $loginid.$email.$securitycode;
+        $seed = $email.$securitycode;
 
         // Generate serail number
         $sn = sha1(md5($seed));
@@ -183,20 +215,43 @@ class User_ForgotPWD {
         $securitycode = $this->generateSecurityCode($connect, $userid);
 
         // generate serial number to varify security code
-        $loginid = $userInfo['loginid'];
+        //$loginid = $userInfo['loginid'];
         $email = $userInfo['email'];
 
-        $sn = $this->generateSerialNumber($loginid, $email, $securitycode);
+        $sn = $this->generateSerialNumber($email, $securitycode);
 
-        $resData = array('loginid' => $loginid, 'email' => $email, 'securitycode' => $securitycode, 'sn' => $sn);
+        $resData = array('email' => $email, 'securitycode' => $securitycode, 'sn' => $sn);
 
         return $resData;
     }
 
-    public function modifyPwdBySecurityCode($connect, $userInfo) {
+    public function invalidSecurityCode($connect, $userInfo) {
+
+        // Get user id 
+        $userid = $this->getUserID($connect, $userInfo);
+
+        // Get user's parameter
+        $email = $userInfo['email'];
+
+        // Get current time
+        $curDate = date('Y-m-d H:i:s');
+
+        // sql
+        $setSCDate = "UPDATE SECURITY_CODE SET EXPIRATION_TIME=to_date('{$curDate}','yyyy-mm-dd hh24:mi:ss') WHERE USER_ID='{$userid}'";
+
+        // parse sql
+        $ssd = oci_parse($connect, $setSCDate);
+
+        // execute sql
+        if (!oci_execute($ssd)) {
+            Response::show(1127, 'User_ForgotPWD-ChangePwdBySecurityCode: query database error');
+        }
+    }
+
+    public function changePwdBySecurityCode($connect, $userInfo) {
 
         // Get parameters from user
-        $loginid = $userInfo['loginid'];
+        //$loginid = $userInfo['loginid'];
         $email = $userInfo['email'];
         $securitycode = $userInfo['securitycode'];
         $newpassword = $userInfo['newpassword'];
@@ -204,7 +259,7 @@ class User_ForgotPWD {
 
         // varify serial number(sn)
         // seed for encription
-        $seed = $loginid.$email.$securitycode;
+        $seed = $email.$securitycode;
         //echo $seed;
         //echo "\n";
 
@@ -217,7 +272,8 @@ class User_ForgotPWD {
         if ($sn == $newsn) {
 
             // valid sn and security code, then modify password
-            $updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
+            //$updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
+            $updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE EMAIL='{$email}'";
 
             // parse
             $stup = oci_parse($connect, $updatePwd);
@@ -226,10 +282,14 @@ class User_ForgotPWD {
             if (!oci_execute($stup)) {
                 // TODO
 		    	Response::show(1126,'User_ForgotPWD-ChangePwdBySecurityCode: query database error');
-            }
+            } else {
 
-            // response success message
-            Response::show(1100,'User_ForgotPWD-ChangePwdBySecurityCode: User password modified successful');
+                // Invalid security code
+                $this->invalidSecurityCode($connect, $userInfo);
+
+                // response success message
+                Response::show(1100,'User_ForgotPWD-ChangePwdBySecurityCode: User password modified successful');
+            }
 
         } else {
             // invalid security code 
