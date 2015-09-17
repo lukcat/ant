@@ -90,6 +90,10 @@ class CommonAPI {
         $this->params['timestamp'] = $sn = isset($_POST['timestamp']) ? $_POST['timestamp'] : '';
     }
 
+    protected function getSecurityCode() {
+        $this->params['securitycode'] = $sn = isset($_POST['securitycode']) ? $_POST['securitycode'] : '';
+    }
+
     public function check() {
 		/*************
          * User action
@@ -131,6 +135,11 @@ class CommonAPI {
          * Timestamp
          */
         $this->getTimestamp(); 
+
+		/*****************
+         * SecurityCode
+         */
+        $this->getSecurityCode();
 
 		/*************
          * Complaint text
