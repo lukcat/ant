@@ -16,7 +16,9 @@ class Mobile_Login {
     private function checkToken($userInfo, $connect) {
         // check token in database
         //$get_token = "select PASSWORD from APP_USER where TOKEN = '{$userInfo['token']}'";
-        $get_token = "select USER_ID from APP_USER where TOKEN = '{$userInfo['token']}'";
+        //$get_pwd = "SELECT PASSWORD,USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, CREATE_TIME FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'"; 
+
+        $get_token = "SELECT USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME, TOKEN FROM APP_USER WHERE TOKEN = '{$userInfo['token']}'";
         //echo $get_token;
         //exit;
 
@@ -28,10 +30,26 @@ class Mobile_Login {
 			Response::show(406,'Mobile_Login: query database by token error');
         }
         if ($tkrows = oci_fetch_array($sttk, OCI_BOTH)) {
+
+            $userid = preg_replace("/\s/","",$tkrows['USER_ID']);
+            $loginname = isset($tkrows['LOGIN_NAME']) ? $tkrows['LOGIN_NAME'] : '';
+            $username = isset($tkrows['USER_NAME']) ? $tkrows['USER_NAME'] : '';
+            $email = isset($tkrows['EMAIL']) ? $tkrows['EMAIL'] : '';
+            $cellphone = isset($tkrows['CELLPHONE']) ? $tkrows['CELLPHONE'] : '';
+            $idnumber = isset($tkrows['ICARD_ID']) ? $tkrows['ICARD_ID'] : '';
+            $createtime = isset($tkrows['CREATE_TIME']) ? $tkrows['CREATE_TIME'] : '';
+            $token = isset($tkrows['TOKEN']) ? $tkrows['TOKEN'] : '';
+
+            $resData = array('userId' => $userid, 'loginName' => $loginname, 
+                    'userName' => $username, 'email' => $email, 'idNumber' => $idnumber,
+                    'createtime' => $createtime, 'token' => $token);
+
+            return $resData;
             // login successfully
             //echo "$tkrows is: ";
             //echo $tkrows;
-            return $tkrows['USER_ID'];
+            // origin 
+            //return $tkrows['USER_ID'];
             //return true;
         } 
         //else {
@@ -93,7 +111,7 @@ class Mobile_Login {
         //  Get loginid first
         $loginid = $userInfo['loginid'];
         // Generate sql santence
-        $get_pwd = "SELECT PASSWORD,USER_ID FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'"; 
+        $get_pwd = "SELECT PASSWORD,USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'"; 
 
         /***********
          * End of new version using loginid
@@ -115,9 +133,31 @@ class Mobile_Login {
 				//return true;
                 //var_dump($pwdrows);
                 // erase space
-                $userid = preg_replace("/\s/","",$pwdrows['USER_ID']);
-                return $userid;
+                //$userid = preg_replace("/\s/","",$pwdrows['USER_ID']);
+                //return $userid;
                 //return $pwdrows['USER_ID'];
+                $userid = preg_replace("/\s/","",$pwdrows['USER_ID']);
+                $loginname = isset($pwdrows['LOGIN_NAME']) ? $pwdrows['LOGIN_NAME'] : '';
+                $username = isset($pwdrows['USER_NAME']) ? $pwdrows['USER_NAME'] : '';
+                $email = isset($pwdrows['EMAIL']) ? $pwdrows['EMAIL'] : '';
+                $cellphone = isset($pwdrows['CELLPHONE']) ? $pwdrows['CELLPHONE'] : '';
+                $idnumber = isset($pwdrows['ICARD_ID']) ? $pwdrows['ICARD_ID'] : '';
+                $createtime = isset($pwdrows['CREATE_TIME']) ? $pwdrows['CREATE_TIME'] : '';
+                //$token = isset($pwdrows['TOKEN']) ? $pdwrows['TOKEN'] : '';
+
+                //$userid = preg_replace("/\s/","",$pwdrows['USER_ID']);
+                //$loginname = $pwdrows['LOGIN_NAME'];
+                //$username = $pwdrows['USER_NAME'];
+                //$email = $pwdrows['EMAIL'];
+                //$cellphone = $pwdrows['CELLPHONE'];
+                //$idnumber = $pwdrows['ICARD_ID'];
+                //$createtime = $pwdrows['CREATE_TIME'];
+
+                $resData = array('userId' => $userid, 'loginName' => $loginname, 
+                        'userName' => $username, 'email' => $email, 'idNumber' => $idnumber,
+                        'createtime' => $createtime);
+
+                return $resData;
 			}
             // wrong password 
 			return false;
@@ -202,18 +242,22 @@ class Mobile_Login {
 
 	public function login($userInfo, $connect) {
         // check password
-        if (isset($userInfo['password'])) {
+        if (!empty($userInfo['password']) && !empty($userInfo['loginid'])) {
             if ($userInfo['password'] != '') {
-                if ($userid = $this->checkPassword($userInfo, $connect)) {
+                if ($userData = $this->checkPassword($userInfo, $connect)) {
                     //echo $userid;
                     // TODO
                     // update token and repsonse to client
                     $token = $this->generateToken($userInfo, $connect);
                     
-                    $resData = array(
-                        'userid' => $userid,
-                        'token' => $token
-                    );
+                    $tokenArray = array('token' => $token);
+
+                    $resData = $userData + $tokenArray;
+                    
+                    //$resData = array(
+                    //    'userid' => $userid,
+                    //    'token' => $token
+                    //);
 
 		        	//Response::show(401,'Mobile_Login: login successful by password',$responseData);
                     //return 2;
@@ -230,14 +274,18 @@ class Mobile_Login {
         // check token
         if (isset($userInfo['token'])) {
             if ($userInfo['token'] != '') {
-                if ($userid = $this->checkToken($userInfo, $connect)) {
+                if ($resData = $this->checkToken($userInfo, $connect)) {
                     // response OK message to client
 		        	//Response::show(400,'Mobile_Login: login successful by token');
                     //return 1;
-                    $resData = array(
-                        'userid' => $userid,
-                        'token' => $userInfo['token']
-                    );
+                    //$tokenArray = array('token' => $token);
+
+                    //$resData = $userData;
+
+                    //$resData = array(
+                    //    'userid' => $userid,
+                    //    'token' => $userInfo['token']
+                    //);
 
                     return $resData;
 

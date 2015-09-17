@@ -145,8 +145,10 @@ $check->params['securitycode'] = '9894';
 $check->params['sn'] = '56fafed1bf23e729879be9c618769a5ea78fb34f';
 $check->params['timestamp'] = '2015-09-19 02:46:28';
 $check->params['newpassword'] = sha1(md5('test1'));
+*/
 
-
+/*
+//$check->params['token'] = '51373923d8e03251bd756ef192fd97ef';
 $check->params['loginid'] = 'cdq';
 //$check->params['securitycode'] = '7724';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
@@ -154,7 +156,7 @@ $check->params['loginid'] = 'cdq';
 $check->params['newpassword'] = sha1(md5('test'));
 $check->params['sn'] = 'e67bd4f23672ad2ca4d45d1a27381dc7852b88ca';
 $check->params['loginname'] = 'cdq';
-$check->params['password'] = sha1(md5('test'));
+$check->params['password'] = sha1(md5('asdfgh'));
 $check->params['icardid'] = '123321200010010908';
 $check->params['email'] = 'chendeqing@ceiec.com.cn';
 $check->params['cellphone'] = '12345678901';
@@ -203,14 +205,14 @@ switch($action) {
 		$arrayInfo = $ml->login($userDataSet, $mobileConnect);
 
         // Get userid 
-        $userid = $arrayInfo['userid'];
+        //$loginid = $arrayInfo['loginId'];
         
         // Response information to client
-        if (!empty($userid)) {
+        //if (!empty($loginid)) {
             Response::show(400,"User Login Successful",$arrayInfo);
-        } else {
-            Response::show(401,"User Login Failure");
-        }
+        //} else {
+            //Response::show(401,"User Login Failure");
+        //}
 
 		break;
 
