@@ -257,6 +257,10 @@ class User_ResetPWD {
         $newpassword = $userInfo['newpassword'];
         $sn = $userInfo['sn'];
 
+        if (empty($email) || empty($securitycode) || empty($newpassword) || empty($sn)) {
+            Response::show(1129, "Email, securitycode, newpassword and sn can not be empty");
+        }
+
         // verify serial number(sn)
         // seed for encription
         $seed = $email.$securitycode;
