@@ -148,8 +148,8 @@ $check->params['newpassword'] = sha1(md5('test1'));
 */
 
 /*
-//$check->params['token'] = '51373923d8e03251bd756ef192fd97ef';
-$check->params['loginid'] = 'cdq';
+$check->params['token'] = 'f0e3cdf2d5e16684c9fff48f379c5fb2';
+//$check->params['loginid'] = 'cdq';
 //$check->params['securitycode'] = '7724';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 //$check->params['loginid'] = '12345678902';
@@ -228,7 +228,7 @@ switch($action) {
 		$ml = new Mobile_Login();
         // login return a array which contains userid and token 
 		$arrayInfo = $ml->login($userDataSet, $mobileConnect);
-        $userid = $arrayInfo['userid'];
+        $userid = $arrayInfo['userId'];
 
         if (empty($userid)) {
             Response::show(401,"User Login Failure");
@@ -280,7 +280,7 @@ switch($action) {
 
         // login return a array which contains userid and token 
 		$arrayInfo = $ml->login($userDataSet, $mobileConnect);
-        $userid = $arrayInfo['userid'];
+        $userid = $arrayInfo['userId'];
 
         // Get user complaint
         $uc = new User_Complaint();
@@ -302,7 +302,7 @@ switch($action) {
 
         // login return a array which contains userid and token 
 		$arrayInfo = $ml->login($userDataSet, $mobileConnect);
-        $userid = $arrayInfo['userid'];
+        $userid = $arrayInfo['userId'];
 
         $dc = new User_complaint();
         $res = $dc->deleteComplaint($mobileConnect, $userDataSet);
