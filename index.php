@@ -139,13 +139,14 @@ $check->params['loginname'] = 'aaaaa';
 $check->params['password'] = sha1(md5('aaaaa'));
 */
 
-$check->params['email'] = 'chendeqing@ceiec.com.cn';
-$check->params['securitycode'] = '9627';
-$check->params['sn'] = '454542be7f0edc3e2d95e259119cfd116b8127cd';
-$check->params['newpassword'] = sha1(md5('test'));
-
-
 /*
+$check->params['email'] = 'chendeqing@ceiec.com.cn';
+$check->params['securitycode'] = '9894';
+$check->params['sn'] = '56fafed1bf23e729879be9c618769a5ea78fb34f';
+$check->params['timestamp'] = '2015-09-19 02:46:28';
+$check->params['newpassword'] = sha1(md5('test1'));
+
+
 $check->params['loginid'] = 'cdq';
 //$check->params['securitycode'] = '7724';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
@@ -353,6 +354,7 @@ switch($action) {
         break;
 
     case 'ChangePWD':
+        //  11
         $um = new User_ChangePWD();
 
         // modify password
@@ -361,6 +363,7 @@ switch($action) {
         break;
 
     case 'GetUserInfo':
+        // 1
         $ui = new User_Info();
 
         // Get user's basic information
@@ -369,6 +372,7 @@ switch($action) {
         break;
 
     case 'GetSecurityCode':
+        // 10
 
         $uf = new User_ResetPWD();
 
@@ -380,10 +384,11 @@ switch($action) {
         $email = $resData['email'];
         $securitycode = $resData['securitycode'];
         $sn = $resData['sn'];
+        $timestamp = $resData['timestamp'];
 
         // sent security code to user's email address
         //$responseData = array('loginid' => $loginid, 'email' => $email, 'sn' => $sn);
-        $responseData = array('email' => $email, 'sn' => $sn);
+        $responseData = array('email' => $email, 'sn' => $sn, 'timestamp'=> $timestamp);
 
         //$body = json_encode($emailcontent);
         $body = "Scurity Code is:{$securitycode}";
