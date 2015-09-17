@@ -86,6 +86,10 @@ class CommonAPI {
         $this->params['sn'] = $sn = isset($_POST['sn']) ? $_POST['sn'] : '';
     }
 
+    protected function getTimestamp() {
+        $this->params['timestamp'] = $sn = isset($_POST['timestamp']) ? $_POST['timestamp'] : '';
+    }
+
     public function check() {
 		/*************
          * User action
@@ -122,6 +126,11 @@ class CommonAPI {
          * Serial number
          */
         $this->getSN();
+
+		/*****************
+         * Timestamp
+         */
+        $this->getTimestamp(); 
 
 		/*************
          * Complaint text

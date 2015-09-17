@@ -6,6 +6,22 @@ use Common\Response as Response;
 
 class User_ResetPWD {
 
+    // generate seed
+    //protected function generateSeed($userInfo) {
+    protected function generateSeed($email, $securitycode, $timestamp) {
+        //$email = $userInfo['email'];
+        //$securitycode = $userInfo['securitycode'];
+        //$timestamp = $userInfo['timestamp'];
+
+        if (empty($email) || empty($securitycode) || empty($timestamp)) {
+            Response::show(1202, 'User_ForgotPWD-verifySecurityCode: Email, sn, security code and timestamp can not be empty');
+        }
+
+        $seed = $email.$securitycode.$timestamp;
+
+        return $seed;
+    }
+
     // Varify security code
     public function verifySecurityCode($userInfo) {
         // Get parameters from user
@@ -14,14 +30,17 @@ class User_ResetPWD {
         $securitycode = $userInfo['securitycode'];
         //$newpassword = $userInfo['newpassword'];
         $sn = $userInfo['sn'];
+        $timestamp = $userInfo['timestamp'];
 
-        if (empty($email) || empty($sn) || empty($securitycode)) {
-            Response::show(1202, 'User_ForgotPWD-verifySecurityCode: Email, sn and security code can not be empty');
+        if (empty($email) || empty($sn) || empty($securitycode) || empty($timestamp)) {
+            Response::show(1202, 'User_ForgotPWD-verifySecurityCode: Email, sn, security code and timestamp can not be empty');
         }
 
         // verify serial number(sn)
         // seed for encription
-        $seed = $email.$securitycode;
+        //$seed = $email.$securitycode.$timestamp;
+        //$seed = $this->generateSeed($userInfo);
+        $seed = $this->generateSeed($email, $securitycode, $timestamp);
 
         // Generate serail number
         $newsn = sha1(md5($seed));
@@ -129,12 +148,19 @@ class User_ResetPWD {
 			        Response::show(1124,'User_ForgotPWD-getSecurityCode: query database error');
                 }
 
-                return $securityCode;
+                // return data
+                $reData = array('expirationtime' => $expirationtime, 'securitycode' => $securityCode);
+
+                return $reData;
+                //return $securityCode;
                                             
             } else {
                 // valid security code
                 if (!empty($securitycode)) {
-                    return $securitycode;
+                    $reData = array('expirationtime' => $expirationtime, 'securitycode' => $securitycode);
+
+                    return $reData;
+                    //return $securitycode;
                 } else {         // security code is empty
 
                     // Generate security code
@@ -156,7 +182,11 @@ class User_ResetPWD {
 			            Response::show(1124,'User_ForgotPWD-getSecurityCode: query database error');
                     }
 
-                    return $securityCode;
+                    // return data
+                    $reData = array('expirationtime' => $newexpirationtime, 'securitycode' => $securityCode);
+
+                    return $reData;
+                    //return $securityCode;
                 }
             }
         } else {         // security code doesn't exist yet
@@ -189,16 +219,23 @@ class User_ResetPWD {
 			    Response::show(1125,'User_ForgotPWD-getSecurityCode: query database error');
             }
 
-            return $securityCode;
+            // return data
+            $reData = array('expirationtime' => $expirationtime, 'securitycode' => $securityCode);
+
+            return $reData;
+            //return $securityCode;
 
         }
     }
 
     // Generate serial number
-    public function generateSerialNumber($email, $securitycode) {
+    public function generateSerialNumber($email, $securitycode, $timestamp) {
+    //public function generateSerialNumber($userInfo) {
 
         // seed for encription
-        $seed = $email.$securitycode;
+        //$seed = $email.$securitycode.$timestamp;
+        //$seed = $this->generateSeed($userInfo);
+        $seed = $this->generateSeed($email, $securitycode, $timestamp);
 
         // Generate serail number
         $sn = sha1(md5($seed));
@@ -212,19 +249,24 @@ class User_ResetPWD {
         $userid = $this->getUserID($connect, $userInfo);
 
         // get security code
-        $securitycode = $this->generateSecurityCode($connect, $userid);
+        //$securitycode = $this->generateSecurityCode($connect, $userid);
+        $reData = $this->generateSecurityCode($connect, $userid);
+        $securitycode = $reData['securitycode'];
+        $expirationtime = $reData['expirationtime'];
 
         // generate serial number to verify security code
         //$loginid = $userInfo['loginid'];
         $email = $userInfo['email'];
 
-        $sn = $this->generateSerialNumber($email, $securitycode);
+        $sn = $this->generateSerialNumber($email, $securitycode, $expirationtime);
+        //$sn = $this->generateSerialNumber($userInfo);
 
-        $resData = array('email' => $email, 'securitycode' => $securitycode, 'sn' => $sn);
+        $resData = array('email' => $email, 'securitycode' => $securitycode, 'sn' => $sn, 'timestamp' => $expirationtime);
 
         return $resData;
     }
 
+    // Invalid security by update it's expiration time in datebase
     public function invalidSecurityCode($connect, $userInfo) {
 
         // Get user id 
@@ -248,6 +290,7 @@ class User_ResetPWD {
         }
     }
 
+    // 
     public function changePwdBySecurityCode($connect, $userInfo) {
 
         // Get parameters from user
@@ -256,45 +299,61 @@ class User_ResetPWD {
         $securitycode = $userInfo['securitycode'];
         $newpassword = $userInfo['newpassword'];
         $sn = $userInfo['sn'];
+        $timestamp = $userInfo['timestamp'];
+
+        // expiration time equals to timestamp
+        $expirationtime = $timestamp;
+
+        if (empty($email) || empty($securitycode) || empty($newpassword) || empty($sn) || empty($timestamp)) {
+		    Response::show(1129,'User_ForgotPWD-ChangePwdBySecurityCode: email, securitycode, newpassword, sn, timestamp can not be empty');
+        }
 
         // verify serial number(sn)
         // seed for encription
-        $seed = $email.$securitycode;
-        //echo $seed;
-        //echo "\n";
+        //$seed = $email.$securitycode.$timestamp;
+        //$seed = $this->generateSeed($userInfo);
+        $seed = $this->generateSeed($email, $securitycode, $timestamp);
 
         // Generate serail number
         $newsn = sha1(md5($seed));
-        //echo $newsn;
-        //exit;
 
-        // compare
-        if ($sn == $newsn) {
+        // Get current time and expiration time
+        $currenttime = date('Y-m-d H:i:s');
 
-            // valid sn and security code, then modify password
-            //$updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
-            $updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE EMAIL='{$email}'";
+        // Compare time stamp
+        $expirationsec = strtotime($expirationtime);
+        $currentsec    = strtotime($currenttime);
+        if ($expirationsec > $currentsec) {     // valid
+            if ($sn == $newsn) {                // compare sn
 
-            // parse
-            $stup = oci_parse($connect, $updatePwd);
+                // valid sn and security code, then modify password
+                //$updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
+                $updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE EMAIL='{$email}'";
 
-            // execute
-            if (!oci_execute($stup)) {
-                // TODO
-		    	Response::show(1126,'User_ForgotPWD-ChangePwdBySecurityCode: query database error');
+                // parse
+                $stup = oci_parse($connect, $updatePwd);
+
+                // execute
+                if (!oci_execute($stup)) {
+                    // TODO
+		        	Response::show(1126,'User_ForgotPWD-ChangePwdBySecurityCode: query database error');
+                } else {
+
+                    // Invalid security code
+                    $this->invalidSecurityCode($connect, $userInfo);
+
+                    // response success message
+                    Response::show(1100,'User_ForgotPWD-ChangePwdBySecurityCode: User password modified successful');
+                }
+
             } else {
-
-                // Invalid security code
-                $this->invalidSecurityCode($connect, $userInfo);
-
-                // response success message
-                Response::show(1100,'User_ForgotPWD-ChangePwdBySecurityCode: User password modified successful');
+                // invalid security code 
+                Response::show(1128, 'User_ForgotPWD-ChangePwdBySecurityCode:Invlid security code');
             }
-
-        } else {
-            // invalid security code 
-            Response::show(1128, 'User_ForgotPWD-ChangePwdBySecurityCode:Invlid security code');
+        } else {        // security code is out of date
+            Response::show(1131, 'User_ForgotPWD-ChangePwdBySecurityCode: security code is out of date');
         }
+        
         
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
