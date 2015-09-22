@@ -23,9 +23,11 @@ class Mobile_Register {
         if ($loginname !='' && $email !='' && $cellphone !='') {
             // query sentance
             // valid=0 means data is out of date, only valid=1 can be used
-		    $check_ln= "SELECT * FROM APP_USER where LOGIN_NAME='{$loginname}' AND VALID=1";
-		    $check_em= "SELECT * FROM APP_USER where EMAIL='{$email}' AND VALID=1";
-		    $check_cp= "SELECT * FROM APP_USER where CELLPHONE='{$cellphone}' AND VALID=1";
+		    $check_ln= "SELECT USER_ID FROM APP_USER where LOGIN_NAME='{$loginname}' OR EMAIL='{$loginname}' OR CELLPHONE='{$loginname}' AND VALID=1";
+		    $check_em= "SELECT USER_ID FROM APP_USER where EMAIL='{$email}' OR LOGIN_NAME='{$email}' OR CELLPHONE='{$email}' AND VALID=1";
+		    $check_cp= "SELECT USER_ID FROM APP_USER where CELLPHONE='{$cellphone}' OR LOGIN_NAME='{$cellphone}' OR EMAIL='{$cellphone}' AND VALID=1";
+
+            //$check = "SELECT * FROM APP_USER WHERE LOGIN";
 
             // parse sql
 

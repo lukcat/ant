@@ -149,7 +149,8 @@ class User_ResetPWD {
                 }
 
                 // return data
-                $reData = array('expirationtime' => $expirationtime, 'securitycode' => $securityCode);
+                //$reData = array('expirationtime' => $expirationtime, 'securitycode' => $securityCode);
+                $reData = array('expirationtime' => $newexpirationtime, 'securitycode' => $securityCode);
 
                 return $reData;
                 //return $securityCode;
