@@ -230,6 +230,7 @@ switch($action) {
 		$arrayInfo = $ml->login($userDataSet, $mobileConnect);
         $userid = $arrayInfo['userId'];
 
+        // ???? maybe not useless
         if (empty($userid)) {
             Response::show(401,"User Login Failure");
         }
@@ -270,7 +271,7 @@ switch($action) {
             }
 
         }
-        Response::show(6,'Complaint message',$res);
+        Response::show(701,'Complaint message',$res);
 
         break;
 
@@ -348,7 +349,7 @@ switch($action) {
         $ib = new BusInformation();
         $busInfo = $ib->getBusInformation($mobileConnect, $userDataSet['cityname']);
         if ($busInfo) {
-            Response::show(300,"Bus Basic Information",$busInfo);
+            Response::show(300,"Get bus basic information successful",$busInfo);
         } else {
             Response::show(301,"No Bus In City {$userDataSet['cityname']}");
         }
@@ -356,7 +357,7 @@ switch($action) {
         break;
 
     case 'ChangePWD':
-        //  11
+        //  13
         $um = new User_ChangePWD();
 
         // modify password
@@ -398,6 +399,8 @@ switch($action) {
         if (!empty($email)) {
             $mailer = new Mailer();
             $mailer->sendmails($configInfo, $email, $body);
+        } else {
+            Response::show(1001, "Send mail failure");
         }
 
         // response serial number, loginid and email to client
@@ -425,7 +428,7 @@ switch($action) {
 	default:
 		// no action matches
         $data = array('code' => 0, 'msg' => 'No action spacified');
-		Response::show(2,"Default Message", $data);
+		Response::show(20,"Default Message", $data);
 
 		break;
 }

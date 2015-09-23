@@ -34,7 +34,7 @@ class Mobile_Register {
             // check loginname
             $stln = oci_parse($connect, $check_ln);
             if (!oci_execute($stln)) {
-		        Response::show(501,'Mobile_Register: query database error');
+		        Response::show(501,'Mobile_Register-loginname: query database error');
             }
             $lnrows = oci_fetch_array($stln, OCI_BOTH);
             //if (!empty($lnrows)) {
@@ -46,7 +46,7 @@ class Mobile_Register {
             // check email
             $stem = oci_parse($connect, $check_em);
             if (!oci_execute($stem)) {
-		        Response::show(501,'Mobile_Register: query database error');
+		        Response::show(507,'Mobile_Register-email: query database error');
             }
             $emrows = oci_fetch_array($stem, OCI_BOTH);
             //if (!empty($emrows)) {
@@ -58,7 +58,7 @@ class Mobile_Register {
             // check cellphone
             $stcp = oci_parse($connect, $check_cp);
             if (!oci_execute($stcp)) {
-		        Response::show(501,'Mobile_Register: query database error');
+		        Response::show(508,'Mobile_Register-cellphone: query database error');
             }
             $cprows = oci_fetch_array($stcp, OCI_BOTH);
             //if (!empty($cprows)) {
@@ -107,7 +107,7 @@ class Mobile_Register {
             
             // execute sql
             if (!oci_execute($stid)) {
-			    Response::show(502,'Mobile_Register: inset into database error');
+			    Response::show(502,'Mobile_Register-Register: inset into database error');
             } else {
                 // response token to client
                 $responseData = array(

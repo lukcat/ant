@@ -13,7 +13,7 @@ class User_ChangePWD {
         $password = $userInfo['password'];
         
         if (empty($userInfo['loginid']) || empty($userInfo['password'])) {
-            Response::show(1101,'Login id is empty');
+            Response::show(1301,'Login id is empty');
         }
 
         $get_pwd = "SELECT USER_ID FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' AND PASSWORD='{$password}'"; 
@@ -24,7 +24,7 @@ class User_ChangePWD {
         // execute
         if (!oci_execute($stpwd)) {
             // TODO
-			Response::show(1102,'User_Modify-check Password: query database error');
+			Response::show(1302,'User_Modify-check Password: query database error');
         }
 
         // get rows 
@@ -32,7 +32,7 @@ class User_ChangePWD {
             return true;
         }
 
-	    Response::show(1103,"User_Modify-varifyUser: User doesn't exist OR wrong password");
+	    Response::show(1303,"User_Modify-varifyUser: User doesn't exist OR wrong password");
     }
 
     // modify user's password
@@ -51,10 +51,10 @@ class User_ChangePWD {
             // execute
             if (!oci_execute($stup)) {
                 // TODO
-		    	Response::show(1104,'User_Modify-ModifyPassword: query database error');
+		    	Response::show(1304,'User_Modify-ModifyPassword: query database error');
             }
             // response success message
-            Response::show(1100,'User_Modify-ModifyPassword: User password modified successful');
+            Response::show(1300,'User_Modify-ModifyPassword: User password modified successful');
         } 
     }
 
@@ -72,7 +72,7 @@ class User_ChangePWD {
 
         // execute
         if (!oci_execute($stgu)) {
-		    Response::show(1121,'User_Modify-getUserId: query database error');
+		    Response::show(1321,'User_Modify-getUserId: query database error');
         }
 
 		if ($gurows = oci_fetch_array($stgu, OCI_BOTH)) {
@@ -105,7 +105,7 @@ class User_ChangePWD {
 
         // execute
         if (!oci_execute($stcs)) {
-		    Response::show(1122,'User_Modify-checkUserID: query database error');
+		    Response::show(1322,'User_Modify-checkUserID: query database error');
         }
 
         if ($csrow = oci_fetch_array($stcs, OCI_BOTH)) {

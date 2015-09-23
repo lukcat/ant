@@ -14,7 +14,7 @@ class User_ResetPWD {
         //$timestamp = $userInfo['timestamp'];
 
         if (empty($email) || empty($securitycode) || empty($timestamp)) {
-            Response::show(1202, 'User_ForgotPWD-verifySecurityCode: Email, sn, security code and timestamp can not be empty');
+            Response::show(1204, 'User_ForgotPWD-generateSeed: Email, sn, security code and timestamp can not be empty');
         }
 
         $seed = $email.$securitycode.$timestamp;
@@ -110,7 +110,7 @@ class User_ResetPWD {
 
         // execute
         if (!oci_execute($stgs)) {
-			Response::show(1123,'User_ForgotPWD-getSecurityCode: query database error');
+			Response::show(1123,'User_ForgotPWD-generateSecurityCode: query database error');
         }
 
         $currenttime = new \DateTime();
@@ -145,7 +145,7 @@ class User_ResetPWD {
                 // execute
                 if (!oci_execute($stus)) {
                     // sql execute failure
-			        Response::show(1124,'User_ForgotPWD-getSecurityCode: query database error');
+			        Response::show(1129,'User_ForgotPWD-generateSecurityCode: query database error');
                 }
 
                 // return data

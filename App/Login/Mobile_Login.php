@@ -27,7 +27,7 @@ class Mobile_Login {
 
         // execute
         if (!oci_execute($sttk)) {
-			Response::show(406,'Mobile_Login: query database by token error');
+			Response::show(406,'Mobile_Login-checkToken: query database by token error');
         }
         if ($tkrows = oci_fetch_array($sttk, OCI_BOTH)) {
 
@@ -123,7 +123,7 @@ class Mobile_Login {
         // execute
         if (!oci_execute($stpwd)) {
             // TODO
-			Response::show(407,'Mobile_Login-check Password: query database error');
+			Response::show(407,'Mobile_Login-checkPassword: query database error');
         }
 
         // get rows 
@@ -298,7 +298,7 @@ class Mobile_Login {
             }
         }
 
-        Response::show(404,'Mobile_Login: lack of password or token');
+        Response::show(404,'Mobile_Login: lack of password&loginid or token');
 
 	}
 }
