@@ -147,25 +147,26 @@ $check->params['timestamp'] = '2015-09-19 02:46:28';
 $check->params['newpassword'] = sha1(md5('test1'));
 */
 
-/*
-$check->params['token'] = 'f0e3cdf2d5e16684c9fff48f379c5fb2';
-//$check->params['loginid'] = 'cdq';
+//$check->params['token'] = 'f0e3cdf2d5e16684c9fff48f379c5fb2';
+$check->params['loginid'] = 'dq';
 //$check->params['securitycode'] = '7724';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 //$check->params['loginid'] = '12345678902';
 $check->params['newpassword'] = sha1(md5('test'));
 $check->params['sn'] = 'e67bd4f23672ad2ca4d45d1a27381dc7852b88ca';
-$check->params['loginname'] = 'cdq';
-$check->params['password'] = sha1(md5('asdfgh'));
+$check->params['loginname'] = 'dq';
+$check->params['password'] = sha1(md5('test'));
 $check->params['icardid'] = '123321200010010908';
-$check->params['email'] = 'chendeqing@ceiec.com.cn';
-$check->params['cellphone'] = '12345678901';
+//$check->params['email'] = 'chendeqing@ceiec.com.cn';
+$check->params['email'] = 'lukcatchen@126.com';
+$check->params['cellphone'] = '12345678903';
 $check->params['name'] = 'chendeqing';
 $check->params['note'] = 'lanren2';
 
 $check->params['complaint'] = 'shit';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
 $check->params['vehicleid'] = 'GBI0142';
+/*
 */
 ////////////////end of test data//////////////////////
 
@@ -179,7 +180,7 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'InquiryBus';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'Register';
-//$userDataSet['action'] = 'Complaint';
+$userDataSet['action'] = 'Complaint';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';
@@ -253,6 +254,13 @@ switch($action) {
             $resData = array();
             $res = $fu->uploadFile($files);
 
+            foreach ($res as $item) {
+                if ($item['code'] != 0) {
+                    // something wrong
+                    Response::show(601,'uploads photo failure',$res);
+                }
+            }
+
             // Insert infomation into database
             // $res contains file basic information, include file's localname, photoid etc.
             $infos = array();
@@ -271,7 +279,18 @@ switch($action) {
             }
 
         }
-        Response::show(701,'Complaint message',$res);
+        // check photo code
+        // if all success
+        // return 600
+        // else 
+        // return 601 (partial success)
+        //foreach ($res as $item) {
+        //    if ($item['code'] != 0) {
+        //        // 
+        //    }
+        //}
+
+        Response::show(600,'Complaint message upload successful');
 
         break;
 
@@ -427,8 +446,8 @@ switch($action) {
 
 	default:
 		// no action matches
-        $data = array('code' => 0, 'msg' => 'No action spacified');
-		Response::show(20,"Default Message", $data);
+        //$data = array('code' => 0, 'msg' => 'No action spacified');
+		Response::show(20,"Default Message: No action specified");
 
 		break;
 }
