@@ -50,12 +50,13 @@ class File_Upload {
         foreach($files as $fileInfo) {
             $count += 1;
             if($fileInfo['error']===UPLOAD_ERR_OK) {
+                $res = Array();
                 //检测上传得到小
                 if($fileInfo['size']>$maxSize){
                     $res['code'] = 10;
                     $res['message'] = $fileInfo['name'] . ' is too large';
                     //$res['mes']=$fileInfo['name'].'上传文件过大';
-                    return $res;
+                    //return $res;
                 }
                 $ext=$this->getExt($fileInfo['name']);
                 //检测上传文件的文件类型
@@ -63,7 +64,7 @@ class File_Upload {
                     $res['code'] = 11;
                     $res['message'] = $fileInfo['name'] . ' has illegal file extension';
                     //$res['mes']=$fileInfo['name'].'非法文件类型';
-                    return $res;
+                    //return $res;
                 }
                 //检测是否是真实的图片类型
                 if($flag){
@@ -71,7 +72,7 @@ class File_Upload {
                         $res['code'] = 12;
                         $res['message'] = $fileInfo['name'] . ' is not image';
                         //$res['mes']=$fileInfo['name'].'不是真实图片类型';
-                        return $res;
+                        //return $res;
                     }
 
                 }
@@ -80,7 +81,7 @@ class File_Upload {
                     $res['code'] = 14;
                     $res['message'] = $fileInfo['name'] . ' is not uploaded by HTTP POST';
                     //$res['mes']=$fileInfo['name'].'文件不是通过HTTP POST方式上传上来的';
-                    return $res;
+                    //return $res;
                 }
                 //if($res) return $res;
                 //$path='./uploads';
@@ -89,7 +90,7 @@ class File_Upload {
                     if(!mkdir($path,0777,true)){
                         $res['code'] = 15;
                         $res['message'] = 'Create folder failure';
-                        return $res;
+                        //return $res;
                     }
                     chmod($path,0777);
                 }
@@ -100,32 +101,34 @@ class File_Upload {
                     $res['code'] = 16;
                     $res['message'] = 'move file:'.$fileInfo['name'].' error';
                     //$res['mes']=$fileInfo['name'].'文件移动失败';
-                    return $res;
+                    //return $res;
                 }
 
-                $imageSize = $fileInfo['size'];
-                $imageLocalName = $uniName.'.'.$ext;
-                $imageOriginName = $fileInfo['name'];
-                $imageType = $ext;
-                $imagePath = $path;     // here is relative path
-                
-                $insertData = Array(
-                        //'imageLocalName' => $imageLocalName,
-                        'imageLocalName' => $destination,
-                        'imageOriginName' => $imageOriginName,
-                        'imageSize' => $imageSize,
-                        'imageType' => $imageType,
-                        //'imagePath' => $imagePath
-                        );
+                if (empty($res)) {
+                    $imageSize = $fileInfo['size'];
+                    $imageLocalName = $uniName.'.'.$ext;
+                    $imageOriginName = $fileInfo['name'];
+                    $imageType = $ext;
+                    $imagePath = $path;     // here is relative path
+                    
+                    $insertData = Array(
+                            //'imageLocalName' => $imageLocalName,
+                            'imageLocalName' => $destination,
+                            'imageOriginName' => $imageOriginName,
+                            'imageSize' => $imageSize,
+                            'imageType' => $imageType,
+                            //'imagePath' => $imagePath
+                            );
 
-                $res['code'] = 0;
-                $res['message'] = $fileInfo['name'].' uploads successful';
-                $res['path'] = $imagePath;
-                $res['localname'] = $imageLocalName;
-                $res['type'] = $imageType;
-                $res['originname'] = $imageOriginName;
-                $res['size'] = $imageSize;
-                $res['description'] = 'No description yet';
+                    $res['code'] = 0;
+                    $res['message'] = $fileInfo['name'].' uploads successful';
+                    $res['path'] = $imagePath;
+                    $res['localname'] = $imageLocalName;
+                    $res['type'] = $imageType;
+                    $res['originname'] = $imageOriginName;
+                    $res['size'] = $imageSize;
+                    $res['description'] = 'No description yet';
+                }
 
                 //$res['data'] = $fileInfo;
                 array_push($resData,$res);
@@ -134,6 +137,7 @@ class File_Upload {
                 //return $res;
             }else{
                 //匹配错误信息
+                $res = Array();
                 switch ($fileInfo['error']) {
                     case 1 :
                         $res['code'] = 1;
