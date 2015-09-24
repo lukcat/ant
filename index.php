@@ -236,10 +236,12 @@ switch($action) {
             Response::show(401,"User Login Failure");
         }
 
+        /*
         // get complaint
         $uc = new User_Complaint();
         //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
         $complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
+        */
 
         // get files
         //$files = $check->params['files'];
@@ -260,6 +262,11 @@ switch($action) {
                     Response::show(601,'uploads photo failure',$res);
                 }
             }
+
+            // get complaint text
+            $uc = new User_Complaint();
+            //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
+            $complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
 
             // Insert infomation into database
             // $res contains file basic information, include file's localname, photoid etc.
