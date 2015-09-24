@@ -147,6 +147,7 @@ $check->params['timestamp'] = '2015-09-19 02:46:28';
 $check->params['newpassword'] = sha1(md5('test1'));
 */
 
+/*
 //$check->params['token'] = 'f0e3cdf2d5e16684c9fff48f379c5fb2';
 $check->params['loginid'] = 'dq';
 //$check->params['securitycode'] = '7724';
@@ -166,7 +167,6 @@ $check->params['note'] = 'lanren2';
 $check->params['complaint'] = 'shit';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
 $check->params['vehicleid'] = 'GBI0142';
-/*
 */
 ////////////////end of test data//////////////////////
 
@@ -180,7 +180,7 @@ $userDataSet['cityname'] = 'beijing';
 //$userDataSet['action'] = 'InquiryBus';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'Register';
-$userDataSet['action'] = 'Complaint';
+//$userDataSet['action'] = 'Complaint';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';
@@ -236,10 +236,12 @@ switch($action) {
             Response::show(401,"User Login Failure");
         }
 
+        /*
         // get complaint
         $uc = new User_Complaint();
         //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
         $complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
+        */
 
         // get files
         //$files = $check->params['files'];
@@ -261,6 +263,11 @@ switch($action) {
                 }
             }
 
+            // get complaint text
+            $uc = new User_Complaint();
+            //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
+            $complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
+
             // Insert infomation into database
             // $res contains file basic information, include file's localname, photoid etc.
             $infos = array();
@@ -279,16 +286,6 @@ switch($action) {
             }
 
         }
-        // check photo code
-        // if all success
-        // return 600
-        // else 
-        // return 601 (partial success)
-        //foreach ($res as $item) {
-        //    if ($item['code'] != 0) {
-        //        // 
-        //    }
-        //}
 
         Response::show(600,'Complaint message upload successful');
 
