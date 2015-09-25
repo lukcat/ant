@@ -56,6 +56,10 @@ class CommonAPI {
         $this->params['complaintid'] = $complaint = isset($_POST['complaintid']) ? $_POST['complaintid'] : '';
     }
 
+    protected function getComplaintType() {
+        $this->params['complainttype'] = $sn = isset($_POST['complainttype']) ? $_POST['complainttype'] : '';
+    }
+
     protected function getCityName() {
         $this->params['cityname'] = $cityname = isset($POST['cityname']) ? $POST['cityname'] : '';
     }
@@ -93,6 +97,7 @@ class CommonAPI {
     protected function getSecurityCode() {
         $this->params['securitycode'] = $sn = isset($_POST['securitycode']) ? $_POST['securitycode'] : '';
     }
+
 
     public function check() {
 		/*************
@@ -150,6 +155,11 @@ class CommonAPI {
          * Complaint ID
          */
         $this->getComplaintID();
+
+		/*************
+         * Complaint Type
+         */
+        $this->getComplaintType();
 
 		/*********************
          * Vehicle information
