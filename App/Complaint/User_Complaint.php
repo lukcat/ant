@@ -127,11 +127,16 @@ class User_Complaint {
                 //$complaintID = $gcRows['COMPLAINT_ID'];
                 // erase space in head and tail
                 $complaintID = preg_replace("/\s/","",$gcRows['COMPLAINT_ID']);
-                $complaint = $gcRows['COMPLAINT'];
-                $feedback  = $gcRows['FEEDBACK'];
-                $photoPath = $gcRows['PATH'];
-                $photoName = $gcRows['LOCAL_NAME'];
-                $createTime= $gcRows['CREATE_TIME'];
+                //$complaint = $gcRows['COMPLAINT'];
+                //$feedback  = $gcRows['FEEDBACK'];
+                //$photoPath = $gcRows['PATH'];
+                //$photoName = $gcRows['LOCAL_NAME'];
+                //$createTime= $gcRows['CREATE_TIME'];
+                $complaint = isset($gcRows['COMPLAINT']) ? $gcRows['COMPLAINT'] : '';
+                $feedback  = isset($gcRows['FEEDBACK']) ? $gcRows['FEEDBACK'] : '';
+                $photoPath = isset($gcRows['PATH']) ? $gcRows['PATH'] : '';
+                $photoName = isset($gcRows['LOCAL_NAME']) ? $gcRows['LOCAL_NAME'] : '';
+                $createTime= isset($gcRows['CREATE_TIME']) ? $gcRows['CREATE_TIME'] : '';
 
                 $photoAddr = $this->getPhotoAddr($hostName,$photoPath,$photoName);
                 array_push($photoAddrs, $photoAddr);

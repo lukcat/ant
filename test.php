@@ -45,18 +45,24 @@ echo Crypt(rasmuslerdorf);
 //echo phpinfo();
 
 // test xml 
-$file = './config/config';
-if (file_exists($file)) {
-    $xml = simplexml_load_file($file);
-    //print_r($xml);
-    print_r((string)$xml->hostname);
-    print_r((string)$xml->instance);
-    /*
-    foreach($xml as $item) {
-        //print_r($item);
-        print_r((string)$item);
-    } */
-    //var_dump($xml['myString']);
-}
+//$file = './config/config';
+//if (file_exists($file)) {
+//    $xml = simplexml_load_file($file);
+//    //print_r($xml);
+//    print_r((string)$xml->hostname);
+//    print_r((string)$xml->instance);
+//    /*
+//    foreach($xml as $item) {
+//        //print_r($item);
+//        print_r((string)$item);
+//    } */
+//    //var_dump($xml['myString']);
+//}
 
+
+$testarr = Array('aa'=>'test');
+
+$var = isset($testarr['bb']) ? $testarr['bb'] : 'kong';
+
+echo $var;
 
