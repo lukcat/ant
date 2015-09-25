@@ -36,7 +36,8 @@ class File_Upload {
      * @param array $allowExt
      * @return string
      */
-    public function uploadFile($files,$path='./uploads/origin',$flag=false,$maxSize=1048576,$allowExt=array('jpeg','jpg','png','gif','txt')){
+    // maxSize=16M
+    public function uploadFile($files,$path='./uploads/origin',$flag=false,$maxSize=16777216,$allowExt=array('jpeg','jpg','png','gif','txt')){
         //$flag=true;
         //$allowExt=array('jpeg','jpg','gif','png');
         //$maxSize=1048576;//1M
