@@ -86,6 +86,10 @@ class File_Upload {
                 }
                 //if($res) return $res;
                 //$path='./uploads';
+
+                $dateStr = date('Ymd');
+                
+                $path .= '/'.$dateStr;
                 if(!file_exists($path)){
                     //echo "directory is not exist";
                     if(!mkdir($path,0777,true)){

@@ -49,9 +49,13 @@ for ($i=0; $i<$len; $i++) {
 echo $securityCode;
 */
 
-$sql = "SELECT CREATE_TIME FROM APP_USER WHERE LOGIN_NAME='cdqing'";
+//$sql = "SELECT CREATE_TIME FROM APP_USER WHERE LOGIN_NAME='cdqing'";
+//
+//$stts = oci_parse(
 
-$stts = oci_parse(
 
+$d = date('Ymd');
+
+mkdir($d);
 
 
