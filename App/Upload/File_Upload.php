@@ -37,7 +37,7 @@ class File_Upload {
      * @return string
      */
     // maxSize=16M
-    public function uploadFile($files,$path='./uploads/origin',$flag=false,$maxSize=16777216,$allowExt=array('jpeg','jpg','png','gif','txt')){
+    public function uploadFile($files,$rootpath='./uploads/origin',$flag=false,$maxSize=16777216,$allowExt=array('jpeg','jpg','png','gif','txt')){
         //$flag=true;
         //$allowExt=array('jpeg','jpg','gif','png');
         //$maxSize=1048576;//1M
@@ -47,6 +47,9 @@ class File_Upload {
         // global variable
         $count = -1;
         $resData = Array();
+
+        $dateStr = date('Ymd');
+        $path = $rootpath . '/' . $dateStr;
 
         foreach($files as $fileInfo) {
             $count += 1;
@@ -86,6 +89,7 @@ class File_Upload {
                 }
                 //if($res) return $res;
                 //$path='./uploads';
+
                 if(!file_exists($path)){
                     //echo "directory is not exist";
                     if(!mkdir($path,0777,true)){

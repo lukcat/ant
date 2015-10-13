@@ -155,7 +155,6 @@ $check->params['newpassword'] = sha1(md5('test1'));
 //$check->params['sn'] = 'e67bd4f23672ad2ca4d45d1a27381dc7852b88ca';
 //$check->params['loginname'] = 'dq';
 //$check->params['password'] = sha1(md5('test'));
-/*
 //$check->params['token'] = 'f0e3cdf2d5e16684c9fff48f379c5fb2';
 $check->params['loginid'] = 'dq';
 //$check->params['securitycode'] = '7724';
@@ -175,6 +174,7 @@ $check->params['note'] = 'lanren2';
 $check->params['complaint'] = 'shit';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
 $check->params['vehicleid'] = 'GBI0142';
+/*
 */
 ////////////////end of test data//////////////////////
 
@@ -188,7 +188,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'InquiryBus';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'Register';
-//$userDataSet['action'] = 'Complaint';
+$userDataSet['action'] = 'Complaint';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';

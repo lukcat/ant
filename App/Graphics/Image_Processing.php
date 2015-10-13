@@ -22,8 +22,11 @@ class Image_Processing {
         return md5(uniqid(microtime(true),true));
     }
 
-    public function generateThumbnail($connect, $files, $savePath='./uploads/thumbnail', $columns=100, $rows=100, $bestfit=true) {
+    public function generateThumbnail($connect, $files, $rootPath='./uploads/thumbnail', $columns=100, $rows=100, $bestfit=true) {
         $resData = array();
+        $dateStr = date('Ymd');
+        $savePath = $rootPath . '/' . $dateStr;
+
         foreach($files as $imageInfo) {
             //echo "tag";
             $imagePath = $imageInfo['path'] . '/' . $imageInfo['localname']; 
