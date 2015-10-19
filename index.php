@@ -156,7 +156,7 @@ $check->params['newpassword'] = sha1(md5('test1'));
 //$check->params['loginname'] = 'dq';
 //$check->params['password'] = sha1(md5('test'));
 //$check->params['token'] = 'f0e3cdf2d5e16684c9fff48f379c5fb2';
-$check->params['loginid'] = 'dq';
+//$check->params['loginid'] = 'dq';
 //$check->params['securitycode'] = '7724';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 //$check->params['loginid'] = '12345678902';
@@ -244,6 +244,11 @@ switch($action) {
             Response::show(401,"User Login Failure");
         }
 
+        // get complaint text
+        $uc = new User_Complaint();
+        //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
+        $complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
+
         /*
         // get complaint
         $uc = new User_Complaint();
@@ -271,10 +276,10 @@ switch($action) {
                 }
             }
 
-            // get complaint text
-            $uc = new User_Complaint();
-            //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
-            $complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
+            //// get complaint text
+            //$uc = new User_Complaint();
+            ////$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
+            //$complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
 
             // Insert infomation into database
             // $res contains file basic information, include file's localname, photoid etc.
@@ -282,7 +287,6 @@ switch($action) {
             foreach($res as $imageInfo) {
                 $info = $fu->insertPhotoInfo($mobileConnect,$imageInfo,$complaintid);
                 array_push($infos, $info);
-
             }
 
             $ip = new Image_Processing();
