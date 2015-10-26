@@ -105,7 +105,7 @@ class User_Complaint {
             $complaintInfo = array(
                         'complaintID' => $complaintID,
                         'complaint' => $complaint,
-                        'complainttype' => $complainttype,
+                        'complaintType' => $complainttype,
                         'feedback' => $feedback,
                         'createTime' => $createTime);
         }
@@ -150,7 +150,7 @@ class User_Complaint {
                 $complaintInfo = array(
                         'complaintID' => $complaintID,
                         'complaint' => $complaint,
-                        'complainttype' => $complainttype,
+                        'complaintType' => $complainttype,
                         'feedback' => $feedback,
                         'createTime' => $createTime);
             }
