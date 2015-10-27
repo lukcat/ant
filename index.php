@@ -147,14 +147,14 @@ $check->params['timestamp'] = '2015-09-19 02:46:28';
 $check->params['newpassword'] = sha1(md5('test1'));
 */
 
-//$check->params['loginid'] = 'dq';
+//$check->params['loginid'] = 'huojing1';
 //$check->params['securitycode'] = '7724';
 ////$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 ////$check->params['loginid'] = '12345678902';
 //$check->params['newpassword'] = sha1(md5('test'));
 //$check->params['sn'] = 'e67bd4f23672ad2ca4d45d1a27381dc7852b88ca';
 //$check->params['loginname'] = 'dq';
-//$check->params['password'] = sha1(md5('test'));
+//$check->params['password'] = sha1(md5('qwerty'));
 //$check->params['token'] = 'f0e3cdf2d5e16684c9fff48f379c5fb2';
 //$check->params['loginid'] = 'dq';
 //$check->params['securitycode'] = '7724';

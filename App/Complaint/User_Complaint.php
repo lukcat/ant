@@ -44,7 +44,7 @@ class User_Complaint {
         //$sql_bak = "select c.complaint_id, c.complaint, c.feedback, c.create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and c.user_id='{$userID}' and c.valid=1";
         //$sql = "select c.complaint_id, c.complaint, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and c.user_id='{$userID}' and c.valid=1";
         //$sql = "select c.complaint_id, c.complaint, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.path, t.local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id where c.user_id='{$userID}' and c.valid=1";
-        $sql = "select c.complaint_id, c.complaint, c.type, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.path, t.local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id where c.user_id='{$userID}' and c.valid=1";
+        $sql = "select c.complaint_id, c.complaint, c.type, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id where c.user_id='{$userID}' and c.valid=1";
         //echo $sql;
         //exit;
 
@@ -73,6 +73,9 @@ class User_Complaint {
         $resData = array('userID' => $userID);
         // Store photos temprarily
         $photoAddrs = array();
+        // Store photos' origin ID
+        $photoOriginIDs = array();
+
         $data = array();
         $complaintInfo = array();
 
@@ -84,6 +87,7 @@ class User_Complaint {
 
             // erase space in head and tail
             $complaintID = preg_replace("/\s/","",$gcRows['COMPLAINT_ID']);
+            $photoID = preg_replace("/\s/","",$gcRows['PHOTO_ID']);
             // Store user complaintID
             //$resData = array('userID' => $userID);
 
@@ -98,10 +102,11 @@ class User_Complaint {
                 $photoAddr = $this->getPhotoAddr($hostName,$photoPath,$photoName);
             } else {
                 $photoAddr = '';
-                //$photoAddr = $this->getPhotoAddr('','','');
             }
 
             array_push($photoAddrs, $photoAddr);
+            array_push($photoOriginIDs, $photoID);
+
             $complaintInfo = array(
                         'complaintID' => $complaintID,
                         'complaint' => $complaint,
@@ -114,25 +119,42 @@ class User_Complaint {
             //$complaint = $gcRows['COMPLAINT_ID'];
             //var_dump($gcRows);
             $nextComplaintID = preg_replace("/\s/","",$gcRows['COMPLAINT_ID']);
-            //if ($complaintID == $gcRows['COMPLAINT_ID']) {
+
             if ($complaintID == $nextComplaintID) {
 
+                // photo path array
                 $photoPath = $gcRows['PATH'];
                 $photoName = $gcRows['LOCAL_NAME'];
-                $photoAddr = $this->getPhotoAddr($hostName,$photoPath,$photoName);
 
+                if (!empty($photoPath)) {
+                    $photoAddr = $this->getPhotoAddr($hostName,$photoPath,$photoName);
+                } else {
+                    $photoAddr = '';
+                }
+                //$photoAddr = $this->getPhotoAddr($hostName,$photoPath,$photoName);
                 array_push($photoAddrs, $photoAddr);
+
+                // origin photo id array
+                $photoID = preg_replace("/\s/","",$gcRows['PHOTO_ID']);
+                array_push($photoOriginIDs, $photoID);
 
             } else {
                 $photoURL = array('photoURL' => $photoAddrs);
+                $photoOriginID = array('photoOriginID' => $photoOriginIDs);
+
                 $photoAddrs = array();      // delete data
-                //$complaintInfo = $complaintInfo + $photoAddrs;
+                $photoOriginIDs = array();  // delete data
+
                 $complaintInfo = $complaintInfo + $photoURL;
+                $complaintInfo = $complaintInfo + $photoOriginID;
+
                 array_push($data, $complaintInfo);
 
                 //$complaintID = $gcRows['COMPLAINT_ID'];
                 // erase space in head and tail
                 $complaintID = preg_replace("/\s/","",$gcRows['COMPLAINT_ID']);
+                $photoID = preg_replace("/\s/","",$gcRows['PHOTO_ID']);
+
                 //$complaint = $gcRows['COMPLAINT'];
                 //$feedback  = $gcRows['FEEDBACK'];
                 //$photoPath = $gcRows['PATH'];
@@ -145,8 +167,18 @@ class User_Complaint {
                 $photoName = isset($gcRows['LOCAL_NAME']) ? $gcRows['LOCAL_NAME'] : '';
                 $createTime= isset($gcRows['CREATE_TIME']) ? $gcRows['CREATE_TIME'] : '';
 
-                $photoAddr = $this->getPhotoAddr($hostName,$photoPath,$photoName);
+                if (!empty($photoPath)) {
+                    $photoAddr = $this->getPhotoAddr($hostName,$photoPath,$photoName);
+                } else {
+                    $photoAddr = '';
+                }
+                //$photoAddr = $this->getPhotoAddr($hostName,$photoPath,$photoName);
                 array_push($photoAddrs, $photoAddr);
+
+                // origin photo id array
+                $photoID = preg_replace("/\s/","",$gcRows['PHOTO_ID']);
+                array_push($photoOriginIDs, $photoID);
+
                 $complaintInfo = array(
                         'complaintID' => $complaintID,
                         'complaint' => $complaint,
@@ -157,8 +189,10 @@ class User_Complaint {
         }
 
         $photoURL = array('photoURL' => $photoAddrs);
+        $photoOriginID = array('photoOriginID' => $photoOriginIDs);
 
         $complaintInfo = $complaintInfo + $photoURL;
+        $complaintInfo = $complaintInfo + $photoOriginID;
 
         array_push($data, $complaintInfo);
         //$data = $data . $photoAddrs;
