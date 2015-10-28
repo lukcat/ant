@@ -91,11 +91,15 @@ class CommonAPI {
     }
 
     protected function getTimestamp() {
-        $this->params['timestamp'] = $sn = isset($_POST['timestamp']) ? $_POST['timestamp'] : '';
+        $this->params['timestamp'] = $timestamp = isset($_POST['timestamp']) ? $_POST['timestamp'] : '';
     }
 
     protected function getSecurityCode() {
-        $this->params['securitycode'] = $sn = isset($_POST['securitycode']) ? $_POST['securitycode'] : '';
+        $this->params['securitycode'] = $securitycode = isset($_POST['securitycode']) ? $_POST['securitycode'] : '';
+    }
+
+    protected function getOriginPhotoID() {
+        $this->params['originphotoid'] = $originphotoid = isset($_POST['originphotoid']) ? $_POST['originphotoid'] : '';
     }
 
 
@@ -160,6 +164,11 @@ class CommonAPI {
          * Complaint Type
          */
         $this->getComplaintType();
+
+		/*************
+         * Origin photo id
+         */
+        $this->getOriginPhotoID();
 
 		/*********************
          * Vehicle information

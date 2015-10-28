@@ -28,6 +28,7 @@ use Common\PHPMailer\Mailer as Mailer;
 use App\UserInformation\User_Info as User_Info;
 use App\UserInformation\User_ChangePWD as User_ChangePWD;
 use App\UserInformation\User_ResetPWD as User_ResetPWD;
+use App\Graphics\Image_Information as Image_Information;
 
 // global variable BASEDIR
 define('BASEDIR',__DIR__);
@@ -148,6 +149,7 @@ $check->params['newpassword'] = sha1(md5('test1'));
 */
 
 //$check->params['loginid'] = 'huojing1';
+//$check->params['loginid'] = 'chan2210';
 //$check->params['securitycode'] = '7724';
 ////$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 ////$check->params['loginid'] = '12345678902';
@@ -155,6 +157,8 @@ $check->params['newpassword'] = sha1(md5('test1'));
 //$check->params['sn'] = 'e67bd4f23672ad2ca4d45d1a27381dc7852b88ca';
 //$check->params['loginname'] = 'dq';
 //$check->params['password'] = sha1(md5('qwerty'));
+//$check->params['password'] = sha1(md5('123456'));
+//$check->params['originphotoid'] = '883d40b07426a53d99318505f0ef1bc3';
 //$check->params['token'] = 'f0e3cdf2d5e16684c9fff48f379c5fb2';
 //$check->params['loginid'] = 'dq';
 //$check->params['securitycode'] = '7724';
@@ -197,6 +201,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'GetSecurityCode';
 //$userDataSet['action'] = 'VerifySecurityCode';
 //$userDataSet['action'] = 'ResetPassword';
+//$userDataSet['action'] = 'GetOriginPhoto';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -450,6 +455,15 @@ switch($action) {
         $uf = new User_ResetPWD();
 
         $uf->changePwdBySecurityCode($mobileConnect, $userDataSet);
+
+        break;
+
+    case 'GetOriginPhoto':
+        $ii = new Image_Information();
+
+        $originPhotoID = $userDataSet['originphotoid'];
+
+        $ii->getOriginPhoto($mobileConnect, $originPhotoID, $rootPath);
 
         break;
 
