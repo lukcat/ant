@@ -98,6 +98,8 @@ try {
     //$connect = Oracle::getInstance()->connect($hostname,$instance,$username,$password);
     // two connect instance
     // one for ant, another for mobile
+    //print_r($configInfo['serverSet']['mobileServer']);
+    //die();
     $antConnect    = Oracle::getInstance()->connect($configInfo['serverSet']['antServer']);
     $mobileConnect = Oracle::getInstance()->connect($configInfo['serverSet']['mobileServer']);
 

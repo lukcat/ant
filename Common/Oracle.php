@@ -50,6 +50,7 @@ class Oracle {
 		//if(!self::$_connectSource) {
 		//if(!$_connectSource) {
             $server = $hostname . "/" . $instance;
+            //echo $server;die();
             //self::$_connectSource = oci_connect($username,$password,$server);
             $_connectSource = oci_connect($username,$password,$server);
 
