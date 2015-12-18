@@ -59,7 +59,7 @@ class BusInformation {
         if ($gvrow = oci_fetch_array($stgv, OCI_BOTH)) {
             $versionNumber = isset($gvrow['VERSION_NUM']) ? $gvrow['VERSION_NUM'] : '';
 
-            $resData = array('versionNumber'=>$versionNumber);
+            $resData = array('version'=>$versionNumber);
 
             return $resData;
         }
