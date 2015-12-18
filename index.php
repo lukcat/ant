@@ -182,6 +182,12 @@ $check->params['complaint'] = 'shit';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
 $check->params['vehicleid'] = 'GBI0142';
 */
+
+
+/* bus */
+//$check->params['countryid'] = '1';
+//$check->params['cityid'] = '1';
+
 ////////////////end of test data//////////////////////
 
 
@@ -204,6 +210,10 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'VerifySecurityCode';
 //$userDataSet['action'] = 'ResetPassword';
 //$userDataSet['action'] = 'GetOriginPhoto';
+//$userDataSet['action'] = 'GetCountryVersion';
+//$userDataSet['action'] = 'GetCityVersion';
+//$userDataSet['action'] = 'GetCityInformation';
+//$userDataSet['action'] = 'GetBusLineInformation';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -466,6 +476,46 @@ switch($action) {
         $originPhotoID = $userDataSet['originphotoid'];
 
         $ii->getOriginPhoto($mobileConnect, $originPhotoID, $rootPath);
+
+        break;
+
+    case 'GetCountryVersion':
+        $cv = new BusInformation();
+
+        $countryID = $userDataSet['countryid'];
+        $countryVersionNum = $cv->getCountryVersion($mobileConnect, $countryID);
+
+        Response::show(1500, 'Get country version number successful', $countryVersionNum);
+
+        break;
+
+    case 'GetCityVersion':
+        $cv = new BusInformation();
+
+        $cityID = $userDataSet['cityid'];
+        $cityVersionNum = $cv->getCityVersion($mobileConnect, $cityID);
+
+        Response::show(1600, 'Get city version number successful', $cityVersionNum);
+
+        break;
+
+    case 'GetCityInformation':
+        $cv = new BusInformation();
+
+        //$cityID = $userDataSet['cityid'];
+        $cityInformation = $cv->getCityInformation($mobileConnect);
+
+        Response::show(1700, 'Get city list successful', $cityInformation);
+
+        break;
+
+    case 'GetBusLineInformation':
+        $cv = new BusInformation();
+
+        $cityID = $userDataSet['cityid'];
+        $busLineInformation = $cv->getBusLineInformation($mobileConnect, $cityID);
+
+        Response::show(1800, 'Get city list successful', $busLineInformation);
 
         break;
 

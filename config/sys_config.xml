@@ -2,21 +2,21 @@
 
   <serverSet>
     <antServer>
-      <hostname> 192.168.1.105 </hostname>
+      <hostname> 172.18.7.21 </hostname>
       <instance> bgdata </instance>
       <username> ant </username>
       <password> ant </password>
     </antServer>
 
     <mobileServer>
-      <hostname> 192.168.1.105 </hostname>
+      <hostname> 172.18.7.21 </hostname>
       <instance> mobile </instance>
       <username> ant </username>
       <password> ant </password>
     </mobileServer>
   </serverSet>
 
-  <host> 192.168.1.105 </host>
+  <host> 172.18.7.11 </host>
 
   <mail>
     <host> smtp.126.com </host>

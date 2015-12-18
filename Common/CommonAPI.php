@@ -102,8 +102,25 @@ class CommonAPI {
         $this->params['originphotoid'] = $originphotoid = isset($_POST['originphotoid']) ? $_POST['originphotoid'] : '';
     }
 
+    protected function getCountryID() {
+        $this->params['countryid'] = $originphotoid = isset($_POST['countryid']) ? $_POST['countryid'] : '';
+    }
+
+    protected function getCityID() {
+        $this->params['cityid'] = $originphotoid = isset($_POST['cityid']) ? $_POST['cityid'] : '';
+    }
 
     public function check() {
+		/*************
+         * Get country id
+         */
+        $this->getCountryID();
+
+		/*************
+         * Get city id
+         */
+        $this->getCityID();
+
 		/*************
          * User action
          */
