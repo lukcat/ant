@@ -185,8 +185,8 @@ $check->params['vehicleid'] = 'GBI0142';
 
 
 /* bus */
-$check->params['countryid'] = '1';
-$check->params['cityid'] = '1';
+//$check->params['countryid'] = '1';
+//$check->params['cityid'] = '1';
 
 ////////////////end of test data//////////////////////
 
@@ -212,7 +212,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'GetOriginPhoto';
 //$userDataSet['action'] = 'GetCountryVersion';
 //$userDataSet['action'] = 'GetCityVersion';
-$userDataSet['action'] = 'GetCityInformation';
+//$userDataSet['action'] = 'GetCityInformation';
 //$userDataSet['action'] = 'GetBusLineInformation';
 
 // return password to user
@@ -221,6 +221,7 @@ $userDataSet['action'] = 'GetCityInformation';
 
 // response user action 
 $action = $userDataSet['action'];
+
 switch($action) {
 	case 'Login':
         // 4

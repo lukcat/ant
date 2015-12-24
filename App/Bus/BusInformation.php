@@ -64,7 +64,7 @@ class BusInformation {
             return $resData;
         }
 
-        Response::show(1502, 'No city version data in database');
+        Response::show(1502, 'No country version data in database');
         //return false;
     }
 
@@ -93,9 +93,9 @@ class BusInformation {
         // get city list
         while ($gcRows = oci_fetch_array($stgc, OCI_BOTH)) {
             $hasData    = true;
-            $cityID     = isset($gcRows['CITY_ID']) ? $gcRows['CITY_ID'] : '';
+            $cityID     = isset($gcRows['CITY_ID']) ? preg_replace("/\s/","",$gcRows['CITY_ID']) : '';
             $cityName   = isset($gcRows['CITY_NAME']) ? $gcRows['CITY_NAME'] : '';
-            $countryID  = isset($gcRows['COUNTRY_ID']) ? $gcRows['COUNTRY_ID'] : '';
+            $countryID  = isset($gcRows['COUNTRY_ID']) ? preg_replace("/\s/","",$gcRows['COUNTRY_ID']) : '';
 
             $city = array("cityID"=>$cityID, "cityName"=>$cityName);
 
@@ -110,7 +110,7 @@ class BusInformation {
         $countryVersion = $this->getCountryVersion($connect,$countryID);
 
         //var_dump($cityInfo);die();
-        $cityInfo['versionNumber'] = $countryVersion['versionNumber'];
+        $cityInfo['version'] = $countryVersion['version'];
         $cityInfo['countryID'] = $countryID;
         $cityInfo['cityInfo'] = $cityList;
 
@@ -181,7 +181,7 @@ class BusInformation {
 
         $version = $this->getCityVersion($connect, $cityID); 
         
-        $busInfo['version'] = $version['versionNumber'];
+        $busInfo['version'] = $version['version'];
         $busInfo['busLineInfo'] = $busLineInfo;
 
         return $busInfo;
@@ -204,6 +204,7 @@ class BusInformation {
         if (!oci_execute($stbp)) {
             Response::show(1803,'BusInformation-getBusstopInformation: query database error');
             //return false;
+            $photoID = preg_replace("/\s/","",$gcRows['PHOTO_ID']);
         }
 
         // global varibles
