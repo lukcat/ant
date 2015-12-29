@@ -126,13 +126,14 @@ if ($testrows = oci_fetch_array($res, OCI_BOTH)) {
 //$password = $check->params['password'];
 
 //$action = $check->params['action'];
-
-//$userInfo['loginname'] = 'cdq';
-//$userInfo['email'] = 'cdq@test.com';
-//$userInfo['cellphone'] = '12345678902';
-//$userInfo['name'] = 'chendeqing';
-//$userInfo['note'] = 'lanren2';
-//$userInfo['password'] = sha1(md5('test'));
+//$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
+//$check->params['loginname'] = 'cdq';
+//$check->params['email'] = 'chendeqing@ceiec.com.cn';
+//$check->params['email'] = 'huojing@ceiec.com.cn';
+//$check->params['cellphone'] = '12345678902';
+//$check->params['name'] = 'chendeqing';
+//$check->params['note'] = 'lanren2';
+//$check->params['password'] = sha1(md5('test'));
 
 //////////////////////////////
 // useful test data
@@ -150,11 +151,8 @@ $check->params['timestamp'] = '2015-09-19 02:46:28';
 $check->params['newpassword'] = sha1(md5('test1'));
 */
 
-//$check->params['loginid'] = 'huojing1';
-//$check->params['loginid'] = 'chan2210';
+//$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 //$check->params['securitycode'] = '7724';
-////$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
-////$check->params['loginid'] = '12345678902';
 //$check->params['newpassword'] = sha1(md5('test'));
 //$check->params['sn'] = 'e67bd4f23672ad2ca4d45d1a27381dc7852b88ca';
 //$check->params['loginname'] = 'dq';
@@ -257,7 +255,7 @@ switch($action) {
 		$arrayInfo = $ml->login($userDataSet, $mobileConnect);
         $userid = $arrayInfo['userId'];
 
-        // ???? maybe not useless
+        // maybe useless
         if (empty($userid)) {
             Response::show(401,"User Login Failure");
         }
@@ -266,13 +264,6 @@ switch($action) {
         $uc = new User_Complaint();
         //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
         $complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
-
-        /*
-        // get complaint
-        $uc = new User_Complaint();
-        //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
-        $complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
-        */
 
         // get files
         //$files = $check->params['files'];
@@ -316,6 +307,11 @@ switch($action) {
             }
 
         }
+
+        // get complaint text
+        //$uc = new User_Complaint();
+        ////$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
+        //$complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
 
         Response::show(600,'Complaint message upload successful');
 
@@ -422,6 +418,7 @@ switch($action) {
 
     case 'GetSecurityCode':
         // 10
+        //Response::show(1,"test",$userDataSet);
 
         $uf = new User_ResetPWD();
 

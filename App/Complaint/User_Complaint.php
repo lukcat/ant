@@ -12,6 +12,7 @@ class User_Complaint {
         $userid = $user_id;             // userid must exist or database would report error
         $complaint = $params['complaint'];       // primariy key
         $complainttype = $params['complainttype'];
+        $vehicleid = $params['vehicleid'];
         $feedback = 'No feedback yet';
         $valid = 1;
         $type = 0;
@@ -20,7 +21,7 @@ class User_Complaint {
 
         //$sql="INSERT INTO COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,FEEDBACK,VALID,TYPE,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$feedback}','{$valid}','{$type}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
-        $sql="INSERT INTO COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,TYPE,FEEDBACK,VALID,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$complainttype}','{$feedback}','{$valid}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+        $sql="INSERT INTO COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,TYPE,VEHICLE_ID,FEEDBACK,VALID,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$complainttype}','{$vehicleid}','{$feedback}','{$valid}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
         $stid = oci_parse($connect,$sql);
 
@@ -44,7 +45,7 @@ class User_Complaint {
         //$sql_bak = "select c.complaint_id, c.complaint, c.feedback, c.create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and c.user_id='{$userID}' and c.valid=1";
         //$sql = "select c.complaint_id, c.complaint, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and c.user_id='{$userID}' and c.valid=1";
         //$sql = "select c.complaint_id, c.complaint, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.path, t.local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id where c.user_id='{$userID}' and c.valid=1";
-        $sql = "select c.complaint_id, c.complaint, c.type, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id where c.user_id='{$userID}' and c.valid=1";
+        $sql = "select c.complaint_id, c.complaint, c.type, c.vehicle_id, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id where c.user_id='{$userID}' and c.valid=1";
         //echo $sql;
         //exit;
 
@@ -62,6 +63,7 @@ class User_Complaint {
 
         $complaintID = ''; 
         $complaint = ''; 
+        $vehicleID = '';
         $feedback  = ''; 
         $photoPath = ''; 
         $photoName = ''; 
@@ -93,6 +95,7 @@ class User_Complaint {
 
             $complaint = isset($gcRows['COMPLAINT']) ? $gcRows['COMPLAINT'] : '';
             $complainttype = isset($gcRows['TYPE']) ? $gcRows['TYPE'] : '';
+            $vehicleID = isset($gcRows['VEHICLE_ID']) ? $gcRows['VEHICLE_ID'] : '';
             $feedback  = isset($gcRows['FEEDBACK']) ? $gcRows['FEEDBACK'] : '';
             $photoPath = isset($gcRows['PATH']) ? $gcRows['PATH'] : '';
             $photoName = isset($gcRows['LOCAL_NAME']) ? $gcRows['LOCAL_NAME'] : '';
@@ -111,6 +114,7 @@ class User_Complaint {
                         'complaintID' => $complaintID,
                         'complaint' => $complaint,
                         'complaintType' => $complainttype,
+                        'vehicleID' => $vehicleID,
                         'feedback' => $feedback,
                         'createTime' => $createTime);
         }
@@ -162,6 +166,7 @@ class User_Complaint {
                 //$createTime= $gcRows['CREATE_TIME'];
                 $complaint = isset($gcRows['COMPLAINT']) ? $gcRows['COMPLAINT'] : '';
                 $complainttype = isset($gcRows['TYPE']) ? $gcRows['TYPE'] : '';
+                $vehicleID = isset($gcRows['VEHICLE_ID']) ? $gcRows['VEHICLE_ID'] : '';
                 $feedback  = isset($gcRows['FEEDBACK']) ? $gcRows['FEEDBACK'] : '';
                 $photoPath = isset($gcRows['PATH']) ? $gcRows['PATH'] : '';
                 $photoName = isset($gcRows['LOCAL_NAME']) ? $gcRows['LOCAL_NAME'] : '';
@@ -183,6 +188,7 @@ class User_Complaint {
                         'complaintID' => $complaintID,
                         'complaint' => $complaint,
                         'complaintType' => $complainttype,
+                        'vehicleID' => $vehicleID,
                         'feedback' => $feedback,
                         'createTime' => $createTime);
             }
