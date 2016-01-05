@@ -37,6 +37,7 @@ include BASEDIR . '/Common/PHPMailer/PHPMailer.php';
 
 // using PSR-0 coding standard
 spl_autoload_register('\\Common\\Loader::autoload');
+//spl_autoload_register(['\\Common\\Loader','autoload'],true,true);
 
 // check user post data
 $check = new CommonAPI();
