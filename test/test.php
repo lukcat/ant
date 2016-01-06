@@ -54,8 +54,9 @@ echo $securityCode;
 //$stts = oci_parse(
 
 
-$d = date('Ymd');
+//$d = date('Ymd');
+//
+//mkdir($d);
 
-mkdir($d);
-
-
+$str = 'test';
+echo mb_strlen($str);

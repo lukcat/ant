@@ -30,6 +30,10 @@ use App\UserInformation\User_ChangePWD as User_ChangePWD;
 use App\UserInformation\User_ResetPWD as User_ResetPWD;
 use App\Graphics\Image_Information as Image_Information;
 
+// for mq
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
 // global variable BASEDIR
 define('BASEDIR',__DIR__);
 include BASEDIR . '/Common/Loader.php';
@@ -179,7 +183,7 @@ $check->params['note'] = 'lanren2';
 
 $check->params['complaint'] = 'shit';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
-$check->params['vehicleid'] = 'GBI0142';
+$check->params['serialnumber'] = 'GBI0142';
 */
 
 
@@ -213,6 +217,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'GetCityVersion';
 //$userDataSet['action'] = 'GetCityInformation';
 //$userDataSet['action'] = 'GetBusLineInformation';
+//$userDataSet['action'] = 'testMQ';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -515,6 +520,28 @@ switch($action) {
         $busLineInformation = $cv->getBusLineInformation($mobileConnect, $cityID);
 
         Response::show(1800, 'Get city list successful', $busLineInformation);
+
+        break;
+
+    case 'testMQ':
+
+        $conmq = new AMQPStreamConnection('172.18.8.13',5672,'guest','guest');
+        $channel = $conmq->channel();
+        
+        $channel->queue_declare('mobile',false,true,false,false);
+        //$channel->exchange_declare('MB_EXCHANGE', 'topic', true, false, false);
+        $bindKey='MB.V2.RP.12345';
+        $channel->queue_bind('mobile','MB_EXCHANGE', $bindKey);
+        
+        $jsondata = array('ComplaintId'=>'12345', 'UserId'=>'user110', 'ComplaintType'=>'type1', 'CreateTime'=>'2016-01-06 17:38:00');
+        
+        $jsondata_str = json_encode($jsondata);
+        $msg = new AMQPMessage($jsondata_str);
+        
+        $channel->basic_publish($msg, 'MB_EXCHANGE', $bindKey);
+        
+        $channel->close();
+        $conmq->close();
 
         break;
 

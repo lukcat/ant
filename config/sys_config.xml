@@ -29,4 +29,13 @@
     <charset> UTF-8 </charset>
   </mail>
 
+  <rabbitMq>
+    <host> 172.18.8.13 </host>
+    <port> 5672 </port>
+    <user> guest</user>
+    <password> guest </password>
+    <exchange> MB_EXCHANGE </exchange>
+    <queue> mobile </queue>
+  </rabbitMq>
+
 </ant>
