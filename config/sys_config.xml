@@ -32,10 +32,10 @@
   <rabbitMq>
     <host> 172.18.8.13 </host>
     <port> 5672 </port>
-    <user> guest</user>
+    <username> guest</username>
     <password> guest </password>
     <exchange> MB_EXCHANGE </exchange>
-    <queue> mobile </queue>
+    <queue> TASK.mobile.yyy16lyy-7986-6577-323w-r43q7a9c9876 </queue>
   </rabbitMq>
 
 </ant>

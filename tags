@@ -363,7 +363,7 @@ Protocol091	PhpAmqpLib/Helper/Protocol/Protocol091.php	/^class Protocol091$/;"	c
 Realm	Common/PHPMailer/PHPMailer.php	/^    public $Realm = '';$/;"	v
 Realm	Common/PHPMailer/class.phpmailer.php	/^    public $Realm = '';$/;"	v
 Realm	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public $Realm = '';$/;"	v
-ReceiveComplaint	App/Complaint/User_Complaint.php	/^    public function ReceiveComplaint($connect, $params, $user_id) {$/;"	f
+ReceiveComplaint	App/Complaint/User_Complaint.php	/^    public function ReceiveComplaint($connect, $params, $user_id, $complaintid) {$/;"	f
 RedisCache	Common/RedisCache.php	/^class RedisCache {$/;"	c
 ReplyTo	Common/PHPMailer/PHPMailer.php	/^        $this->ReplyTo = array();$/;"	v
 ReplyTo	Common/PHPMailer/PHPMailer.php	/^    protected $ReplyTo = array();$/;"	v
@@ -416,6 +416,7 @@ SMTP_PORT	test/mailtest/PHPMailer-master/class.smtp.php	/^    public $SMTP_PORT 
 SQL	Common/SQL.php	/^class SQL {$/;"	c
 SQL	trafic.php	/^class SQL {$/;"	c
 SSL_write	PhpAmqpLib/Wire/IO/StreamIO.php	/^            \/\/ OpenSSL's C library function SSL_write() can balk on buffers > 8192$/;"	f
+SendMessageToMq	App/Mq/SendMessageToMq.php	/^class SendMessageToMq {$/;"	c
 Sender	Common/PHPMailer/PHPMailer.php	/^                $this->Sender = $address;$/;"	v
 Sender	Common/PHPMailer/PHPMailer.php	/^    public $Sender = '';$/;"	v
 Sender	Common/PHPMailer/class.phpmailer.php	/^                $this->Sender = $address;$/;"	v
@@ -505,6 +506,7 @@ XRegExp	test/mailtest/PHPMailer-master/examples/scripts/shCore.js	/^var XRegExp;
 __autoload	Common/PHPMailer/PHPMailerAutoload.php	/^    function __autoload($classname)$/;"	f
 __autoload	test/mailtest/PHPMailer-master/PHPMailerAutoload.php	/^    function __autoload($classname)$/;"	f
 __clone	PhpAmqpLib/Connection/AbstractConnection.php	/^    public function __clone()$/;"	f
+__construct	App/Mq/SendMessageToMq.php	/^    public function __construct($connectPara) {$/;"	f
 __construct	App/Upload/File_Upload_old2.php	/^	public function __construct($fileInfo,$connect,$uploadPath='.\/uploads',$imgFlag=false,$maxSize=5242880,$allowExt=array('jpeg','jpg','png','gif','txt'),$allowMime=array('image\/jpeg','image\/png','image\/gif')){$/;"	f
 __construct	Common/Db.php	/^	private function __construct() {$/;"	f
 __construct	Common/Get_Config.php	/^    function __construct($file) {$/;"	f
@@ -937,7 +939,8 @@ bcc	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    protected $bcc = ar
 bcc	test/mailtest/PHPMailer-master/test/test_callback.php	/^    $bcc = cleanEmails($bcc[0], 'cc');$/;"	v
 bgcolor	Common/captcha.php	/^$bgcolor = imagecolorallocate($image,255,255,255); \/\/#ffffff $/;"	v
 bgcolor	test/captcha.php	/^$bgcolor = imagecolorallocate($image,255,255,255); \/\/#ffffff $/;"	v
-bindKey	index.php	/^        $bindKey='MB.V2.RP.*';$/;"	v
+bindKey	App/Mq/SendMessageToMq.php	/^        $bindKey = 'MB.V2.RP.' . $data['ComplaintId'];$/;"	v
+bindKey	index.php	/^        $bindKey='MB.V2.RP.12345';$/;"	v
 bit	PhpAmqpLib/Wire/AMQPWriter.php	/^            $bit = $bit ? 1 : 0;$/;"	v
 bitcount	PhpAmqpLib/Wire/AMQPReader.php	/^            $this->bitcount = 8;$/;"	v
 bitcount	PhpAmqpLib/Wire/AMQPReader.php	/^        $this->bitcount = $this->bits = 0;$/;"	v
@@ -974,7 +977,6 @@ body	Common/PHPMailer/extras/htmlfilter.php	/^    $body = preg_replace('\/&(\\{.
 body	PhpAmqpLib/Message/AMQPMessage.php	/^        $this->body = $body;$/;"	v
 body	PhpAmqpLib/Message/AMQPMessage.php	/^    public $body;$/;"	v
 body	index.php	/^        $body = "Scurity Code is:{$securitycode}";$/;"	v
-body	index.php	/^        $body = 'test';$/;"	v
 body	index.php	/^        $body = json_encode($resData);$/;"	v
 body	index.php	/^$body = 'This is a test from chendq';$/;"	v
 body	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                    $body = $parts[1];$/;"	v
@@ -1141,6 +1143,7 @@ challenge	test/mailtest/PHPMailer-master/class.smtp.php	/^                $chall
 challenge	test/mailtest/PHPMailer-master/class.smtp.php	/^                $challenge = substr($this->last_reply, 3);$/;"	v
 changePassword	App/UserInformation/User_ChangePWD.php	/^    public function changePassword($connect, $userInfo) {$/;"	f
 changePwdBySecurityCode	App/UserInformation/User_ResetPWD.php	/^    public function changePwdBySecurityCode($connect, $userInfo) {$/;"	f
+channel	App/Mq/SendMessageToMq.php	/^        $channel = $con->channel();$/;"	v
 channel	PhpAmqpLib/Connection/AMQPLazyConnection.php	/^    public function channel($channel_id = null)$/;"	f
 channel	PhpAmqpLib/Connection/AbstractConnection.php	/^            $channel = $this->wait_frame_reader->read_short();$/;"	v
 channel	PhpAmqpLib/Connection/AbstractConnection.php	/^    public function channel($channel_id = null)$/;"	f
@@ -1329,6 +1332,7 @@ complaintID	App/Complaint/User_Complaint.php	/^                $complaintID = pr
 complaintID	App/Complaint/User_Complaint.php	/^            $complaintID = preg_replace("\/\\s\/","",$gcRows['COMPLAINT_ID']);$/;"	v
 complaintID	App/Complaint/User_Complaint.php	/^        $complaintID = $userInfo['complaintid'];$/;"	v
 complaintID	App/Complaint/User_Complaint.php	/^        $complaintID = ''; $/;"	v
+complaintID	index.php	/^        $complaintID = $uc->generateComplaintID();$/;"	v
 complaintID	trafic.php	/^                $complaintID = $gcRows['COMPLAINT_ID'];$/;"	v
 complaintID	trafic.php	/^            $complaintID = $gcRows['COMPLAINT_ID'];$/;"	v
 complaintID	trafic.php	/^        $complaintID = ''; $/;"	v
@@ -1339,6 +1343,7 @@ complaintInfo	App/Complaint/User_Complaint.php	/^            $complaintInfo = ar
 complaintInfo	App/Complaint/User_Complaint.php	/^        $complaintInfo = $complaintInfo + $photoOriginID;$/;"	v
 complaintInfo	App/Complaint/User_Complaint.php	/^        $complaintInfo = $complaintInfo + $photoURL;$/;"	v
 complaintInfo	App/Complaint/User_Complaint.php	/^        $complaintInfo = array();$/;"	v
+complaintInfo	index.php	/^        $complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid, $complaintID);$/;"	v
 complaintInfo	trafic.php	/^                $complaintInfo = $complaintInfo + $photoURL;$/;"	v
 complaintInfo	trafic.php	/^                $complaintInfo = array('complaint' => $complaint,$/;"	v
 complaintInfo	trafic.php	/^            $complaintInfo = array('complaint' => $complaint,$/;"	v
@@ -1349,13 +1354,13 @@ complaintid	App/Graphics/Image_Processing.php	/^        $complaintid = $complain
 complaintid	App/Upload/File_Upload.php	/^            $complaintid = $complaint_id;       \/\/ foreign key$/;"	v
 complaintid	Common/SQL.php	/^        $complaintid = $imageInfo['complaintid'];       \/\/ foreign key$/;"	v
 complaintid	Common/SQL.php	/^        $complaintid = md5(uniqid(microtime(true),true));$/;"	v
-complaintid	index.php	/^        $complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);$/;"	v
 complaintid	trafic.php	/^        $complaintid = $imageInfo['complaintid'];       \/\/ foreign key$/;"	v
 complaintid	trafic.php	/^        $complaintid = $thumbnailInfo['complaintid'];       \/\/ foreign key$/;"	v
 complaintid	trafic.php	/^        $complaintid = md5(uniqid(microtime(true),true));$/;"	v
 complainttype	App/Complaint/User_Complaint.php	/^                $complainttype = isset($gcRows['TYPE']) ? $gcRows['TYPE'] : '';$/;"	v
 complainttype	App/Complaint/User_Complaint.php	/^            $complainttype = isset($gcRows['TYPE']) ? $gcRows['TYPE'] : '';$/;"	v
 complainttype	App/Complaint/User_Complaint.php	/^        $complainttype = $params['complainttype'];$/;"	v
+con	App/Mq/SendMessageToMq.php	/^        $con = new AMQPStreamConnection($this->host, $this->port, $this->username, $this->password);$/;"	v
 condition	App/Inquiry/Vehicle_Inquiry.php	/^	    $condition = "v.COMPANY_ID=c.ID AND v.DISTRICT_CODE=d.CODE AND v.VEHICLE_ID='{$vehicle_id}'";$/;"	v
 configFile	index.php	/^$configFile = '.\/config\/sys_config.xml';$/;"	v
 configInfo	index.php	/^$configInfo = $cfg->getXml($configFile);$/;"	v
@@ -1609,7 +1614,6 @@ data	PhpAmqpLib/Wire/GenericContent.php	/^        $data = array();$/;"	v
 data	PhpAmqpLib/Wire/IO/SocketIO.php	/^                $data = mb_substr($data, $sent, mb_strlen($data, 'ASCII') - $sent, 'ASCII');$/;"	v
 data	PhpAmqpLib/Wire/IO/StreamIO.php	/^                $data = mb_substr($data, $buffer, mb_strlen($data, 'ASCII') - $buffer, 'ASCII');$/;"	v
 data	PhpAmqpLib/Wire/IO/StreamIO.php	/^        $data = '';$/;"	v
-data	index.php	/^        \/\/if(empty($data)) $data = "Hello World!";$/;"	v
 data	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                        $data = base64_decode($data);$/;"	v
 data	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                        $data = rawurldecode($data);$/;"	v
 data	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                    $data = substr($url, strpos($url, ','));$/;"	v
@@ -2022,6 +2026,8 @@ exceptions	Common/PHPMailer/class.phpmailer.php	/^        $this->exceptions = (b
 exceptions	Common/PHPMailer/class.phpmailer.php	/^    protected $exceptions = false;$/;"	v
 exceptions	test/mailtest/PHPMailer-master/class.phpmailer.php	/^        $this->exceptions = (boolean)$exceptions;$/;"	v
 exceptions	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    protected $exceptions = false;$/;"	v
+exchange	App/Mq/SendMessageToMq.php	/^        $this->exchange = $connectPara['rabbitMq']['exchange'];$/;"	v
+exchange	App/Mq/SendMessageToMq.php	/^    private $exchange;$/;"	v
 exchange	PhpAmqpLib/Channel/AMQPChannel.php	/^            $exchange = isset($m[1]) ? $m[1] : '';$/;"	v
 exchange	PhpAmqpLib/Channel/AMQPChannel.php	/^        $exchange = $args->read_shortstr();$/;"	v
 exchange	PhpAmqpLib/Channel/AMQPChannel.php	/^        $exchange = '',$/;"	v
@@ -2201,6 +2207,7 @@ filetmpname	App/Upload/File_Upload_old.php	/^		$filetmpname = '"'.$params['filet
 filetmpname	Common/CommonAPI.php	/^		$this->params['filetmpname'] = $filetmpname = isset($myfile['tmp_name']) ? $myfile['tmp_name'] : '';$/;"	v
 filetype	App/Upload/File_Upload_old.php	/^		$filetype = '"'.$params['filetype'].'"';$/;"	v
 filetype	Common/CommonAPI.php	/^		$this->params['filetype'] = $filetype = isset($myfile['type']) ? $myfile['type'] : '';$/;"	v
+filterMessage	App/Mq/SendMessageToMq.php	/^    public function filterMessage($data) {$/;"	f
 findTagsByName	Common/PHPMailer/examples/scripts/shLegacy.js	/^		function findTagsByName(list, name, tagName)$/;"	f
 findTagsByName	test/mailtest/PHPMailer-master/examples/scripts/shLegacy.js	/^		function findTagsByName(list, name, tagName)$/;"	f
 firstword	Common/PHPMailer/PHPMailer.php	/^                $firstword = false;$/;"	v
@@ -2280,6 +2287,7 @@ fulltag	Common/PHPMailer/extras/htmlfilter.php	/^        $fulltag = '<\/' . $tag
 fulltag	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^        $fulltag = '<' . $tagname;$/;"	v
 fulltag	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^        $fulltag = '<\/' . $tagname . '>';$/;"	v
 functions	PhpAmqpLib/Channel/AMQPChannel.php	/^        $functions = array($/;"	v
+generateComplaintID	App/Complaint/User_Complaint.php	/^    public function generateComplaintID() {$/;"	f
 generateRandNumber	App/UserInformation/User_ChangePWD.php	/^    public function generateRandNumber($len) {$/;"	f
 generateRandNumber	App/UserInformation/User_ResetPWD.php	/^    public function generateRandNumber($len) {$/;"	f
 generateSecurityCode	App/UserInformation/User_ChangePWD.php	/^    public function generateSecurityCode($connect, $userid, $securitycode) {$/;"	f
@@ -2585,6 +2593,8 @@ hi	PhpAmqpLib/Wire/AMQPWriter.php	/^                $hi = 0;$/;"	v
 hmac	Common/PHPMailer/SMTP.php	/^    protected function hmac($data, $key)$/;"	f
 hmac	Common/PHPMailer/class.smtp.php	/^    protected function hmac($data, $key)$/;"	f
 hmac	test/mailtest/PHPMailer-master/class.smtp.php	/^    protected function hmac($data, $key)$/;"	f
+host	App/Mq/SendMessageToMq.php	/^        $this->host     = $connectPara['rabbitMq']['host'];$/;"	v
+host	App/Mq/SendMessageToMq.php	/^    private $host;$/;"	v
 host	Common/PHPMailer/PHPMailer.php	/^            $host = $hostinfo[3];$/;"	v
 host	Common/PHPMailer/class.phpmailer.php	/^            $host = $hostinfo[3];$/;"	v
 host	Common/PHPMailer/class.pop3.php	/^        $this->host = $host;$/;"	v
@@ -2714,8 +2724,8 @@ inclhash	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                $i
 info	Common/PHPMailer/SMTP.php	/^            $info = stream_get_meta_data($this->smtp_conn);$/;"	v
 info	Common/PHPMailer/class.smtp.php	/^            $info = stream_get_meta_data($this->smtp_conn);$/;"	v
 info	PhpAmqpLib/Wire/IO/StreamIO.php	/^        $info = stream_get_meta_data($this->sock);$/;"	v
-info	index.php	/^                $info = $fu->insertPhotoInfo($mobileConnect,$imageInfo,$complaintid);$/;"	v
-info	index.php	/^                $info = $ip->insertthumbnailInfo($mobileConnect, $imageInfo, $complaintid);$/;"	v
+info	index.php	/^                $info = $fu->insertPhotoInfo($mobileConnect,$imageInfo,$complaintID);$/;"	v
+info	index.php	/^                $info = $ip->insertthumbnailInfo($mobileConnect, $imageInfo, $complaintID);$/;"	v
 info	test/mailtest/PHPMailer-master/class.smtp.php	/^            $info = stream_get_meta_data($this->smtp_conn);$/;"	v
 infos	index.php	/^            $infos = array();$/;"	v
 ini_sendmail_path	Common/PHPMailer/PHPMailer.php	/^        $ini_sendmail_path = ini_get('sendmail_path');$/;"	v
@@ -2860,6 +2870,9 @@ ivid	App/Inquiry/Vehicle_Inquiry.php	/^        $ivid = oci_parse($connect, $sql)
 j	PhpAmqpLib/Helper/MiscHelper.php	/^                $j = 0;$/;"	v
 j	PhpAmqpLib/Helper/MiscHelper.php	/^        for ($i = $j = 0; $i < $len; $i++) {$/;"	v
 json	Common/Response.php	/^	public static function json($code, $message = '', $data = array()) {$/;"	f
+jsonStr	App/Mq/SendMessageToMq.php	/^        $jsonStr = json_encode($data);$/;"	v
+jsondata	index.php	/^        $jsondata = array('ComplaintId'=>'12345', 'UserId'=>'user110', 'ComplaintType'=>'type1', 'CreateTime'=>'2016-01-06 17:38:00');$/;"	v
+jsondata_str	index.php	/^        $jsondata_str = json_encode($jsondata);$/;"	v
 k	PhpAmqpLib/Connection/AMQPSSLConnection.php	/^        foreach ($options as $k => $v) {$/;"	v
 k	PhpAmqpLib/Wire/AMQPWriter.php	/^        foreach ($d as $k => $va) {$/;"	v
 k_ipad	Common/PHPMailer/SMTP.php	/^        $k_ipad = $key ^ $ipad;$/;"	v
@@ -3330,14 +3343,16 @@ modifytime	Common/SQL.php	/^        $modifytime = date('Y-m-d H:i:s');$/;"	v
 modifytime	trafic.php	/^        $modifytime = date('Y-m-d H:i:s');              \/\/ file's create_time $modifytime = date('Y-m-d H:i:s');              \/\/ file's modify_time $/;"	v
 modifytime	trafic.php	/^        $modifytime = date('Y-m-d H:i:s');              \/\/ file's modify_time $/;"	v
 modifytime	trafic.php	/^        $modifytime = date('Y-m-d H:i:s');          \/\/ use oracle to_date function to format the date$/;"	v
+mqMsg	index.php	/^        $mqMsg = $smtm->filterMessage($complaintInfo);$/;"	v
 ms	PhpAmqpLib/Exception/AMQPException.php	/^        $ms = MiscHelper::methodSig($method_sig);$/;"	v
 ms	PhpAmqpLib/Exception/AMQPProtocolException.php	/^        $ms = MiscHelper::methodSig($method_sig);$/;"	v
 msb	PhpAmqpLib/Wire/AMQPReader.php	/^        $msb = self::getLongMSB($hi);$/;"	v
+msg	App/Mq/SendMessageToMq.php	/^        $msg = new AMQPMessage($jsonStr);$/;"	v
 msg	Common/PHPMailer/test/phpmailerTest.php	/^        $msg = $this->Mail->getSentMIMEMessage();$/;"	v
 msg	PhpAmqpLib/Channel/AMQPChannel.php	/^            $msg = $m[0];$/;"	v
 msg	PhpAmqpLib/Helper/DebugHelper.php	/^            $msg = 'waiting for ' . implode(', ', $allowed_methods);$/;"	v
 msg	PhpAmqpLib/Helper/DebugHelper.php	/^            $msg = 'waiting for any method';$/;"	v
-msg	index.php	/^        $msg = new AMQPMessage($body, $properties);$/;"	v
+msg	index.php	/^        $msg = new AMQPMessage($jsondata_str);$/;"	v
 msg	test/mailtest/PHPMailer-master/test/phpmailerTest.php	/^        $msg = $this->Mail->getSentMIMEMessage();$/;"	v
 msg	test/test.php	/^    $msg = "this is ".$i. "message";$/;"	v
 msg1	Common/PHPMailer/SMTP.php	/^                $msg1 = $ntlm_client->TypeMsg1($realm, $workstation); \/\/msg1$/;"	v
@@ -3628,6 +3643,8 @@ parts	Common/PHPMailer/PHPMailer.php	/^                    $parts = explode("\\n
 parts	Common/PHPMailer/class.phpmailer.php	/^                    $parts = explode("\\n\\n", $body, 2);$/;"	v
 parts	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                    $parts = explode("\\n\\n", $body, 2);$/;"	v
 passive	PhpAmqpLib/Channel/AMQPChannel.php	/^        $passive = false,$/;"	v
+password	App/Mq/SendMessageToMq.php	/^        $this->password = $connectPara['rabbitMq']['password'];$/;"	v
+password	App/Mq/SendMessageToMq.php	/^    private $password;$/;"	v
 password	App/Register/Mobile_Register.php	/^            $password = $userInfo['password'];$/;"	v
 password	App/UserInformation/User_ChangePWD.php	/^        $password = $userInfo['password'];$/;"	v
 password	App/UserInformation/User_Info.php	/^        $password = $userInfo['password'];$/;"	v
@@ -3797,6 +3814,8 @@ pop_conn	Common/PHPMailer/class.pop3.php	/^        $this->pop_conn = fsockopen($
 pop_conn	Common/PHPMailer/class.pop3.php	/^    private $pop_conn;$/;"	v
 pop_conn	test/mailtest/PHPMailer-master/class.pop3.php	/^        $this->pop_conn = fsockopen($/;"	v
 pop_conn	test/mailtest/PHPMailer-master/class.pop3.php	/^    private $pop_conn;$/;"	v
+port	App/Mq/SendMessageToMq.php	/^        $this->port     = $connectPara['rabbitMq']['port'];$/;"	v
+port	App/Mq/SendMessageToMq.php	/^    private $port;$/;"	v
 port	Common/PHPMailer/PHPMailer.php	/^                $port = $tport;$/;"	v
 port	Common/PHPMailer/PHPMailer.php	/^            $port = $this->Port;$/;"	v
 port	Common/PHPMailer/SMTP.php	/^            $port = self::DEFAULT_SMTP_PORT;$/;"	v
@@ -3901,7 +3920,6 @@ properties	PhpAmqpLib/Message/AMQPMessage.php	/^    public function __construct(
 properties	PhpAmqpLib/Wire/GenericContent.php	/^            $this->properties = array_intersect_key($props, $this->prop_types);$/;"	v
 properties	PhpAmqpLib/Wire/GenericContent.php	/^        $this->properties = $data;$/;"	v
 properties	PhpAmqpLib/Wire/GenericContent.php	/^    private $properties = array();$/;"	v
-properties	index.php	/^        $properties = array('ComplaintId'=>'12345', 'UserId'=>'user110', 'ComplaintType'=>'type1', 'CreateTime'=>'20160106 17:38:00');$/;"	v
 propertyDefinitions	PhpAmqpLib/Message/AMQPMessage.php	/^    protected static $propertyDefinitions = array($/;"	v
 propertyDefinitions	PhpAmqpLib/Wire/GenericContent.php	/^    protected static $propertyDefinitions = array($/;"	v
 protocol	PhpAmqpLib/Channel/AbstractChannel.php	/^        $protocol = defined('AMQP_PROTOCOL') ? AMQP_PROTOCOL : self::PROTOCOL_091;$/;"	v
@@ -3935,6 +3953,8 @@ qp_mode	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function
 qpos	Common/PHPMailer/PHPMailer.php	/^        $qpos = strpos($filename, '?');$/;"	v
 qpos	Common/PHPMailer/class.phpmailer.php	/^        $qpos = strpos($filename, '?');$/;"	v
 qpos	test/mailtest/PHPMailer-master/class.phpmailer.php	/^        $qpos = strpos($filename, '?');$/;"	v
+queue	App/Mq/SendMessageToMq.php	/^        $this->queue    = $connectPara['rabbitMq']['queue'];$/;"	v
+queue	App/Mq/SendMessageToMq.php	/^    private $queue;$/;"	v
 queue	PhpAmqpLib/Channel/AMQPChannel.php	/^        $queue = $args->read_shortstr();$/;"	v
 queue	PhpAmqpLib/Channel/AMQPChannel.php	/^        $queue = '',$/;"	v
 queue	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public function basicConsume($ticket = 1, $queue = '', $consumer_tag = '', $no_local = false, $no_ack = false, $exclusive = false, $nowait = false)$/;"	v
@@ -4093,6 +4113,8 @@ reply_text	PhpAmqpLib/Helper/Protocol/Protocol091.php	/^    public function conn
 requeue	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public function basicReject($delivery_tag, $requeue = true)$/;"	v
 requeue	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public function fileReject($delivery_tag, $requeue = true)$/;"	v
 requeue	PhpAmqpLib/Helper/Protocol/Protocol091.php	/^    public function basicReject($delivery_tag, $requeue = true)$/;"	v
+res	App/Complaint/User_Complaint.php	/^        $res = array($/;"	v
+res	App/Mq/SendMessageToMq.php	/^        $res = array($/;"	v
 res	App/Upload/File_Upload.php	/^                $res = Array();$/;"	v
 res	Common/Oracle.php	/^$res = oci_parse($connect,$sql);$/;"	v
 res	PhpAmqpLib/Wire/AMQPReader.php	/^            $res = $this->io->read($n);$/;"	v
@@ -4103,7 +4125,6 @@ res	index.php	/^            $res = $fu->uploadFile($files);$/;"	v
 res	index.php	/^        $res = $dc->deleteComplaint($mobileConnect, $userDataSet);$/;"	v
 res	index.php	/^        $res = $uc->GetComplaint($mobileConnect, $userid, $rootPath);$/;"	v
 res	index.php	/^        $res = array();$/;"	v
-res	index.php	/^$res = oci_parse($connect,$sql);$/;"	v
 res	test/insertTestData.php	/^$res = oci_execute($stid);$/;"	v
 res	test/testdb.php	/^$res = oci_execute($stid);$/;"	v
 res	testup/doAction5.php	/^	$res=uploadFile($fileInfo);$/;"	v
@@ -4301,6 +4322,7 @@ select	PhpAmqpLib/Wire/IO/SocketIO.php	/^    public function select($sec, $usec)
 select	PhpAmqpLib/Wire/IO/StreamIO.php	/^    public function select($sec, $usec)$/;"	f
 self_closing_tags	Common/PHPMailer/extras/htmlfilter.php	/^    $self_closing_tags =  array($/;"	v
 self_closing_tags	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^    $self_closing_tags =  array($/;"	v
+send	App/Mq/SendMessageToMq.php	/^    public function send($data) {$/;"	f
 send	Common/PHPMailer/PHPMailer.php	/^    public function send()$/;"	f
 send	Common/PHPMailer/class.phpmailer.php	/^    public function send()$/;"	f
 send	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function send()$/;"	f
@@ -4430,7 +4452,6 @@ set_connection_block_handler	PhpAmqpLib/Connection/AbstractConnection.php	/^    
 set_connection_unblock_handler	PhpAmqpLib/Connection/AbstractConnection.php	/^    public function set_connection_unblock_handler($callback)$/;"	f
 set_nack_handler	PhpAmqpLib/Channel/AMQPChannel.php	/^    public function set_nack_handler($callback)$/;"	f
 set_return_listener	PhpAmqpLib/Channel/AMQPChannel.php	/^    public function set_return_listener($callback)$/;"	f
-severity	index.php	/^        $severity = 'info';$/;"	v
 sh.autoloader	Common/PHPMailer/examples/scripts/shAutoloader.js	/^sh.autoloader = function()$/;"	f
 sh.autoloader	test/mailtest/PHPMailer-master/examples/scripts/shAutoloader.js	/^sh.autoloader = function()$/;"	f
 sh.autoloader.addBrush	Common/PHPMailer/examples/scripts/shAutoloader.js	/^	function addBrush(aliases, url)$/;"	f
@@ -4512,6 +4533,7 @@ skip_content	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^    $skip_co
 skips	Common/PHPMailer/extras/htmlfilter.php	/^ * This function skips any whitespace from the current position within$/;"	f
 skips	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^ * This function skips any whitespace from the current position within$/;"	f
 slen	PhpAmqpLib/Wire/AMQPReader.php	/^        $slen = $this->read_php_int();$/;"	v
+smtm	index.php	/^        $smtm = new SendMessageToMq($configInfo);$/;"	v
 smtp	Common/PHPMailer/PHPMailer.php	/^            $this->smtp = $this->getSMTPInstance();$/;"	v
 smtp	Common/PHPMailer/PHPMailer.php	/^            $this->smtp = new SMTP;$/;"	v
 smtp	Common/PHPMailer/PHPMailer.php	/^    protected $smtp = null;$/;"	v
@@ -4610,7 +4632,6 @@ sql	createTable2.php	/^\/\/	$sql = 'insert into vehicle (' . $field. ') values (
 sql	createTables.php	/^	$sql = 'create table file (' . $field . ')';$/;"	v
 sql	createTables.php	/^	$sql = 'create table vehicle (' . $field . ')';$/;"	v
 sql	createTables.php	/^	$sql = 'insert into vehicle (' . $field. ') values (' . $value . ')';$/;"	v
-sql	index.php	/^$sql = "select * from app_user";$/;"	v
 sql	test/Db.php	/^$sql = "select * from login";$/;"	v
 sql	test2.php	/^$sql = "SELECT to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME FROM APP_USER WHERE LOGIN_NAME='cdqing'";$/;"	v
 sql	trafic.php	/^        $sql = "select c.complaint_id, c.complaint, c.feedback, c.create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and user_id='{$userid}'";$/;"	v
@@ -5260,6 +5281,8 @@ userid	trafic.php	/^        $userid = $complaint['userid'];             \/\/ use
 userid	trafic.php	/^$userid = '020f6e01d66ea7b97ff8ed4cd6c5e0da';$/;"	v
 username	App/Login/Mobile_Login.php	/^                $username = isset($pwdrows['USER_NAME']) ? $pwdrows['USER_NAME'] : '';$/;"	v
 username	App/Login/Mobile_Login.php	/^            $username = isset($tkrows['USER_NAME']) ? $tkrows['USER_NAME'] : '';$/;"	v
+username	App/Mq/SendMessageToMq.php	/^        $this->username = $connectPara['rabbitMq']['username'];$/;"	v
+username	App/Mq/SendMessageToMq.php	/^    private $username;$/;"	v
 username	App/Upload/File_Upload_old.php	/^		$username ='"'.$params['username'].'"';$/;"	v
 username	Common/Get_Config.php	/^            $this->username = preg_replace("\/\\s\/","",(string)$xml->username);$/;"	v
 username	Common/Get_Config.php	/^    public $username;$/;"	v

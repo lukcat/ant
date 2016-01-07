@@ -29,10 +29,11 @@ use App\UserInformation\User_Info as User_Info;
 use App\UserInformation\User_ChangePWD as User_ChangePWD;
 use App\UserInformation\User_ResetPWD as User_ResetPWD;
 use App\Graphics\Image_Information as Image_Information;
+use App\Mq\SendMessageToMq as SendMessageToMq;
 
 // for mq
-use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
+//use PhpAmqpLib\Connection\AMQPStreamConnection;
+//use PhpAmqpLib\Message\AMQPMessage;
 
 // global variable BASEDIR
 define('BASEDIR',__DIR__);
@@ -112,19 +113,6 @@ try {
 	throw new Exception("Database connection error: " . mysql_error());
 }
 
-//////////////////////////////////////////////
-///////////////// for test  ////////////////
-/*
-$sql = "select * from app_user";
-$res = oci_parse($connect,$sql);
-if(!oci_execute($res)) {
-    echo "exit";
-}
-if ($testrows = oci_fetch_array($res, OCI_BOTH)) {
-    echo $testrows['NAME'];
-}
-*/
-
 //echo "print params in index check";
 //Response::show(1,"mesaage",$check->params['loginname']);
 //$username = $check->params['username'];
@@ -190,6 +178,16 @@ $check->params['serialnumber'] = 'GBI0142';
 /* bus */
 //$check->params['countryid'] = '1';
 //$check->params['cityid'] = '1';
+
+/* complaint */
+/*
+$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
+$check->params['password'] = sha1(md5('test'));
+$check->params['complaint'] = 'shit';
+$check->params['complainttype'] = '1';
+*/
+
+
 
 ////////////////end of test data//////////////////////
 
@@ -269,7 +267,8 @@ switch($action) {
         // get complaint text
         $uc = new User_Complaint();
         //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
-        $complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
+        $complaintID = $uc->generateComplaintID();
+        //$complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid, $complaintID);
 
         // get files
         //$files = $check->params['files'];
@@ -300,7 +299,7 @@ switch($action) {
             // $res contains file basic information, include file's localname, photoid etc.
             $infos = array();
             foreach($res as $imageInfo) {
-                $info = $fu->insertPhotoInfo($mobileConnect,$imageInfo,$complaintid);
+                $info = $fu->insertPhotoInfo($mobileConnect,$imageInfo,$complaintID);
                 array_push($infos, $info);
             }
 
@@ -308,16 +307,24 @@ switch($action) {
             $ipRes = $ip->generateThumbnail($mobileConnect,$infos);
             $ipInfos = array();
             foreach($ipRes as $imageInfo) {
-                $info = $ip->insertthumbnailInfo($mobileConnect, $imageInfo, $complaintid);
+                $info = $ip->insertthumbnailInfo($mobileConnect, $imageInfo, $complaintID);
                 array_push($ipInfos, $info);
             }
 
         }
 
-        // get complaint text
-        //$uc = new User_Complaint();
-        ////$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
-        //$complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
+        // Insert compaint text into database
+        $complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid, $complaintID);
+
+        $smtm = new SendMessageToMq($configInfo);
+        //var_dump($configInfo);die();
+
+        // Get message which will send to rabbitMq
+        $mqMsg = $smtm->filterMessage($complaintInfo);
+
+        // send message to mq
+        $smtm->send($mqMsg);
+        //die();
 
         Response::show(600,'Complaint message upload successful');
 

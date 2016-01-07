@@ -5,9 +5,9 @@ namespace App\Complaint;
 use Common\Response as Response;
 
 class User_Complaint {
-    public function ReceiveComplaint($connect, $params, $user_id) {
+    public function ReceiveComplaint($connect, $params, $user_id, $complaintid) {
 
-        $complaintid = md5(uniqid(microtime(true),true));
+        //$complaintid = md5(uniqid(microtime(true),true));
         //$userid = $complaint['userid'];             // userid must exist or database would report error
         $userid = $user_id;             // userid must exist or database would report error
         $complaint = $params['complaint'];       // primariy key
@@ -19,8 +19,7 @@ class User_Complaint {
         $createtime = date('Y-m-d H:i:s');          // use oracle to_date function to format the date
         $modifytime = date('Y-m-d H:i:s');          // use oracle to_date function to format the date
 
-        //$sql="INSERT INTO COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,FEEDBACK,VALID,TYPE,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$feedback}','{$valid}','{$type}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
-
+        // sql sentence
         $sql="INSERT INTO COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,TYPE,VEHICLE_ID,FEEDBACK,VALID,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$complainttype}','{$vehicleid}','{$feedback}','{$valid}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
         $stid = oci_parse($connect,$sql);
@@ -30,6 +29,21 @@ class User_Complaint {
             //return false;
         } 
 
+        $res = array(
+                'ComplaintId' => $complaintid,
+                'UserId' => $userid,
+                'ComplaintType' => $complainttype,
+                'CreateTime' => $createtime,
+                'Complaint' => $complaint,
+                'vehicleid' => $vehicleid
+                );
+
+        return $res;
+    }
+
+    // generate complaint id
+    public function generateComplaintID() {
+        $complaintid = md5(uniqid(microtime(true),true));
         return $complaintid;
     }
 

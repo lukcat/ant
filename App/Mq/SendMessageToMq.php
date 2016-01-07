@@ -2,21 +2,25 @@
 
 namespace App\Mq;
 
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
 class SendMessageToMq {
     private $host;
     private $port;
     private $username;
     private $password;
     private $exchange;
-    private $mobile;
+    private $queue;
 
     public function __construct($connectPara) {
-        $this->host     = $connectPara['host'];
-        $this->port     = $connectPara['port'];
-        $this->username = $connectPara['username'];
-        $this->password = $connectPara['password'];
-        $this->exchange = $connectPara['exchange'];
-        $this->mobile   = $connectPara['mobile'];
+        $this->host     = $connectPara['rabbitMq']['host'];
+        $this->port     = $connectPara['rabbitMq']['port'];
+        $this->username = $connectPara['rabbitMq']['username'];
+        $this->password = $connectPara['rabbitMq']['password'];
+        $this->exchange = $connectPara['rabbitMq']['exchange'];
+        $this->queue    = $connectPara['rabbitMq']['queue'];
+        // var_dump($connectPara);die();
     }
 
     /*
@@ -31,23 +35,38 @@ class SendMessageToMq {
         $channel = $con->channel();
 
         // declear a queue
-        $channel->queue_declear($this->mobile, false, true, false, false);
+        //$channel->queue_declare($this->queue, false, true, false, false);
+        $args = array('x-expires' => 6000);
+        $channel->queue_declare($this->queue, false, false, false, $args);
 
         // generate bind key, MB.V2.RP.complaintid
-        $bindKey = 'MB.V2.RP.' . $data['complaintId'];
+        //var_dump($data);die();
+        $bindKey = 'MB.V2.RP.' . $data['ComplaintId'];
 
         // Bind queue to exchange with bindKey
-        $channel->bind($this->mobile, $this->exchange, $this->bindKey);
+        $channel->queue_bind($this->queue, $this->exchange, $bindKey);
 
         // Convert json object to json string
         $jsonStr = json_encode($data);
         $msg = new AMQPMessage($jsonStr);
 
         // Send message to exchange
-        $channel->basic_publish($msg, $this->exchange, $this->bindKey);
+        $channel->basic_publish($msg, $this->exchange, $bindKey);
 
         // Close connection
         $channel->close();
         $con->close();
+    }
+
+    public function filterMessage($data) {
+        //var_dump($data);die();
+        $res = array(
+                'ComplaintId'   => $data['ComplaintId'],
+                'UserId'        => $data['UserId'],
+                'ComplaintType' => $data['ComplaintType'],
+                'CreateTime'    => $data['CreateTime'],
+                );
+
+        return $res;
     }
 }

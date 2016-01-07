@@ -1,0 +1,92 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Mobile_Login	Mobile_Login.php	/^class Mobile_Login {$/;"	c
+Mobile_Login	Mobile_Login_old.php	/^class Mobile_Login {$/;"	c
+cellphone	Mobile_Login.php	/^                $cellphone = isset($pwdrows['CELLPHONE']) ? $pwdrows['CELLPHONE'] : '';$/;"	v
+cellphone	Mobile_Login.php	/^            $cellphone = isset($tkrows['CELLPHONE']) ? $tkrows['CELLPHONE'] : '';$/;"	v
+checkPassword	Mobile_Login.php	/^    private function checkPassword($userInfo, $connect) {$/;"	f
+checkPassword	Mobile_Login_old.php	/^    private function checkPassword($userInfo, $connect) {$/;"	f
+checkToken	Mobile_Login.php	/^    private function checkToken($userInfo, $connect) {$/;"	f
+checkToken	Mobile_Login_old.php	/^    private function checkToken($userInfo, $connect) {$/;"	f
+connect	Mobile_Login.php	/^	$connect = Common\\Oracle::getInstance()->connect();$/;"	v
+connect	Mobile_Login_old.php	/^	$connect = Common\\Oracle::getInstance()->connect();$/;"	v
+createtime	Mobile_Login.php	/^                $createtime = isset($pwdrows['CREATE_TIME']) ? $pwdrows['CREATE_TIME'] : '';$/;"	v
+createtime	Mobile_Login.php	/^            $createtime = isset($tkrows['CREATE_TIME']) ? $tkrows['CREATE_TIME'] : '';$/;"	v
+email	Mobile_Login.php	/^                $email = isset($pwdrows['EMAIL']) ? $pwdrows['EMAIL'] : '';$/;"	v
+email	Mobile_Login.php	/^            $email = isset($tkrows['EMAIL']) ? $tkrows['EMAIL'] : '';$/;"	v
+generateToken	Mobile_Login.php	/^    private function generateToken($userInfo, $connect) {$/;"	f
+generateToken	Mobile_Login_old.php	/^    private function generateToken($userInfo, $connect) {$/;"	f
+get_pwd	Mobile_Login.php	/^		$get_pwd= "select PASSWORD from APP_USER where LOGINNAME ='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";$/;"	v
+get_pwd	Mobile_Login.php	/^                    $get_pwd = $get_pwd . " CELLPHONE='{$userInfo['cellphone']}'";$/;"	v
+get_pwd	Mobile_Login.php	/^                    $get_pwd = $get_pwd . " EMAIL='{$userInfo['email']}'";$/;"	v
+get_pwd	Mobile_Login.php	/^                    $get_pwd = $get_pwd . " OR CELLPHONE='{$userInfo['cellphone']}'";$/;"	v
+get_pwd	Mobile_Login.php	/^                    $get_pwd = $get_pwd. " OR EMAIL='{$userInfo['email']}'";$/;"	v
+get_pwd	Mobile_Login.php	/^                $get_pwd = $get_pwd . " LOGIN_NAME='{$userInfo['loginname']}'";$/;"	v
+get_pwd	Mobile_Login.php	/^        $get_pwd = "SELECT PASSWORD,USER_ID FROM APP_USER WHERE"; $/;"	v
+get_pwd	Mobile_Login.php	/^        $get_pwd = "SELECT PASSWORD,USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'"; $/;"	v
+get_pwd	Mobile_Login_old.php	/^		$get_pwd= "select PASSWORD from APP_USER where LOGINNAME ='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";$/;"	v
+get_pwd	Mobile_Login_old.php	/^                    $get_pwd = $get_pwd . " CELLPHONE='{$userInfo['cellphone']}'";$/;"	v
+get_pwd	Mobile_Login_old.php	/^                    $get_pwd = $get_pwd . " EMAIL='{$userInfo['email']}'";$/;"	v
+get_pwd	Mobile_Login_old.php	/^                    $get_pwd = $get_pwd . " OR CELLPHONE='{$userInfo['cellphone']}'";$/;"	v
+get_pwd	Mobile_Login_old.php	/^                    $get_pwd = $get_pwd. " OR EMAIL='{$userInfo['email']}'";$/;"	v
+get_pwd	Mobile_Login_old.php	/^                $get_pwd = $get_pwd . " LOGIN_NAME='{$userInfo['loginname']}'";$/;"	v
+get_pwd	Mobile_Login_old.php	/^        $get_pwd = "SELECT PASSWORD,USER_ID FROM APP_USER WHERE"; $/;"	v
+get_token	Mobile_Login.php	/^        $get_token = "SELECT USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME, TOKEN FROM APP_USER WHERE TOKEN = '{$userInfo['token']}'";$/;"	v
+get_token	Mobile_Login_old.php	/^        $get_token = "select USER_ID from APP_USER where TOKEN = '{$userInfo['token']}'";$/;"	v
+idnumber	Mobile_Login.php	/^                $idnumber = isset($pwdrows['ICARD_ID']) ? $pwdrows['ICARD_ID'] : '';$/;"	v
+idnumber	Mobile_Login.php	/^            $idnumber = isset($tkrows['ICARD_ID']) ? $tkrows['ICARD_ID'] : '';$/;"	v
+isFirst	Mobile_Login.php	/^                    $isFirst = false;$/;"	v
+isFirst	Mobile_Login.php	/^                $isFirst = false;$/;"	v
+isFirst	Mobile_Login.php	/^        $isFirst = true;$/;"	v
+isFirst	Mobile_Login_old.php	/^                    $isFirst = false;$/;"	v
+isFirst	Mobile_Login_old.php	/^                $isFirst = false;$/;"	v
+isFirst	Mobile_Login_old.php	/^        $isFirst = true;$/;"	v
+ln	Mobile_Login.php	/^$ln = 'chendq';$/;"	v
+ln	Mobile_Login_old.php	/^$ln = 'chendq';$/;"	v
+login	Mobile_Login.php	/^	public function login($userInfo, $connect) {$/;"	f
+login	Mobile_Login_old.php	/^	public function login($userInfo, $connect) {$/;"	f
+loginid	Mobile_Login.php	/^        $loginid = $userInfo['loginid'];$/;"	v
+loginname	Mobile_Login.php	/^                $loginname = isset($pwdrows['LOGIN_NAME']) ? $pwdrows['LOGIN_NAME'] : '';$/;"	v
+loginname	Mobile_Login.php	/^            $loginname = isset($tkrows['LOGIN_NAME']) ? $tkrows['LOGIN_NAME'] : '';$/;"	v
+ml	Mobile_Login.php	/^$ml = new Mobile_Login();$/;"	v
+ml	Mobile_Login_old.php	/^$ml = new Mobile_Login();$/;"	v
+pwd	Mobile_Login.php	/^$pwd = sha1(md5("test"));$/;"	v
+pwd	Mobile_Login_old.php	/^$pwd = sha1(md5("test"));$/;"	v
+resData	Mobile_Login.php	/^                    $resData = $userData + $tokenArray;$/;"	v
+resData	Mobile_Login.php	/^                $resData = array('userId' => $userid, 'loginName' => $loginname, $/;"	v
+resData	Mobile_Login.php	/^            $resData = array('userId' => $userid, 'loginName' => $loginname, $/;"	v
+responseData	Mobile_Login_old.php	/^                    $responseData = array($/;"	v
+stpwd	Mobile_Login.php	/^        $stpwd = oci_parse($connect, $get_pwd);$/;"	v
+stpwd	Mobile_Login_old.php	/^        $stpwd = oci_parse($connect, $get_pwd);$/;"	v
+sttk	Mobile_Login.php	/^        $sttk = oci_parse($connect, $get_token);$/;"	v
+sttk	Mobile_Login.php	/^        $sttk = oci_parse($connect, $updateToken);$/;"	v
+sttk	Mobile_Login_old.php	/^        $sttk = oci_parse($connect, $get_token);$/;"	v
+sttk	Mobile_Login_old.php	/^        $sttk = oci_parse($connect, $updateToken);$/;"	v
+token	Mobile_Login.php	/^                    $token = $this->generateToken($userInfo, $connect);$/;"	v
+token	Mobile_Login.php	/^            $token = isset($tkrows['TOKEN']) ? $tkrows['TOKEN'] : '';$/;"	v
+token	Mobile_Login.php	/^        $token = md5(uniqid(microtime(true),true));$/;"	v
+token	Mobile_Login_old.php	/^                    $token = $this->generateToken($userInfo, $connect);$/;"	v
+token	Mobile_Login_old.php	/^        $token = md5(uniqid(microtime(true),true));$/;"	v
+tokenArray	Mobile_Login.php	/^                    $tokenArray = array('token' => $token);$/;"	v
+updateToken	Mobile_Login.php	/^                    $updateToken = $updateToken . " CELLPHONE='{$userInfo['cellphone']}'";$/;"	v
+updateToken	Mobile_Login.php	/^                    $updateToken = $updateToken . " EMAIL='{$userInfo['email']}'";$/;"	v
+updateToken	Mobile_Login.php	/^                    $updateToken = $updateToken . " OR CELLPHONE='{$userInfo['cellphone']}'";$/;"	v
+updateToken	Mobile_Login.php	/^                    $updateToken = $updateToken . " OR EMAIL='{$userInfo['email']}'";$/;"	v
+updateToken	Mobile_Login.php	/^                $updateToken = $updateToken . " LOGIN_NAME='{$userInfo['loginname']}'";$/;"	v
+updateToken	Mobile_Login.php	/^        $updateToken = "UPDATE APP_USER SET TOKEN='{$token}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";$/;"	v
+updateToken	Mobile_Login.php	/^        $updateToken = "UPDATE APP_USER SET TOKEN='{$token}' WHERE";$/;"	v
+updateToken	Mobile_Login_old.php	/^                    $updateToken = $updateToken . " CELLPHONE='{$userInfo['cellphone']}'";$/;"	v
+updateToken	Mobile_Login_old.php	/^                    $updateToken = $updateToken . " EMAIL='{$userInfo['email']}'";$/;"	v
+updateToken	Mobile_Login_old.php	/^                    $updateToken = $updateToken . " OR CELLPHONE='{$userInfo['cellphone']}'";$/;"	v
+updateToken	Mobile_Login_old.php	/^                    $updateToken = $updateToken . " OR EMAIL='{$userInfo['email']}'";$/;"	v
+updateToken	Mobile_Login_old.php	/^                $updateToken = $updateToken . " LOGIN_NAME='{$userInfo['loginname']}'";$/;"	v
+updateToken	Mobile_Login_old.php	/^        $updateToken = "UPDATE APP_USER SET TOKEN='{$token}' WHERE";$/;"	v
+userid	Mobile_Login.php	/^                $userid = preg_replace("\/\\s\/","",$pwdrows['USER_ID']);$/;"	v
+userid	Mobile_Login.php	/^            $userid = preg_replace("\/\\s\/","",$tkrows['USER_ID']);$/;"	v
+userid	Mobile_Login_old.php	/^                $userid = preg_replace("\/\\s\/","",$pwdrows['USER_ID']);$/;"	v
+username	Mobile_Login.php	/^                $username = isset($pwdrows['USER_NAME']) ? $pwdrows['USER_NAME'] : '';$/;"	v
+username	Mobile_Login.php	/^            $username = isset($tkrows['USER_NAME']) ? $tkrows['USER_NAME'] : '';$/;"	v
