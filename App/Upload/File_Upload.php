@@ -203,7 +203,8 @@ class File_Upload {
 
             $sql="INSERT INTO PHOTO(PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
-            //echo $sql;
+            //echo $sql;die();
+
 
             $stid = oci_parse($connect,$sql);
 

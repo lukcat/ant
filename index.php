@@ -163,7 +163,7 @@ $check->params['sn'] = 'e67bd4f23672ad2ca4d45d1a27381dc7852b88ca';
 $check->params['loginname'] = 'dq';
 $check->params['password'] = sha1(md5('test'));
 $check->params['icardid'] = '123321200010010908';
-//$check->params['email'] = 'chendeqing@ceiec.com.cn';
+$check->params['email'] = 'chendeqing@ceiec.com.cn';
 $check->params['email'] = 'lukcatchen@126.com';
 $check->params['cellphone'] = '12345678903';
 $check->params['name'] = 'chendeqing';
@@ -174,6 +174,16 @@ $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
 $check->params['serialnumber'] = 'GBI0142';
 */
 
+/* register */
+/* 
+$check->params['loginname'] = 'chendeqing';
+$check->params['password'] = sha1(md5('test'));
+$check->params['icardid'] = '123321200010010908';
+$check->params['email'] = 'chendeqing@ceiec.com.cn';
+$check->params['cellphone'] = '12345678903';
+$check->params['name'] = 'chendeqing';
+$check->params['note'] = 'lanren2';
+*/
 
 /* bus */
 //$check->params['countryid'] = '1';
@@ -187,10 +197,16 @@ $check->params['complaint'] = 'shit';
 $check->params['complainttype'] = '1';
 */
 
-/* inquiryVehicle */
+/* inquiryVehicleByVehicleID */
 //$check->params['vehicleid'] = 'GBI0142';
 //$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 //$check->params['password'] = sha1(md5('test'));
+
+/* inquiryVehicleByAntID */
+$check->params['antid'] = '09.2.61351.1';
+$check->params['querytype'] = 'antid';
+$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
+$check->params['password'] = sha1(md5('test'));
 
 ////////////////end of test data//////////////////////
 
@@ -206,7 +222,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'Register';
 //$userDataSet['action'] = 'Complaint';
 //$userDataSet['action'] = 'GetComplaint';
-//$userDataSet['action'] = 'InquiryVehicle';
+$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';
 //$userDataSet['action'] = 'ChangePWD';
 //$userDataSet['action'] = 'GetUserInfo';
@@ -271,7 +287,8 @@ switch($action) {
         $uc = new User_Complaint();
         //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
         $complaintID = $uc->generateComplaintID();
-        //$complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid, $complaintID);
+        // Insert compaint text into database
+        $complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid, $complaintID);
 
         // get files
         //$files = $check->params['files'];
@@ -295,19 +312,25 @@ switch($action) {
 
             //// get complaint text
             //$uc = new User_Complaint();
-            ////$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
+            //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
             //$complaintid = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid);
 
             // Insert infomation into database
             // $res contains file basic information, include file's localname, photoid etc.
             $infos = array();
+            //var_dump($res);die();
             foreach($res as $imageInfo) {
+                //var_dump($imageInfo);die();
                 $info = $fu->insertPhotoInfo($mobileConnect,$imageInfo,$complaintID);
+                //var_dump($info);die();
                 array_push($infos, $info);
             }
 
             $ip = new Image_Processing();
             $ipRes = $ip->generateThumbnail($mobileConnect,$infos);
+            //echo 'ipRes';
+            //var_dump($ipRes);die();
+
             $ipInfos = array();
             foreach($ipRes as $imageInfo) {
                 $info = $ip->insertthumbnailInfo($mobileConnect, $imageInfo, $complaintID);
@@ -316,8 +339,6 @@ switch($action) {
 
         }
 
-        // Insert compaint text into database
-        $complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid, $complaintID);
 
         $smtm = new SendMessageToMq($configInfo);
         //var_dump($configInfo);die();
@@ -380,12 +401,21 @@ switch($action) {
 
         // get vehicle's information
 		$iv = new Vehicle_Inquiry();
-		$resData = $iv->getVehicleInfo($antConnect, $userDataSet['vehicleid']);
+
+        // get query type 
+        $queryType = $userDataSet['querytype'];
+
+        if ($queryType == 'vehicleid') {
+		    $resData = $iv->getVehicleInfoByVehicleID($antConnect, $userDataSet['vehicleid']);
+        } elseif ($queryType == 'antid') {
+            $resData = $iv->getVehicleInfoByAntID($mobileConnect, $userDataSet['antid']);
+        }
+        //var_dump($resData);die();
 
         /* send result to user's email box
          */
         // check user's identity
-        if (!empty($userDataSet['token'])) {
+        if (!empty($userDataSet['token']) || !empty($userDataSet['loginid'])) {
             $ui = new User_Info();
             $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
             $body = json_encode($resData);

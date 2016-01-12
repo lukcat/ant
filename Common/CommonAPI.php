@@ -110,7 +110,16 @@ class CommonAPI {
         $this->params['cityid'] = $originphotoid = isset($_POST['cityid']) ? $_POST['cityid'] : '';
     }
 
+    protected function getQueryType() {
+        $this->params['querytype'] = $querytype = isset($_POST['querytype']) ? $_POST['querytype'] : '';
+    }
+
     public function check() {
+		/*************
+         * Get query type (By vehicle_id OR ant_id)
+         */
+        $this->getQueryType();
+
 		/*************
          * Get country id
          */

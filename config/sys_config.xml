@@ -11,7 +11,7 @@
     <mobileServer>
       <hostname> 172.18.8.16 </hostname>
       <instance> antodb </instance>
-      <username> ANTMAN</username>
+      <username> antman </username>
       <password> antman </password>
     </mobileServer>
   </serverSet>

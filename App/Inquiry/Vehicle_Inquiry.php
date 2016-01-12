@@ -14,7 +14,7 @@ use Common\Response as Response;
 class Vehicle_Inquiry {
     // vehicleSeriesNumber, provence, district, vehicleType, company, range, license, owner, band, startyear
 
-	function getVehicleInfo($connect, $vehicle_id) {
+	function getVehicleInfoByVehicleID($connect, $vehicle_id) {
         // tables
 		$tables = 'VEHICLE v, VEHICLE_COMPANY c, DISTRICT d';
 		//$tables = 'VEHICLE v, VEHICLE_COMPANY c';
@@ -92,6 +92,49 @@ class Vehicle_Inquiry {
         }
 		
 	}
+
+    // get vehicle id by antid
+	function getVehicleIDByAntID($connect, $antid) {
+
+        // tables
+		$tables = 'SECURITY_SUITE_INFO ssi, SECURITY_SUITE_WORKING ssw';
+
+        // field
+		$field = 'ssw.VEHICLE_ID'; 
+        // condition
+        $condition = "ssi.MDVR_CORE_SN=ssw.MDVR_CORE_SN AND ssw.STATUS IN (23,24) AND ssi.ANT_SN='{$antid}'";
+
+        // generate sql
+        $sql = "SELECT {$field} FROM {$tables} WHERE {$condition}";
+        //echo $sql; die();
+
+        // parse
+        $ivid = oci_parse($connect, $sql);
+
+        // commit 
+        if(!oci_execute($ivid)) {
+            //echo "commit failure";
+            return false;
+        }
+
+        // get data from database
+
+        if ($ivRows = oci_fetch_array($ivid, OCI_BOTH)) {
+            $vehicleid = isset($ivRows['VEHICLE_ID']) ? $ivRows['VEHICLE_ID'] : '';
+
+            return $vehicleid;
+        } else {
+            return false;
+        }
+
+    }
+
+    // get vehicle by antid
+	function getVehicleInfoByAntID($connect, $antid) {
+	    $vehicleid = $this->getVehicleIDByAntID($connect, $antid);
+        //echo $vehicleid;die();
+	    return $this->getVehicleInfoByVehicleID($connect, $vehicleid);
+    }
 }
 
 /*
