@@ -37,7 +37,7 @@ class SendMessageToMq {
         // declear a queue
         //$channel->queue_declare($this->queue, false, true, false, false);
         $args = array('x-expires' => 6000);
-        $channel->queue_declare($this->queue, false, false, false, $args);
+        $channel->queue_declare($this->queue, false, true, false, false, $args);
 
         // generate bind key, MB.V2.RP.complaintid
         //var_dump($data);die();

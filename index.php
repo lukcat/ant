@@ -187,7 +187,10 @@ $check->params['complaint'] = 'shit';
 $check->params['complainttype'] = '1';
 */
 
-
+/* inquiryVehicle */
+//$check->params['vehicleid'] = 'GBI0142';
+//$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
+//$check->params['password'] = sha1(md5('test'));
 
 ////////////////end of test data//////////////////////
 
@@ -379,22 +382,28 @@ switch($action) {
 		$iv = new Vehicle_Inquiry();
 		$resData = $iv->getVehicleInfo($antConnect, $userDataSet['vehicleid']);
 
-        // send result to user's email box
-        $ui = new User_Info();
-        $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
-        $body = json_encode($resData);
+        /* send result to user's email box
+         */
+        // check user's identity
+        if (!empty($userDataSet['token'])) {
+            $ui = new User_Info();
+            $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
+            $body = json_encode($resData);
+            //echo $body;
 
-        if ($emailaddr) {
-            $mailer = new Mailer();
-            $mailer->sendmails($configInfo, $emailaddr, $body);
-        }
+            // get user's id
+            if ($emailaddr) {
+                $mailer = new Mailer();
+                $mailer->sendmails($configInfo, $emailaddr, $body);
+            }
 
-        // response result to client
-        if ($resData) {
-		    Response::show(900,"Vehicle Exist", $resData);
-        } else {
-		    //Response::show(901,"Vehicle Do Not Exist",$testData);
-		    Response::show(901,"Vehicle Do Not Exist");
+            // response result to client
+            if ($resData) {
+		        Response::show(900,"Vehicle Exist", $resData);
+            } else {
+		        //Response::show(901,"Vehicle Do Not Exist",$testData);
+		        Response::show(901,"Vehicle Do Not Exist");
+            }
         }
 
 		break;

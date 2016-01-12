@@ -10,7 +10,8 @@ class User_Info {
     public function getEmail($connect, $userInfo) {
         // query sql
         $loginid = $userInfo['loginid'];
-        $emailsql= "SELECT EMAIL FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
+        $token = $userInfo['token'];
+        $emailsql= "SELECT EMAIL FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR TOKEN='{$token}'";
 
         // parse
         $stes = oci_parse($connect, $emailsql);

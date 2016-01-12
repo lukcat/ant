@@ -31,7 +31,7 @@ class Mailer {
         } else {
             $mail->AddAddress($address);
         }
-        $mail->AddReplyTo('lukcatchen@126.com', '大众影评网');
+        $mail->AddReplyTo('lukcatchen@126.com', 'ANT');
         $mail->WordWrap = 50;   // 设置自动换行的字符长度为 50            
         $mail->IsHTML(true); // 设置Email格式为HTML
         $mail->Subject = $config['mail']['subject'];

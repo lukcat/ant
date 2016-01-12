@@ -43,7 +43,15 @@ class User_Complaint {
 
     // generate complaint id
     public function generateComplaintID() {
-        $complaintid = md5(uniqid(microtime(true),true));
+        
+        mt_srand((double) microtime() * 1000000);
+        $minNum = 1;
+        $maxNum = 99999999;
+        $complaintid = date('Ymdhis') . str_pad(mt_rand($minNum, $maxNum), 5, '0', STR_PAD_LEFT);
+        //echo $complaintid;die();
+
+        // old version
+        //$complaintid = md5(uniqid(microtime(true),true));
         return $complaintid;
     }
 

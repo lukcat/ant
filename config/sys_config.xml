@@ -9,10 +9,10 @@
     </antServer>
 
     <mobileServer>
-      <hostname> 172.18.7.21 </hostname>
-      <instance> mobile </instance>
-      <username> ant </username>
-      <password> ant </password>
+      <hostname> 172.18.8.16 </hostname>
+      <instance> antodb </instance>
+      <username> ANTMAN</username>
+      <password> antman </password>
     </mobileServer>
   </serverSet>
 
