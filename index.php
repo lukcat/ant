@@ -203,10 +203,12 @@ $check->params['complainttype'] = '1';
 //$check->params['password'] = sha1(md5('test'));
 
 /* inquiryVehicleByAntID */
+/*
 $check->params['antid'] = '09.2.61351.1';
 $check->params['querytype'] = 'antid';
 $check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('test'));
+*/
 
 ////////////////end of test data//////////////////////
 
@@ -222,7 +224,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'Register';
 //$userDataSet['action'] = 'Complaint';
 //$userDataSet['action'] = 'GetComplaint';
-$userDataSet['action'] = 'InquiryVehicle';
+//$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';
 //$userDataSet['action'] = 'ChangePWD';
 //$userDataSet['action'] = 'GetUserInfo';
