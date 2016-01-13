@@ -198,9 +198,12 @@ $check->params['complainttype'] = '1';
 */
 
 /* inquiryVehicleByVehicleID */
-//$check->params['vehicleid'] = 'GBI0142';
-//$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
-//$check->params['password'] = sha1(md5('test'));
+/*
+$check->params['vehicleid'] = 'GBI0142';
+$check->params['querytype'] = 'vehicleid';
+$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
+$check->params['password'] = sha1(md5('test'));
+*/
 
 /* inquiryVehicleByAntID */
 /*
@@ -407,6 +410,7 @@ switch($action) {
         // get query type 
         $queryType = $userDataSet['querytype'];
 
+        $resData = array();
         if ($queryType == 'vehicleid') {
 		    $resData = $iv->getVehicleInfoByVehicleID($antConnect, $userDataSet['vehicleid']);
         } elseif ($queryType == 'antid') {
@@ -415,30 +419,48 @@ switch($action) {
         //var_dump($resData);die();
 
         /* send result to user's email box
+         * use multiple process of php
          */
-        // check user's identity
         if (!empty($userDataSet['token']) || !empty($userDataSet['loginid'])) {
+            // get user's email address
             $ui = new User_Info();
             $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
             $body = json_encode($resData);
-            //echo $body;
 
-            // get user's id
-            if ($emailaddr) {
-                $mailer = new Mailer();
-                $mailer->sendmails($configInfo, $emailaddr, $body);
-            }
+            // new child process
+            $pid = pcntl_fork();    
+            if ($pid == 0) {
+                // In child process, do sending email job
 
-            // response result to client
-            if ($resData) {
-		        Response::show(900,"Vehicle Exist", $resData);
+                // get user's id
+                if ($emailaddr) {
+                    $mailer = new Mailer();
+                    $mailer->sendmails($configInfo, $emailaddr, $body);
+                }
+                break;
             } else {
-		        //Response::show(901,"Vehicle Do Not Exist",$testData);
-		        Response::show(901,"Vehicle Do Not Exist");
-            }
-        }
+                // This is main process, return result to client
+                // response result to client
+                if ($resData) {
+                    Response::show(900,"Vehicle Exist", $resData);
+                } else {
+                    //Response::show(901,"Vehicle Do Not Exist",$testData);
+                    Response::show(901,"Vehicle Do Not Exist");
+                }
 
-		break;
+                break;
+            }
+        } else {
+            if ($resData) {
+                Response::show(900,"Vehicle Exist", $resData);
+            } else {
+                //Response::show(901,"Vehicle Do Not Exist",$testData);
+                Response::show(901,"Vehicle Do Not Exist");
+            }
+
+            break;
+
+        }
 
     case 'InquiryBus':
         // Get bus information

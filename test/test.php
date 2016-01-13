@@ -58,5 +58,16 @@ echo $securityCode;
 //
 //mkdir($d);
 
-$str = 'test';
-echo mb_strlen($str);
+//$str = 'test';
+//echo mb_strlen($str);
+
+// multiple process
+$parentPid = getmypid();
+$pid = pcntl_fork();
+if ($pid == -1) {
+    die('fork failsed');
+} else if ($pid == 0) {
+    $myPid = getmypid();
+    echo 'I am child process. My Pid is '. $myPid . " and my father's Pid is " . $parentPid . PHP_EOL;
+} 
+echo "Oh my god! I am a father now! My child's PID is " . $pid . ' and my PId is ' . $parentPid . PHP_EOL;

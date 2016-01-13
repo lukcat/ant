@@ -13,7 +13,8 @@ class User_Complaint {
         $complaint = $params['complaint'];       // primariy key
         $complainttype = $params['complainttype'];
         $vehicleid = $params['vehicleid'];
-        $feedback = 'No feedback yet';
+        //$feedback = 'No feedback yet';
+        $feedback = '';
         $valid = 1;
         $type = 0;
         $createtime = date('Y-m-d H:i:s');          // use oracle to_date function to format the date
