@@ -423,6 +423,8 @@ switch($action) {
 		    $resData = $iv->getVehicleInfoByVehicleID($antConnect, $userDataSet['vehicleid']);
         } elseif ($queryType == 'antid') {
             $resData = $iv->getVehicleInfoByAntID($mobileConnect, $userDataSet['antid']);
+        } else {
+            Response::show(910,'queryType is not correct');
         }
         //var_dump($resData);die();
 
@@ -435,9 +437,12 @@ switch($action) {
             $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
             $body = json_encode($resData);
 
+            //echo 'in userDataSet';
             // new child process
             $pid = pcntl_fork();    
             if ($pid == 0) {
+                //echo 'in child';
+                sleep(2);
                 // In child process, do sending email job
 
                 // get user's id
@@ -445,7 +450,10 @@ switch($action) {
                     $mailer = new Mailer();
                     $mailer->sendmails($configInfo, $emailaddr, $body);
                 }
+
+                exit;
                 break;
+
             } else {
                 // This is main process, return result to client
                 // response result to client
@@ -457,6 +465,7 @@ switch($action) {
                 }
 
                 break;
+
             }
         } else {
             if ($resData) {
