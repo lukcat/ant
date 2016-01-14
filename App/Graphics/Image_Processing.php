@@ -120,13 +120,17 @@ class Image_Processing {
         $localname = $thumbnailInfo['localname'];           // file name in local system
         $originname = $thumbnailInfo['originname'];         // file origin name
         $size = $thumbnailInfo['size'];                     // file size
+        $width = $imageInfo['width'];
+        $height = $imageInfo['height'];
         $type = $thumbnailInfo['type'];                     // file type
         $valid = 1;                                     // 1 represent effective, 0 reprensent ineffective
         $path = $thumbnailInfo['path'];                     // file's relative path
         $description = $thumbnailInfo['description'];       // file description
         $createtime = date('Y-m-d H:i:s');              // file's create_time
         $modifytime = date('Y-m-d H:i:s');              // file's modify_time 
-        $sql="INSERT INTO THUMBNAIL(THUMBNAIL_ID,PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$thumbnailid}','{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+
+        // sql
+        $sql="INSERT INTO THUMBNAIL(THUMBNAIL_ID,PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,PHOTO_WIDTH, PHOTO_HEIGHT, TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$thumbnailid}','{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},{$width},{$height},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
         //echo $sql;
         $thumbnailInfo['thumbnailid'] = $thumbnailid;

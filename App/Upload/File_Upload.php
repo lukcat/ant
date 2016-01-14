@@ -101,7 +101,7 @@ class File_Upload {
                 }
                 $uniName=$this->getUniName();
                 $destination=$path.'/'.$uniName.'.'.$ext;
-                //echo $destination;
+                //echo $destination;die();
                 if(!move_uploaded_file($fileInfo['tmp_name'],$destination)){
                     $res['code'] = 16;
                     $res['message'] = 'move file:'.$fileInfo['name'].' error';
@@ -125,6 +125,11 @@ class File_Upload {
                             //'imagePath' => $imagePath
                             );
 
+                    // get image width and height
+                    list($width, $height) = getimagesize($destination);
+
+                    $res['width'] = $width;
+                    $res['height'] = $height;
                     $res['code'] = 0;
                     $res['message'] = $fileInfo['name'].' uploads successful';
                     $res['path'] = $imagePath;
@@ -190,14 +195,9 @@ class File_Upload {
             $complaintid = $complaint_id;       // foreign key
             $localname = $imageInfo['localname'];           // file name in local system
             $originname = $imageInfo['originname'];         // file origin name
-            //$size = $imageInfo['size'];                     // file size
-            //var_dump($imageInfo);
-            //var_dump($imageInfo['tmp_name']);
-            //list($width, $height) = getimagesize($imageInfo['tmp_name']);
-            //echo $width.PHP_EOL;
-            //echo $height.PHP_EOL;
-            //die('insertPhotoInfo');
-            //$width = 
+            $size = $imageInfo['size'];                     // file size
+            $width = $imageInfo['width'];
+            $height = $imageInfo['height'];
             $type = $imageInfo['type'];                     // file type
             $valid = 1;                                     // 1 represent effective, 0 reprensent ineffective
             $path = $imageInfo['path'];                     // file's relative path
@@ -208,9 +208,10 @@ class File_Upload {
             // add photoid to imageInfo
             $imageInfo['photoid'] = $photoid;
 
-            $sql="INSERT INTO PHOTO(PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
-            //echo $sql;die();
+            $sql="INSERT INTO PHOTO(PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE, PHOTO_WIDTH, PHOTO_HEIGHT, TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},{$width},{$height},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+
+            echo $sql;die();
 
 
             $stid = oci_parse($connect,$sql);
