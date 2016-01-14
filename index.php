@@ -191,11 +191,11 @@ $check->params['note'] = 'lanren2';
 
 /* complaint */
 /*
+*/
 $check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('test'));
 $check->params['complaint'] = 'shit';
 $check->params['complainttype'] = '1';
-*/
 
 /* get complaint */
 /*
@@ -233,7 +233,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'InquiryBus';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'Register';
-//$userDataSet['action'] = 'Complaint';
+$userDataSet['action'] = 'Complaint';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'Login';

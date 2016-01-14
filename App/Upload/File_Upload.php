@@ -190,7 +190,14 @@ class File_Upload {
             $complaintid = $complaint_id;       // foreign key
             $localname = $imageInfo['localname'];           // file name in local system
             $originname = $imageInfo['originname'];         // file origin name
-            $size = $imageInfo['size'];                     // file size
+            //$size = $imageInfo['size'];                     // file size
+            //var_dump($imageInfo);
+            //var_dump($imageInfo['tmp_name']);
+            //list($width, $height) = getimagesize($imageInfo['tmp_name']);
+            //echo $width.PHP_EOL;
+            //echo $height.PHP_EOL;
+            //die('insertPhotoInfo');
+            //$width = 
             $type = $imageInfo['type'];                     // file type
             $valid = 1;                                     // 1 represent effective, 0 reprensent ineffective
             $path = $imageInfo['path'];                     // file's relative path
