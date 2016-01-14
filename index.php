@@ -197,6 +197,14 @@ $check->params['complaint'] = 'shit';
 $check->params['complainttype'] = '1';
 */
 
+/* get complaint */
+/*
+$check->params['loginid'] = 'huojing@ceiec.com.cn';
+$check->params['password'] = sha1(md5('qwerty'));
+$check->params['complaint'] = 'shit';
+$check->params['complainttype'] = '1';
+*/
+
 /* inquiryVehicleByVehicleID */
 /*
 $check->params['vehicleid'] = 'GBI0142';
