@@ -6,8 +6,8 @@ use Common\Response as Response;
 
 class User_ChangePWD {
 
-    // varify user's identity
-    public function varifyUser($connect, $userInfo) {
+    // verify user's identity
+    public function verifyUser($connect, $userInfo) {
         // get loginid and password
         $loginid = $userInfo['loginid'];
         $password = $userInfo['password'];
@@ -16,7 +16,7 @@ class User_ChangePWD {
             Response::show(1301,'Login id is empty');
         }
 
-        $get_pwd = "SELECT USER_ID FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' AND PASSWORD='{$password}'"; 
+        $get_pwd = "SELECT USER_ID FROM APP_USER WHERE (LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}') AND PASSWORD='{$password}'"; 
 
         // parse
         $stpwd = oci_parse($connect, $get_pwd);
@@ -32,12 +32,12 @@ class User_ChangePWD {
             return true;
         }
 
-	    Response::show(1303,"User_Modify-varifyUser: User doesn't exist OR wrong password");
+	    Response::show(1303,"User_Modify-verifyUser: User doesn't exist OR wrong password");
     }
 
     // modify user's password
     public function changePassword($connect, $userInfo) {
-        if ($this->varifyUser($connect, $userInfo)) {
+        if ($this->verifyUser($connect, $userInfo)) {
             // get loginid and password
             $loginid = $userInfo['loginid'];
             //$password = $userInfo['password'];
@@ -137,8 +137,8 @@ class User_ChangePWD {
         
     }
 
-    // varify security code 
-    public function varifySecurityCode($connect, $userInfo) {
+    // verify security code 
+    public function verifySecurityCode($connect, $userInfo) {
         // get security code by loginid from databse
         // compare security code 
         // generate a string seed by security code and return it to user
@@ -146,7 +146,7 @@ class User_ChangePWD {
 
     public function forgetPassword($connect, $userInfo) {
         // Get password by email
-        // varify email and login_name
+        // verify email and login_name
         // sent scurity code to user's email address
         // varidy security code and modify user password
     }

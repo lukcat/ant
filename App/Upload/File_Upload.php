@@ -138,6 +138,7 @@ class File_Upload {
                     $res['originname'] = $imageOriginName;
                     $res['size'] = $imageSize;
                     $res['description'] = 'No description yet';
+                    //var_dump($res);die();
                 }
 
                 //$res['data'] = $fileInfo;
@@ -210,9 +211,7 @@ class File_Upload {
 
 
             $sql="INSERT INTO PHOTO(PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE, PHOTO_WIDTH, PHOTO_HEIGHT, TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},{$width},{$height},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
-
-            echo $sql;die();
-
+            //echo $sql;die();
 
             $stid = oci_parse($connect,$sql);
 

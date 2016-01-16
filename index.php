@@ -185,11 +185,18 @@ $check->params['name'] = 'chendeqing';
 $check->params['note'] = 'lanren2';
 */
 
+/* ChangePWD*/
+/* 
+$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
+$check->params['password'] = sha1(md5('test'));
+$check->params['newpassword'] = sha1(md5('test'));
+*/
+
 /* bus */
 //$check->params['countryid'] = '1';
 //$check->params['cityid'] = '1';
 
-/* complaint */
+/* Complaint */
 /*
 $check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('test'));
@@ -203,6 +210,14 @@ $check->params['loginid'] = 'huojing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('qwerty'));
 $check->params['complaint'] = 'shit';
 $check->params['complainttype'] = '1';
+*/
+
+/* Send vehicle information */
+/*
+$check->params['vehicleid'] = 'GBI0142';
+$check->params['querytype'] = 'vehicleid';
+$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
+$check->params['password'] = sha1(md5('test'));
 */
 
 /* inquiryVehicleByVehicleID */
@@ -236,6 +251,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'Complaint';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'InquiryVehicle';
+//$userDataSet['action'] = 'SendVehicleInformation';
 //$userDataSet['action'] = 'Login';
 //$userDataSet['action'] = 'ChangePWD';
 //$userDataSet['action'] = 'GetUserInfo';
@@ -352,7 +368,6 @@ switch($action) {
 
         }
 
-
         $smtm = new SendMessageToMq($configInfo);
         //var_dump($configInfo);die();
 
@@ -429,36 +444,13 @@ switch($action) {
         /* send result to user's email box
          * use multiple process of php
          */
-        if (!empty($userDataSet['token']) || !empty($userDataSet['loginid'])) {
+        //if (!empty($userDataSet['token']) || !empty($userDataSet['loginid'])) {
             // get user's email address
             $ui = new User_Info();
             $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
             $body = json_encode($resData);
 
-            // new child process
-            $pid = pcntl_fork();    
-            if ($pid == 0) {
-                // In child process, do sending email job
-
-                // get user's id
-                if ($emailaddr) {
-                    $mailer = new Mailer();
-                    $mailer->sendmails($configInfo, $emailaddr, $body);
-                }
-                break;
-            } else {
-                // This is main process, return result to client
-                // response result to client
-                if ($resData) {
-                    Response::show(900,"Vehicle Exist", $resData);
-                } else {
-                    //Response::show(901,"Vehicle Do Not Exist",$testData);
-                    Response::show(901,"Vehicle Do Not Exist");
-                }
-
-                break;
-            }
-        } else {
+            // get user's id
             if ($resData) {
                 Response::show(900,"Vehicle Exist", $resData);
             } else {
@@ -466,9 +458,61 @@ switch($action) {
                 Response::show(901,"Vehicle Do Not Exist");
             }
 
-            break;
+            //if ($emailaddr) {
+            //    $mailer = new Mailer();
+            //    $mailer->sendmails($configInfo, $emailaddr, $body);
+            //}
 
+            break;
+        //} else {
+        //    if ($resData) {
+        //        Response::show(900,"Vehicle Exist", $resData);
+        //    } else {
+        //        //Response::show(901,"Vehicle Do Not Exist",$testData);
+        //        Response::show(901,"Vehicle Do Not Exist");
+        //    }
+
+        //    break;
+
+        //}
+
+	case 'SendVehicleInformation':
+
+        // get vehicle's information
+		$iv = new Vehicle_Inquiry();
+
+        // get query type 
+        $queryType = $userDataSet['querytype'];
+
+        $resData = array();
+        if ($queryType == 'vehicleid') {
+		    $resData = $iv->getVehicleInfoByVehicleID($antConnect, $userDataSet['vehicleid']);
+        } elseif ($queryType == 'antid') {
+            $resData = $iv->getVehicleInfoByAntID($mobileConnect, $userDataSet['antid']);
         }
+        //var_dump($resData);die();
+
+        /* send result to user's email box
+         * use multiple process of php
+         */
+        if (!empty($userDataSet['token']) || !empty($userDataSet['loginid'])) {
+            //// get user's email address
+            $ui = new User_Info();
+            $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
+            $body = json_encode($resData);
+
+            if ($emailaddr) {
+                $mailer = new Mailer();
+                $mailer->sendmails($configInfo, $emailaddr, $body);
+                Response::show(1900,"Send email successful");
+            }
+
+            Response::show(1901,"Send email failure");
+        } 
+
+        Response::show(1902,"Send email failure: NO user basic information");
+
+        break;
 
     case 'InquiryBus':
         // Get bus information
