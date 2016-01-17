@@ -22,8 +22,12 @@ class CommonAPI {
                 $i++;
             }elseif(is_array($file['name'])){
                 foreach($file['name'] as $key=>$val){
+                    //list($width,$height) = getimagesize($files[$i]['name'][0]);
+
                     $files[$i]['name']=$file['name'][$key];
                     $files[$i]['type']=$file['type'][$key];
+                    //$files[$i]['width']=$file['width'][$key];
+                    //$files[$i]['height']=$file['height'][$key];
                     $files[$i]['tmp_name']=$file['tmp_name'][$key];
                     $files[$i]['error']=$file['error'][$key];
                     $files[$i]['size']=$file['size'][$key];

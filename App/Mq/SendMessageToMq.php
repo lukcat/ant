@@ -35,9 +35,7 @@ class SendMessageToMq {
         $channel = $con->channel();
 
         // declear a queue
-        //$channel->queue_declare($this->queue, false, true, false, false);
-        $args = array('x-expires' => 6000);
-        $channel->queue_declare($this->queue, false, true, false, false, $args);
+        $channel->queue_declare($this->queue, false, true, false, false);
 
         // generate bind key, MB.V2.RP.complaintid
         //var_dump($data);die();
@@ -48,7 +46,9 @@ class SendMessageToMq {
 
         // Convert json object to json string
         $jsonStr = json_encode($data);
-        $msg = new AMQPMessage($jsonStr);
+
+        $property = array('type' => '1', 'priority'=> 1, 'expiration' => 600000, 'content_type' => 'utf-8');
+        $msg = new AMQPMessage($jsonStr, $property);
 
         // Send message to exchange
         $channel->basic_publish($msg, $this->exchange, $bindKey);

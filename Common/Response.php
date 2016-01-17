@@ -47,6 +47,36 @@ class Response {
 			// TODO
 		}
 	}
+
+    // response without return 
+	public static function echo_show($code, $message = '', $data = array(),$type = self::JSON) {
+		if(!is_numeric($code)) {
+			return '';
+		}
+
+		$type = isset($_GET['format']) ? $_GET['format'] : self::JSON;
+        //var_dump($data);
+
+		$result = array(
+			'code' => $code,
+			'message' => $message,
+			'data' => $data
+		);
+        //var_dump($result);
+
+		if($type == 'json') {
+            //echo "json";
+			self::json($code, $message, $data);
+			//exit;
+		} elseif($type == 'array') {
+			var_dump($result);
+		} elseif($type == 'xml') {
+			self::xmlEncode($code, $message, $data);
+			//exit;
+		} else {
+			// TODO
+		}
+	}
 	/**
 	* 按json方式输出通信数据
 	* @param integer $code 状态码

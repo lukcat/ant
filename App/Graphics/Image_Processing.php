@@ -43,6 +43,9 @@ class Image_Processing {
 
             // get image size
             $imageSize = $image->getImageSize();
+            //$imageSize = $image->getsize();
+            //$imageSize = getimagesize($destination);
+            //var_dump($imageSize);
 
             // save image to local disk, get local path and local name
             // 1.Create folder
@@ -69,7 +72,9 @@ class Image_Processing {
             }
 
             // add origin name to array
-            $imageSize = $image->getImageSize();
+            //$imageSize = $image->getImageSize();
+            //echo 'imageSize';
+            //echo $imageSize;die();
             $imageLocalName = $uniName.'.'.$ext;
             //$imageOriginName = basename($imagePath);
             $imageOriginName = $imageInfo['originname'];
@@ -92,11 +97,14 @@ class Image_Processing {
                 $res['message'] = 'Thumbnail ' . $imageOriginName . ' generated successful';
             }
 
+            list($width, $height) = getimagesize($destination);
             $res['path'] = $imagePath;
             $res['localname'] = $imageLocalName;
             $res['type'] = $imageType;
             $res['originname'] = $imageOriginName;
             $res['size'] = $imageSize;
+            $res['width'] = $width;
+            $res['height'] = $height;
             $res['description'] = 'No description yet';
             $res['photoid'] = $photoID;
 
@@ -120,15 +128,19 @@ class Image_Processing {
         $localname = $thumbnailInfo['localname'];           // file name in local system
         $originname = $thumbnailInfo['originname'];         // file origin name
         $size = $thumbnailInfo['size'];                     // file size
+        $width = $thumbnailInfo['width'];
+        $height = $thumbnailInfo['height'];
         $type = $thumbnailInfo['type'];                     // file type
         $valid = 1;                                     // 1 represent effective, 0 reprensent ineffective
         $path = $thumbnailInfo['path'];                     // file's relative path
         $description = $thumbnailInfo['description'];       // file description
         $createtime = date('Y-m-d H:i:s');              // file's create_time
         $modifytime = date('Y-m-d H:i:s');              // file's modify_time 
-        $sql="INSERT INTO THUMBNAIL(THUMBNAIL_ID,PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$thumbnailid}','{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
-        //echo $sql;
+        // sql
+        $sql="INSERT INTO THUMBNAIL(THUMBNAIL_ID,PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,PHOTO_WIDTH, PHOTO_HEIGHT, TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$thumbnailid}','{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},{$width},{$height},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+
+        //echo $sql;die();
         $thumbnailInfo['thumbnailid'] = $thumbnailid;
 
         $stid = oci_parse($connect,$sql);
