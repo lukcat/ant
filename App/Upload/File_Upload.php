@@ -137,7 +137,7 @@ class File_Upload {
                     $res['type'] = $imageType;
                     $res['originname'] = $imageOriginName;
                     $res['size'] = $imageSize;
-                    $res['description'] = 'No description yet';
+                    $res['description'] = '';
                     //var_dump($res);die();
                 }
 
