@@ -169,7 +169,7 @@ $check->params['cellphone'] = '12345678903';
 $check->params['name'] = 'chendeqing';
 $check->params['note'] = 'lanren2';
 
-$check->params['complaint'] = 'shit';
+$check->params['complaint'] = 'complaint content here';
 $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
 $check->params['serialnumber'] = 'GBI0142';
 */
@@ -200,7 +200,7 @@ $check->params['newpassword'] = sha1(md5('test'));
 /*
 $check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('test'));
-$check->params['complaint'] = 'shit';
+$check->params['complaint'] = 'complaint content here';
 $check->params['complainttype'] = '1';
 */
 
@@ -208,7 +208,6 @@ $check->params['complainttype'] = '1';
 /*
 $check->params['loginid'] = 'huojing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('qwerty'));
-$check->params['complaint'] = 'shit';
 $check->params['complainttype'] = '1';
 */
 

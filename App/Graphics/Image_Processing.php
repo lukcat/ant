@@ -42,7 +42,7 @@ class Image_Processing {
             $image->thumbnailImage($columns,$rows,$bestfit);
 
             // get image size
-            $imageSize = $image->getImageSize();
+            //$imageSize = $image->getImageSize();
             //$imageSize = $image->getsize();
             //$imageSize = getimagesize($destination);
             //var_dump($imageSize);
@@ -81,6 +81,7 @@ class Image_Processing {
             $imageType = $ext;
             $imagePath = $savePath;     // here is relative path
             $photoID = $imageInfo['photoid'];
+            $imageSize = filesize($destination);
 
             /*
             $insertData = Array(
@@ -105,7 +106,7 @@ class Image_Processing {
             $res['size'] = $imageSize;
             $res['width'] = $width;
             $res['height'] = $height;
-            $res['description'] = 'No description yet';
+            $res['description'] = '';
             $res['photoid'] = $photoID;
 
             //$res['data'] = $fileInfo;
