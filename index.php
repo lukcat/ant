@@ -30,6 +30,8 @@ use App\UserInformation\User_ChangePWD as User_ChangePWD;
 use App\UserInformation\User_ResetPWD as User_ResetPWD;
 use App\Graphics\Image_Information as Image_Information;
 use App\Mq\SendMessageToMq as SendMessageToMq;
+use Common\Guid as Guid;
+use App\Mq\MessageLog as MessageLog;
 
 // for mq
 //use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -375,8 +377,22 @@ switch($action) {
 
         // send message to mq
         $smtm->send($mqMsg);
-        //die();
 
+        /* write message into database */
+        // generate guid
+        $gu = new Guid();
+        $guid = $gu->generateGuid();
+        //$complaintID = $uc->generateComplaintID();
+
+        // Insert message into database
+        $ml = new MessageLog();
+        if($ml->writeMessageLog($mobileConnect, $guid, $complaintID)) {
+            // TODO
+        } else {
+            // TODO
+        }
+
+        // Response message to client
         Response::show(600,'Complaint message upload successful');
 
         break;
