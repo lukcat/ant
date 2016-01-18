@@ -358,8 +358,6 @@ switch($action) {
 
             $ip = new Image_Processing();
             $ipRes = $ip->generateThumbnail($mobileConnect,$infos);
-            //echo 'ipRes';
-            //var_dump($ipRes);die();
 
             $ipInfos = array();
             foreach($ipRes as $imageInfo) {
@@ -369,20 +367,21 @@ switch($action) {
 
         }
 
+        /* Send message to RabbitMq*/
+        // new a rabbitMq sender
         $smtm = new SendMessageToMq($configInfo);
-        //var_dump($configInfo);die();
 
         // Get message which will send to rabbitMq
         $mqMsg = $smtm->filterMessage($complaintInfo);
 
         // send message to mq
         $smtm->send($mqMsg);
+        /* End of Send message to RabbitMq*/
 
-        /* write message into database */
+        /* Write message into database */
         // generate guid
         $gu = new Guid();
         $guid = $gu->generateGuid();
-        //$complaintID = $uc->generateComplaintID();
 
         // Insert message into database
         $ml = new MessageLog();
@@ -391,6 +390,7 @@ switch($action) {
         } else {
             // TODO
         }
+        /* End of write message into database */
 
         // Response message to client
         Response::show(600,'Complaint message upload successful');
