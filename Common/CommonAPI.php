@@ -114,11 +114,20 @@ class CommonAPI {
         $this->params['cityid'] = $originphotoid = isset($_POST['cityid']) ? $_POST['cityid'] : '';
     }
 
+    protected function getAntID() {
+        $this->params['antid'] = $antid = isset($_POST['antid']) ? $_POST['antid'] . '.1' : '';
+    }
+
     protected function getQueryType() {
         $this->params['querytype'] = $querytype = isset($_POST['querytype']) ? $_POST['querytype'] : '';
     }
 
     public function check() {
+		/*************
+         * Get query type (By vehicle_id OR ant_id)
+         */
+        $this->getAntID();
+
 		/*************
          * Get query type (By vehicle_id OR ant_id)
          */
