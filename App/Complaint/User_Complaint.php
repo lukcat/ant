@@ -5,11 +5,13 @@ namespace App\Complaint;
 use Common\Response as Response;
 
 class User_Complaint {
-    public function ReceiveComplaint($connect, $params, $user_id, $complaintid) {
+    public function ReceiveComplaint($connect, $params, $userInfo, $complaintid) {
 
         //$complaintid = md5(uniqid(microtime(true),true));
         //$userid = $complaint['userid'];             // userid must exist or database would report error
-        $userid = $user_id;             // userid must exist or database would report error
+        $userid = $userInfo['userId'];             // userid must exist or database would report error
+        $username = $userInfo['userName'];             // userid must exist or database would report error
+
         $complaint = $params['complaint'];       // primariy key
         $complainttype = $params['complainttype'];
         $vehicleid = $params['vehicleid'];
@@ -33,6 +35,7 @@ class User_Complaint {
         $res = array(
                 'ComplaintId' => $complaintid,
                 'UserId' => $userid,
+                'UserName' => $username,
                 'ComplaintType' => $complainttype,
                 'CreateTime' => $createtime,
                 'Complaint' => $complaint,

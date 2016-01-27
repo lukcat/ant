@@ -63,6 +63,7 @@ class SendMessageToMq {
         $res = array(
                 'ComplaintId'   => $data['ComplaintId'],
                 'UserId'        => $data['UserId'],
+                'UserName'      => $data['UserName'],
                 'ComplaintType' => $data['ComplaintType'],
                 'CreateTime'    => $data['CreateTime'],
                 );

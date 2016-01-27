@@ -42,7 +42,7 @@ class Mobile_Login {
 
             $resData = array('userId' => $userid, 'loginName' => $loginname, 
                     'userName' => $username, 'email' => $email, 'idNumber' => $idnumber,
-                    'createtime' => $createtime, 'token' => $token);
+                    'cellphone' => $cellphone, 'createtime' => $createtime, 'token' => $token);
 
             return $resData;
             // login successfully
@@ -155,7 +155,7 @@ class Mobile_Login {
 
                 $resData = array('userId' => $userid, 'loginName' => $loginname, 
                         'userName' => $username, 'email' => $email, 'idNumber' => $idnumber,
-                        'createtime' => $createtime);
+                        'cellphone' => $cellphone, 'createtime' => $createtime);
 
                 return $resData;
 			}

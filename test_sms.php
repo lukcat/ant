@@ -5,10 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="index.php" method="post" enctype="multipart/form-data">
-<!--
-请选择您要上传的文件：<input type="file" name='myFile[]' /><br/>
---!>
+<form action="test/handle_form.php" method="post" >
 First name: <input type="text" name="fname"><br>
 Last name: <input type="text" name="lname"><br>
 <input type="submit" value="上传文件" />

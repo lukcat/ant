@@ -176,6 +176,12 @@ $check->params['complaintid'] = '13e06c6f7ce8a1a1fdb361a147207894';
 $check->params['serialnumber'] = 'GBI0142';
 */
 
+/* Login */
+/* 
+$check->params['password'] = sha1(md5('qwerty'));
+$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
+*/
+
 /* register */
 /* 
 $check->params['loginname'] = 'chendeqing';
@@ -305,8 +311,9 @@ switch($action) {
         //Varify user's indentity first
 		$ml = new Mobile_Login();
         // login return a array which contains userid and token 
-		$arrayInfo = $ml->login($userDataSet, $mobileConnect);
-        $userid = $arrayInfo['userId'];
+		$userInfo = $ml->login($userDataSet, $mobileConnect);
+        $userid = $userInfo['userId'];
+        $userName = $userInfo['userName'];
 
         // maybe useless
         if (empty($userid)) {
@@ -318,7 +325,8 @@ switch($action) {
         //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
         $complaintID = $uc->generateComplaintID();
         // Insert compaint text into database
-        $complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid, $complaintID);
+        $complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userInfo, $complaintID);
+        //var_dump($complaintInfo);die();
 
         // get files
         //$files = $check->params['files'];
