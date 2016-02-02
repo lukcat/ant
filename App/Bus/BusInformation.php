@@ -187,6 +187,22 @@ class BusInformation {
         return $busInfo;
     }
 
+    /* Process stopsID into decode formate
+     * @param: stopIDs //bus stop id which is related to busstop table
+     * @return: string
+     */
+    protected function decodeFormate($str) {
+        $arr = explode(',', $str);
+
+        $newStr = '';
+        foreach($arr as $key => $value) {
+            $newStr .= $value . ',' . $key . ',';
+        }
+        $newStr = substr($newStr, 0, strlen($newStr)-1);
+
+        return $newStr;
+    }
+
     /* Get bus stop positon
      * @param: stopIDs //bus stop id which is related to busstop table
      * @param: connect
@@ -194,7 +210,11 @@ class BusInformation {
      */
     public function getBusstopInformation($connect, $stopsID) {
         // Get all of the bus stops postion
-        $getStopsPosition = "SELECT BUSSTOP_NAME, LATITUDE, LONGITUDE FROM BUSSTOP WHERE BS_ID IN ({$stopsID})";
+        //$getStopsPosition = "SELECT BUSSTOP_NAME, LATITUDE, LONGITUDE FROM BUSSTOP WHERE BS_ID IN ({$stopsID})";
+        $str = $this->decodeFormate($stopsID);
+
+        $getStopsPosition = "SELECT BUSSTOP_NAME, LATITUDE, LONGITUDE FROM BUSSTOP WHERE BS_ID IN ({$stopsID}) ORDER BY \"DECODE\"(BS_ID ,{$str})";
+        //echo $getStopsPosition;die();
         //echo $getStopsPosition;die();
 
         // parse the sql above
