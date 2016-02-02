@@ -242,6 +242,8 @@ $check->params['querytype'] = 'antid';
 $check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('test'));
 */
+/* GetBusLineInformation */
+//$check->params['cityid'] = '1';
 
 ////////////////end of test data//////////////////////
 

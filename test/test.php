@@ -90,5 +90,26 @@ function guid(){
     }
 }
 
-echo 'guid is' . PHP_EOL;
-echo guid();
+//echo 'guid is' . PHP_EOL;
+//echo guid();
+
+
+function stringFormat($str) {
+    $arr = explode(",", $str);
+
+    //print_r($arr);
+    return $arr;
+}
+
+$str = "1,2,3,4,5";
+
+$arr = stringFormat($str);
+
+foreach($arr as $key => $value) {
+    echo $key. ','. $value . ',';
+}
+
+
+
+
+
