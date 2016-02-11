@@ -14,7 +14,7 @@ use Common\Response as Response;
 class Mobile_Register {
     // check loginname in table APP_USER
 	//private function itemExist($loginname, $email, $cellphone, $connect) 	
-	function itemExist($userInfo,$connect) {	
+	public function itemExist($userInfo,$connect) {	
         $loginname = $userInfo['loginname'];
         $email = $userInfo['email'];
         $cellphone = $userInfo['cellphone'];
@@ -27,10 +27,7 @@ class Mobile_Register {
 		    $check_em= "SELECT USER_ID FROM APP_USER where EMAIL='{$email}' OR LOGIN_NAME='{$email}' OR CELLPHONE='{$email}' AND VALID=1";
 		    $check_cp= "SELECT USER_ID FROM APP_USER where CELLPHONE='{$cellphone}' OR LOGIN_NAME='{$cellphone}' OR EMAIL='{$cellphone}' AND VALID=1";
 
-            //$check = "SELECT * FROM APP_USER WHERE LOGIN";
-
             // parse sql
-
             // check loginname
             $stln = oci_parse($connect, $check_ln);
             if (!oci_execute($stln)) {

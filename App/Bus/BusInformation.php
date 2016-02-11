@@ -251,4 +251,31 @@ class BusInformation {
         return $stops;
     }
 
+    /* Get bus GPS 
+     * @param 
+     * return 
+     */
+    public function getBusSetGPS() {
+        /*
+           return json value
+           {
+                routeID:xxx,
+                gps:[
+                    {
+                        antID:xxx,
+                        longitude:xxx,
+                        latitude:xxx,
+                        time:xxxx/xx/xx
+                    },
+                    {
+                        antID:xxx,
+                        longitude:xxx,
+                        latitude:xxx,
+                        time:xxxx/xx/xx
+                    }
+
+                ]
+           }
+         */
+    }
 }

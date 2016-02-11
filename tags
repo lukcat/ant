@@ -215,6 +215,7 @@ GLOBAL_METHOD_NAMES	PhpAmqpLib/Wire/Constants091.php	/^    public static $GLOBAL
 GenericContent	PhpAmqpLib/Wire/GenericContent.php	/^abstract class GenericContent$/;"	c
 GetComplaint	App/Complaint/User_Complaint.php	/^    public function GetComplaint($connect, $userID, $hostName) {$/;"	f
 Get_Config	Common/Get_Config.php	/^class Get_Config {$/;"	c
+Guid	Common/Guid.php	/^class Guid {$/;"	c
 HTMLFilter	Common/PHPMailer/extras/htmlfilter.php	/^function HTMLFilter($body, $trans_image_path, $block_external_images = false)$/;"	f
 HTMLFilter	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^function HTMLFilter($body, $trans_image_path, $block_external_images = false)$/;"	f
 Helo	Common/PHPMailer/PHPMailer.php	/^    public $Helo = '';$/;"	v
@@ -302,6 +303,7 @@ MessageDate	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public $Mes
 MessageID	Common/PHPMailer/PHPMailer.php	/^    public $MessageID = '';$/;"	v
 MessageID	Common/PHPMailer/class.phpmailer.php	/^    public $MessageID = '';$/;"	v
 MessageID	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public $MessageID = '';$/;"	v
+MessageLog	App/Mq/MessageLog.php	/^class MessageLog {$/;"	c
 MethodMap080	PhpAmqpLib/Helper/Protocol/MethodMap080.php	/^class MethodMap080$/;"	c
 MethodMap091	PhpAmqpLib/Helper/Protocol/MethodMap091.php	/^class MethodMap091$/;"	c
 MiscHelper	PhpAmqpLib/Helper/MiscHelper.php	/^class MiscHelper$/;"	c
@@ -363,7 +365,7 @@ Protocol091	PhpAmqpLib/Helper/Protocol/Protocol091.php	/^class Protocol091$/;"	c
 Realm	Common/PHPMailer/PHPMailer.php	/^    public $Realm = '';$/;"	v
 Realm	Common/PHPMailer/class.phpmailer.php	/^    public $Realm = '';$/;"	v
 Realm	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public $Realm = '';$/;"	v
-ReceiveComplaint	App/Complaint/User_Complaint.php	/^    public function ReceiveComplaint($connect, $params, $user_id, $complaintid) {$/;"	f
+ReceiveComplaint	App/Complaint/User_Complaint.php	/^    public function ReceiveComplaint($connect, $params, $userInfo, $complaintid) {$/;"	f
 RedisCache	Common/RedisCache.php	/^class RedisCache {$/;"	c
 ReplyTo	Common/PHPMailer/PHPMailer.php	/^        $this->ReplyTo = array();$/;"	v
 ReplyTo	Common/PHPMailer/PHPMailer.php	/^    protected $ReplyTo = array();$/;"	v
@@ -723,6 +725,7 @@ announce	Common/PHPMailer/SMTP.php	/^        $announce = $this->get_lines();$/;"
 announce	Common/PHPMailer/class.smtp.php	/^        $announce = $this->get_lines();$/;"	v
 announce	test/mailtest/PHPMailer-master/class.smtp.php	/^        $announce = $this->get_lines();$/;"	v
 antConnect	index.php	/^    $antConnect    = Oracle::getInstance()->connect($configInfo['serverSet']['antServer']);$/;"	v
+antid	Common/CommonAPI.php	/^        $this->params['antid'] = $antid = isset($_POST['antid']) ? $_POST['antid'] . '.1' : '';$/;"	v
 app	Common/CommonAPI.php	/^    public $app;$/;"	v
 args	PhpAmqpLib/Channel/AbstractChannel.php	/^            $args = $this->extract_args($payload);$/;"	v
 args	PhpAmqpLib/Channel/AbstractChannel.php	/^    protected function prepare_method_frame($method_sig, $args = '', $pkt = null)$/;"	v
@@ -740,6 +743,9 @@ args	PhpAmqpLib/Helper/Protocol/Protocol091.php	/^        $args = new AMQPWriter
 arguments	PhpAmqpLib/Channel/AMQPChannel.php	/^        $arguments = $this->getArguments($arguments);$/;"	v
 arguments	PhpAmqpLib/Channel/AMQPChannel.php	/^        $arguments = array()$/;"	v
 arguments	PhpAmqpLib/Channel/AMQPChannel.php	/^        $arguments = null,$/;"	v
+arr	App/Bus/BusInformation.php	/^        $arr = explode(',', $str);$/;"	v
+arr	test/test.php	/^    $arr = explode(",", $str);$/;"	v
+arr	test/test.php	/^$arr = stringFormat($str);$/;"	v
 arrayInfo	index.php	/^		$arrayInfo = $ml->login($userDataSet, $mobileConnect);$/;"	v
 arrayLength	PhpAmqpLib/Wire/AMQPReader.php	/^        $arrayLength = $this->read_php_int();$/;"	v
 asBCvalue	PhpAmqpLib/Wire/AMQPDecimal.php	/^    public function asBCvalue()$/;"	f
@@ -976,8 +982,8 @@ body	Common/PHPMailer/class.phpmailer.php	/^        $body = str_replace("\\r\\n"
 body	Common/PHPMailer/extras/htmlfilter.php	/^    $body = preg_replace('\/&(\\{.*?\\};)\/si', '&amp;\\\\1', $body);$/;"	v
 body	PhpAmqpLib/Message/AMQPMessage.php	/^        $this->body = $body;$/;"	v
 body	PhpAmqpLib/Message/AMQPMessage.php	/^    public $body;$/;"	v
+body	index.php	/^            $body = json_encode($resData);$/;"	v
 body	index.php	/^        $body = "Scurity Code is:{$securitycode}";$/;"	v
-body	index.php	/^        $body = json_encode($resData);$/;"	v
 body	index.php	/^$body = 'This is a test from chendq';$/;"	v
 body	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                    $body = $parts[1];$/;"	v
 body	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                    $body = file_get_contents($signed);$/;"	v
@@ -1131,6 +1137,9 @@ certprops	test/mailtest/PHPMailer-master/test/phpmailerTest.php	/^        $certp
 cfg	index.php	/^$cfg = new Config();$/;"	v
 ch	PhpAmqpLib/Connection/AbstractConnection.php	/^            $ch = $this->wait_frame_reader->read_octet();$/;"	v
 ch	PhpAmqpLib/Connection/AbstractConnection.php	/^        $ch = new AMQPChannel($this->connection, $channel_id);$/;"	v
+ch	sms.php	/^$ch = curl_init();$/;"	v
+ch	test/handle_form.php	/^$ch = curl_init();$/;"	v
+ch	test/sendSM.php	/^$ch = curl_init();$/;"	v
 challenge	Common/PHPMailer/SMTP.php	/^                $challenge = base64_decode($challenge);$/;"	v
 challenge	Common/PHPMailer/SMTP.php	/^                $challenge = base64_decode(substr($this->last_reply, 4));$/;"	v
 challenge	Common/PHPMailer/SMTP.php	/^                $challenge = substr($this->last_reply, 3);$/;"	v
@@ -1184,6 +1193,8 @@ char	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^        $char = $bod
 charSet	Common/PHPMailer/PHPMailer.php	/^            $charSet = $this->CharSet;$/;"	v
 charSet	Common/PHPMailer/class.phpmailer.php	/^            $charSet = $this->CharSet;$/;"	v
 charSet	test/mailtest/PHPMailer-master/class.phpmailer.php	/^            $charSet = $this->CharSet;$/;"	v
+charid	Common/Guid.php	/^            $charid = strtoupper(md5(uniqid(rand(), true)));$/;"	v
+charid	test/test.php	/^        $charid = strtoupper(md5(uniqid(rand(), true)));$/;"	v
 check	Common/CommonAPI.php	/^    public function check() {$/;"	f
 check	Common/PHPMailer/test/phpmailerTest.php	/^        $check = base64_decode('6eju\/OfF8ebf');$/;"	v
 check	Image_Processing.php	/^$check = new CommonAPI();$/;"	v
@@ -1218,6 +1229,7 @@ checkUploadPath	App/Upload/File_Upload_old2.php	/^	protected function checkUploa
 checkUploadPath	testup/upload.class.php	/^	protected function checkUploadPath(){$/;"	f
 check_cp	App/Register/Mobile_Register.php	/^		    $check_cp= "SELECT USER_ID FROM APP_USER where CELLPHONE='{$cellphone}' OR LOGIN_NAME='{$cellphone}' OR EMAIL='{$cellphone}' AND VALID=1";$/;"	v
 check_em	App/Register/Mobile_Register.php	/^		    $check_em= "SELECT USER_ID FROM APP_USER where EMAIL='{$email}' OR LOGIN_NAME='{$email}' OR CELLPHONE='{$email}' AND VALID=1";$/;"	v
+check_em	App/UserInformation/User_ResetPWD.php	/^		    $check_em= "SELECT USER_ID FROM APP_USER where EMAIL='{$email}' OR LOGIN_NAME='{$email}' OR CELLPHONE='{$email}' AND VALID=1";$/;"	v
 check_heartbeat	PhpAmqpLib/Wire/IO/StreamIO.php	/^    protected function check_heartbeat()$/;"	f
 check_ln	App/Register/Mobile_Register.php	/^		    $check_ln= "SELECT USER_ID FROM APP_USER where LOGIN_NAME='{$loginname}' OR EMAIL='{$loginname}' OR CELLPHONE='{$loginname}' AND VALID=1";$/;"	v
 checks	Common/PHPMailer/extras/htmlfilter.php	/^ * This function checks attribute values for entity-encoded values$/;"	f
@@ -1336,20 +1348,22 @@ complaintID	index.php	/^        $complaintID = $uc->generateComplaintID();$/;"	v
 complaintID	trafic.php	/^                $complaintID = $gcRows['COMPLAINT_ID'];$/;"	v
 complaintID	trafic.php	/^            $complaintID = $gcRows['COMPLAINT_ID'];$/;"	v
 complaintID	trafic.php	/^        $complaintID = ''; $/;"	v
+complaintInfo	App/Complaint/User_Complaint.php	/^                $complaintInfo = $complaintInfo + $originPhotoURL;$/;"	v
 complaintInfo	App/Complaint/User_Complaint.php	/^                $complaintInfo = $complaintInfo + $photoOriginID;$/;"	v
 complaintInfo	App/Complaint/User_Complaint.php	/^                $complaintInfo = $complaintInfo + $photoURL;$/;"	v
 complaintInfo	App/Complaint/User_Complaint.php	/^                $complaintInfo = array($/;"	v
 complaintInfo	App/Complaint/User_Complaint.php	/^            $complaintInfo = array($/;"	v
+complaintInfo	App/Complaint/User_Complaint.php	/^        $complaintInfo = $complaintInfo + $originPhotoURL;$/;"	v
 complaintInfo	App/Complaint/User_Complaint.php	/^        $complaintInfo = $complaintInfo + $photoOriginID;$/;"	v
 complaintInfo	App/Complaint/User_Complaint.php	/^        $complaintInfo = $complaintInfo + $photoURL;$/;"	v
 complaintInfo	App/Complaint/User_Complaint.php	/^        $complaintInfo = array();$/;"	v
-complaintInfo	index.php	/^        $complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userid, $complaintID);$/;"	v
+complaintInfo	index.php	/^        $complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userInfo, $complaintID);$/;"	v
 complaintInfo	trafic.php	/^                $complaintInfo = $complaintInfo + $photoURL;$/;"	v
 complaintInfo	trafic.php	/^                $complaintInfo = array('complaint' => $complaint,$/;"	v
 complaintInfo	trafic.php	/^            $complaintInfo = array('complaint' => $complaint,$/;"	v
 complaintInfo	trafic.php	/^        $complaintInfo = $complaintInfo + $photoURL;$/;"	v
 complaintInfo	trafic.php	/^        $complaintInfo = array();$/;"	v
-complaintid	App/Complaint/User_Complaint.php	/^        $complaintid = md5(uniqid(microtime(true),true));$/;"	v
+complaintid	App/Complaint/User_Complaint.php	/^        $complaintid = date('Ymdhis') . str_pad(mt_rand($minNum, $maxNum), 5, '0', STR_PAD_LEFT);$/;"	v
 complaintid	App/Graphics/Image_Processing.php	/^        $complaintid = $complaint_id;       \/\/ foreign key$/;"	v
 complaintid	App/Upload/File_Upload.php	/^            $complaintid = $complaint_id;       \/\/ foreign key$/;"	v
 complaintid	Common/SQL.php	/^        $complaintid = $imageInfo['complaintid'];       \/\/ foreign key$/;"	v
@@ -1362,6 +1376,7 @@ complainttype	App/Complaint/User_Complaint.php	/^            $complainttype = is
 complainttype	App/Complaint/User_Complaint.php	/^        $complainttype = $params['complainttype'];$/;"	v
 con	App/Mq/SendMessageToMq.php	/^        $con = new AMQPStreamConnection($this->host, $this->port, $this->username, $this->password);$/;"	v
 condition	App/Inquiry/Vehicle_Inquiry.php	/^	    $condition = "v.COMPANY_ID=c.ID AND v.DISTRICT_CODE=d.CODE AND v.VEHICLE_ID='{$vehicle_id}'";$/;"	v
+condition	App/Inquiry/Vehicle_Inquiry.php	/^        $condition = "ssi.MDVR_CORE_SN=ssw.MDVR_CORE_SN AND ssw.STATUS IN (23,24) AND ssi.ANT_SN='{$antid}'";$/;"	v
 configFile	index.php	/^$configFile = '.\/config\/sys_config.xml';$/;"	v
 configInfo	index.php	/^$configInfo = $cfg->getXml($configFile);$/;"	v
 configPath	index.php	/^$configPath = '.\/config\/config';$/;"	v
@@ -1619,6 +1634,7 @@ data	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                      
 data	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                    $data = substr($url, strpos($url, ','));$/;"	v
 data	test/mailtest/PHPMailer-master/class.smtp.php	/^        $data = '';$/;"	v
 data	test/mailtest/PHPMailer-master/class.smtp.php	/^    public function data($msg_data)$/;"	f
+data	test/sendSM.php	/^$data = "<?xml version=\\"1.0\\" encoding=\\"ISO-8859-1\\" standalone=\\"yes\\" ?> $/;"	v
 data	test/test.php	/^    $data = array($/;"	v
 data	test/test.php	/^$data = test();$/;"	v
 data	trafic.php	/^        $data = array();$/;"	v
@@ -1646,6 +1662,7 @@ dec	Common/PHPMailer/PHPMailer.php	/^                $dec = hexdec($hex);$/;"	v
 dec	Common/PHPMailer/class.phpmailer.php	/^                $dec = hexdec($hex);$/;"	v
 dec	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                $dec = hexdec($hex);$/;"	v
 decodeCollection	PhpAmqpLib/Wire/AMQPAbstractCollection.php	/^    final protected function decodeCollection(array $val)$/;"	f
+decodeFormate	App/Bus/BusInformation.php	/^    protected function decodeFormate($str) {$/;"	f
 decodeValue	PhpAmqpLib/Wire/AMQPAbstractCollection.php	/^    protected function decodeValue($val, $type)$/;"	f
 decodedBody	PhpAmqpLib/Channel/AbstractChannel.php	/^                $decodedBody = $message->getBody()->decode($messageEncoding);$/;"	v
 default_ticket	PhpAmqpLib/Channel/AMQPChannel.php	/^        $this->default_ticket = $args->read_short();$/;"	v
@@ -1787,6 +1804,7 @@ e	PhpAmqpLib/Wire/AMQPReader.php	/^                $e = $this->read_octet();$/;"
 e	test/insertTestData.php	/^    $e = oci_error();$/;"	v
 e	test/testdb.php	/^    $e = oci_error();$/;"	v
 e	test2.php	/^    $e = oci_error();$/;"	v
+echo_show	Common/Response.php	/^	public static function echo_show($code, $message = '', $data = array(),$type = self::JSON) {$/;"	f
 edebug	Common/PHPMailer/PHPMailer.php	/^    protected function edebug($str)$/;"	f
 edebug	Common/PHPMailer/SMTP.php	/^    protected function edebug($str, $level = 0)$/;"	f
 edebug	Common/PHPMailer/class.phpmailer.php	/^    protected function edebug($str)$/;"	f
@@ -1804,9 +1822,10 @@ email	Common/PHPMailer/class.phpmailer.php	/^                    $email = trim(s
 email	index.php	/^        $email = $resData['email'];$/;"	v
 email	test/insertTestData.php	/^$email = 'chendq@test.com';$/;"	v
 email	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                    $email = trim(str_replace('>', '', $email));$/;"	v
-emailaddr	index.php	/^        $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);$/;"	v
-emailsql	App/UserInformation/User_Info.php	/^        $emailsql= "SELECT EMAIL FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";$/;"	v
+emailaddr	index.php	/^            $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);$/;"	v
+emailsql	App/UserInformation/User_Info.php	/^        $emailsql= "SELECT EMAIL FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR TOKEN='{$token}'";$/;"	v
 emrows	App/Register/Mobile_Register.php	/^            $emrows = oci_fetch_array($stem, OCI_BOTH);$/;"	v
+emrows	App/UserInformation/User_ResetPWD.php	/^            $emrows = oci_fetch_array($stem, OCI_BOTH);$/;"	v
 enable_keepalive	PhpAmqpLib/Wire/IO/SocketIO.php	/^    protected function enable_keepalive()$/;"	f
 enable_keepalive	PhpAmqpLib/Wire/IO/StreamIO.php	/^    protected function enable_keepalive()$/;"	f
 encodeBool	PhpAmqpLib/Wire/AMQPAbstractCollection.php	/^    protected function encodeBool($val)$/;"	f
@@ -2090,11 +2109,12 @@ extract_args	PhpAmqpLib/Channel/AbstractChannel.php	/^    protected function ext
 feedback	App/Complaint/User_Complaint.php	/^                $feedback  = isset($gcRows['FEEDBACK']) ? $gcRows['FEEDBACK'] : '';$/;"	v
 feedback	App/Complaint/User_Complaint.php	/^            $feedback  = isset($gcRows['FEEDBACK']) ? $gcRows['FEEDBACK'] : '';$/;"	v
 feedback	App/Complaint/User_Complaint.php	/^        $feedback  = ''; $/;"	v
-feedback	App/Complaint/User_Complaint.php	/^        $feedback = 'No feedback yet';$/;"	v
+feedback	App/Complaint/User_Complaint.php	/^        $feedback = '';$/;"	v
 feedback	trafic.php	/^                $feedback  = $gcRows['FEEDBACK'];$/;"	v
 feedback	trafic.php	/^            $feedback  = $gcRows['FEEDBACK'];$/;"	v
 feedback	trafic.php	/^        $feedback  = ''; $/;"	v
 fh	PhpAmqpLib/Helper/MiscHelper.php	/^        $fh = fopen('\/tmp\/bytes', 'wb');$/;"	v
+field	App/Inquiry/Vehicle_Inquiry.php	/^		$field = 'ssw.VEHICLE_ID'; $/;"	v
 field	App/Inquiry/Vehicle_Inquiry.php	/^        $field = $vehicleField.','.$districtField.','.$companyField; $/;"	v
 field	App/Upload/File_Upload_old.php	/^		$field = "imageid, originname, localname, type, path, size, description";$/;"	v
 field	Common/PHPMailer/SMTP.php	/^        $field = substr($lines[0], 0, strpos($lines[0], ':'));$/;"	v
@@ -2136,12 +2156,17 @@ file	Common/Get_Config.php	/^    private $file;$/;"	v
 file	Common/PHPMailer/PHPMailer.php	/^                $file = tempnam(sys_get_temp_dir(), 'mail');$/;"	v
 file	Common/PHPMailer/class.phpmailer.php	/^                $file = tempnam(sys_get_temp_dir(), 'mail');$/;"	v
 file	Common/test.php	/^$file = 'people.txt';$/;"	v
+file	sms.php	/^$file = fopen('smslog.txt','w');$/;"	v
 file	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                $file = tempnam(sys_get_temp_dir(), 'mail');$/;"	v
 fileAck	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public function fileAck($delivery_tag = 0, $multiple = false)$/;"	f
 fileCancel	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public function fileCancel($consumer_tag, $nowait = false)$/;"	f
 fileCancelOk	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public static function fileCancelOk($args)$/;"	f
 fileConsume	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public function fileConsume($ticket = 1, $queue = '', $consumer_tag = '', $no_local = false, $no_ack = false, $exclusive = false, $nowait = false)$/;"	f
 fileConsumeOk	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public static function fileConsumeOk($args)$/;"	f
+fileContents	sms.php	/^	$fileContents = $HTTP_RAW_POST_DATA;$/;"	v
+fileContents	sms.php	/^	$fileContents = file_get_contents("php:\/\/input");$/;"	v
+fileContents	test/handle_form.php	/^	$fileContents = $HTTP_RAW_POST_DATA;$/;"	v
+fileContents	test/handle_form.php	/^	$fileContents = file_get_contents("php:\/\/input");$/;"	v
 fileDeliver	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public function fileDeliver($consumer_tag, $delivery_tag, $redelivered = false, $exchange, $routing_key, $identifier)$/;"	f
 fileInfo	App/Upload/File_Upload_old2.php	/^		$this->fileInfo=$fileInfo;$/;"	v
 fileInfo	App/Upload/File_Upload_old2.php	/^	protected $fileInfo;$/;"	v
@@ -2288,6 +2313,7 @@ fulltag	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^        $fulltag 
 fulltag	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^        $fulltag = '<\/' . $tagname . '>';$/;"	v
 functions	PhpAmqpLib/Channel/AMQPChannel.php	/^        $functions = array($/;"	v
 generateComplaintID	App/Complaint/User_Complaint.php	/^    public function generateComplaintID() {$/;"	f
+generateGuid	Common/Guid.php	/^    public function generateGuid(){$/;"	f
 generateRandNumber	App/UserInformation/User_ChangePWD.php	/^    public function generateRandNumber($len) {$/;"	f
 generateRandNumber	App/UserInformation/User_ResetPWD.php	/^    public function generateRandNumber($len) {$/;"	f
 generateSecurityCode	App/UserInformation/User_ChangePWD.php	/^    public function generateSecurityCode($connect, $userid, $securitycode) {$/;"	f
@@ -2309,6 +2335,7 @@ get	PhpAmqpLib/Wire/GenericContent.php	/^    public function get($name)$/;"	f
 getAllRecipientAddresses	Common/PHPMailer/PHPMailer.php	/^    public function getAllRecipientAddresses()$/;"	f
 getAllRecipientAddresses	Common/PHPMailer/class.phpmailer.php	/^    public function getAllRecipientAddresses()$/;"	f
 getAllRecipientAddresses	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function getAllRecipientAddresses()$/;"	f
+getAntID	Common/CommonAPI.php	/^    protected function getAntID() {$/;"	f
 getArguments	PhpAmqpLib/Channel/AMQPChannel.php	/^    protected function getArguments($arguments)$/;"	f
 getAttachments	Common/PHPMailer/PHPMailer.php	/^    public function getAttachments()$/;"	f
 getAttachments	Common/PHPMailer/class.phpmailer.php	/^    public function getAttachments()$/;"	f
@@ -2324,6 +2351,7 @@ getBoundary	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    protected f
 getBusInfo	trafic.php	/^    public function getBusInfo($cityName) {$/;"	f
 getBusLine	App/Bus/BusInformation.php	/^        $getBusLine = "SELECT BL_NAME, DIRECTION, STOPS, POINTS_NUMS, POINTS FROM BUS_LINE WHERE CITY_ID='{$cityID}'";$/;"	v
 getBusLineInformation	App/Bus/BusInformation.php	/^    public function getBusLineInformation($connect, $cityID) {$/;"	f
+getBusSetGPS	App/Bus/BusInformation.php	/^    public function getBusSetGPS() {$/;"	f
 getBusstopInformation	App/Bus/BusInformation.php	/^    public function getBusstopInformation($connect, $stopsID) {$/;"	f
 getCcAddresses	Common/PHPMailer/PHPMailer.php	/^    public function getCcAddresses()$/;"	f
 getCcAddresses	Common/PHPMailer/class.phpmailer.php	/^    public function getCcAddresses()$/;"	f
@@ -2400,6 +2428,7 @@ getPhotoAddr	App/Graphics/Image_Information.php	/^    protected function getPhot
 getPhotoAddr	trafic.php	/^    protected function getPhotoAddr($hostname,$path,$filename) {$/;"	f
 getProtocol	PhpAmqpLib/Wire/AMQPAbstractCollection.php	/^    final public static function getProtocol()$/;"	f
 getProtocolVersion	PhpAmqpLib/Channel/AbstractChannel.php	/^    public static function getProtocolVersion()$/;"	f
+getQueryType	Common/CommonAPI.php	/^    protected function getQueryType() {$/;"	f
 getReplyToAddresses	Common/PHPMailer/PHPMailer.php	/^    public function getReplyToAddresses()$/;"	f
 getReplyToAddresses	Common/PHPMailer/class.phpmailer.php	/^    public function getReplyToAddresses()$/;"	f
 getReplyToAddresses	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function getReplyToAddresses()$/;"	f
@@ -2426,7 +2455,7 @@ getSocket	PhpAmqpLib/Connection/AbstractConnection.php	/^    public function get
 getSocket	PhpAmqpLib/Wire/IO/AbstractIO.php	/^    abstract public function getSocket();$/;"	f
 getSocket	PhpAmqpLib/Wire/IO/SocketIO.php	/^    public function getSocket()$/;"	f
 getSocket	PhpAmqpLib/Wire/IO/StreamIO.php	/^    public function getSocket()$/;"	f
-getStopsPosition	App/Bus/BusInformation.php	/^        $getStopsPosition = "SELECT BUSSTOP_NAME, LATITUDE, LONGITUDE FROM BUSSTOP WHERE BS_ID IN ({$stopsID})";$/;"	v
+getStopsPosition	App/Bus/BusInformation.php	/^        $getStopsPosition = "SELECT BUSSTOP_NAME, LATITUDE, LONGITUDE FROM BUSSTOP WHERE BS_ID IN ({$stopsID}) ORDER BY \\"DECODE\\"(BS_ID ,{$str})";$/;"	v
 getSupportedDataTypes	PhpAmqpLib/Wire/AMQPAbstractCollection.php	/^    final public static function getSupportedDataTypes()$/;"	f
 getSymbolForDataType	PhpAmqpLib/Wire/AMQPAbstractCollection.php	/^    final public static function getSymbolForDataType($type)$/;"	f
 getTicket	PhpAmqpLib/Channel/AMQPChannel.php	/^    protected function getTicket($ticket)$/;"	f
@@ -2458,7 +2487,9 @@ getUserID	App/UserInformation/User_ChangePWD.php	/^    public function getUserID
 getUserID	App/UserInformation/User_ResetPWD.php	/^    public function getUserID($connect, $userInfo) {$/;"	f
 getUsers	Common/CommonAPI.php	/^    protected function getUsers() {$/;"	f
 getVehicleID	Common/CommonAPI.php	/^    protected function getVehicleID() {$/;"	f
-getVehicleInfo	App/Inquiry/Vehicle_Inquiry.php	/^	function getVehicleInfo($connect, $vehicle_id) {$/;"	f
+getVehicleIDByAntID	App/Inquiry/Vehicle_Inquiry.php	/^	function getVehicleIDByAntID($connect, $antid) {$/;"	f
+getVehicleInfoByAntID	App/Inquiry/Vehicle_Inquiry.php	/^	function getVehicleInfoByAntID($connect, $antid) {$/;"	f
+getVehicleInfoByVehicleID	App/Inquiry/Vehicle_Inquiry.php	/^	function getVehicleInfoByVehicleID($connect, $vehicle_id) {$/;"	f
 getVerp	Common/PHPMailer/SMTP.php	/^    public function getVerp()$/;"	f
 getVerp	Common/PHPMailer/class.smtp.php	/^    public function getVerp()$/;"	f
 getVerp	test/mailtest/PHPMailer-master/class.smtp.php	/^    public function getVerp()$/;"	f
@@ -2489,7 +2520,7 @@ get_pwd	App/Login/Mobile_Login_old.php	/^                    $get_pwd = $get_pwd
 get_pwd	App/Login/Mobile_Login_old.php	/^                    $get_pwd = $get_pwd. " OR EMAIL='{$userInfo['email']}'";$/;"	v
 get_pwd	App/Login/Mobile_Login_old.php	/^                $get_pwd = $get_pwd . " LOGIN_NAME='{$userInfo['loginname']}'";$/;"	v
 get_pwd	App/Login/Mobile_Login_old.php	/^        $get_pwd = "SELECT PASSWORD,USER_ID FROM APP_USER WHERE"; $/;"	v
-get_pwd	App/UserInformation/User_ChangePWD.php	/^        $get_pwd = "SELECT USER_ID FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' AND PASSWORD='{$password}'"; $/;"	v
+get_pwd	App/UserInformation/User_ChangePWD.php	/^        $get_pwd = "SELECT USER_ID FROM APP_USER WHERE (LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}') AND PASSWORD='{$password}'"; $/;"	v
 get_pwd	App/UserInformation/User_ResetPWD.php	/^        $get_pwd = "SELECT USER_ID FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' AND PASSWORD='{$password}'"; $/;"	v
 get_socket	PhpAmqpLib/Wire/IO/StreamIO.php	/^    public function get_socket()$/;"	f
 get_token	App/Login/Mobile_Login.php	/^        $get_token = "SELECT USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME, TOKEN FROM APP_USER WHERE TOKEN = '{$userInfo['token']}'";$/;"	v
@@ -2514,6 +2545,9 @@ gt	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^                $gt = 
 gt	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^            $gt = strpos($body, '-->', $pos);$/;"	v
 gt	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^            $gt = tln_findnxstr($body, $lt, '>');$/;"	v
 gt	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^            $gt = tln_findnxstr($body, $pos, '>');$/;"	v
+gu	index.php	/^        $gu = new Guid();$/;"	v
+guid	index.php	/^        $guid = $gu->generateGuid();$/;"	v
+guid	test/test.php	/^function guid(){$/;"	f
 gusql	App/UserInformation/User_ChangePWD.php	/^        $gusql = "SELECT USER_ID FROM APP_USER WHERE EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR LOGIN_NAME='{$loginid}'";$/;"	v
 gusql	App/UserInformation/User_ResetPWD.php	/^        $gusql = "SELECT USER_ID FROM APP_USER WHERE EMAIL='{$email}'";$/;"	v
 gusql	App/UserInformation/User_ResetPWD.php	/^        $gusql = "SELECT USER_ID FROM APP_USER WHERE EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR LOGIN_NAME='{$loginid}' AND EMAIL='{$email}'";$/;"	v
@@ -2558,6 +2592,8 @@ heartbeat	PhpAmqpLib/Connection/AbstractConnection.php	/^    protected $heartbea
 heartbeat	PhpAmqpLib/Wire/IO/StreamIO.php	/^        $heartbeat = 0$/;"	v
 heartbeat	PhpAmqpLib/Wire/IO/StreamIO.php	/^        $this->heartbeat = $heartbeat;$/;"	v
 heartbeat	PhpAmqpLib/Wire/IO/StreamIO.php	/^    protected $heartbeat;$/;"	v
+height	App/Graphics/Image_Processing.php	/^        $height = $thumbnailInfo['height'];$/;"	v
+height	App/Upload/File_Upload.php	/^            $height = $imageInfo['height'];$/;"	v
 height	Common/captcha.php	/^$height= 30;$/;"	v
 height	test/captcha.php	/^$height= 30;$/;"	v
 hello	Common/PHPMailer/PHPMailer.php	/^                        $hello = $this->Helo;$/;"	v
@@ -2628,6 +2664,8 @@ html2text	Common/PHPMailer/class.phpmailer.php	/^    public function html2text($
 html2text	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function html2text($html, $advanced = false)$/;"	f
 htmloutput	PhpAmqpLib/Helper/DebugHelper.php	/^                    MiscHelper::hexdump($data, $htmloutput = false, $uppercase = true, $return = true)$/;"	v
 htmloutput	PhpAmqpLib/Helper/MiscHelper.php	/^    public static function hexdump($data, $htmloutput = true, $uppercase = false, $return = false)$/;"	v
+hyphen	Common/Guid.php	/^            $hyphen = chr(45);\/\/ "-"$/;"	v
+hyphen	test/test.php	/^        $hyphen = chr(45);\/\/ "-"$/;"	v
 i	Common/CommonAPI.php	/^        $i=0;$/;"	v
 i	Common/Config.php	/^        $i=1;$/;"	v
 i	Common/PHPMailer/extras/htmlfilter.php	/^                            $i = strlen($body);$/;"	v
@@ -2644,6 +2682,7 @@ icardid	App/Register/Mobile_Register.php	/^            $icardid = $userInfo['ica
 icardid	Common/CommonAPI.php	/^        $this->params['icardid'] = $icardid = isset($_POST['idnumber']) ? $_POST['idnumber'] : '';$/;"	v
 ics	Common/PHPMailer/extras/EasyPeasyICS.php	/^        $ics = 'BEGIN:VCALENDAR$/;"	v
 ics	test/mailtest/PHPMailer-master/extras/EasyPeasyICS.php	/^        $ics = 'BEGIN:VCALENDAR$/;"	v
+id	App/Mq/MessageLog.php	/^        $id = $guid;$/;"	v
 id	Common/CommonAPI.php	/^		$id = key($fileInfo); \/\/ in test, $id = 'myfile'$/;"	v
 id	Common/PHPMailer/test/phpmailerTest.php	/^        $id = md5(12345);$/;"	v
 id	test/mailtest/PHPMailer-master/test/phpmailerTest.php	/^        $id = md5(12345);$/;"	v
@@ -2687,7 +2726,7 @@ imagePath	App/Upload/File_Upload.php	/^                    $imagePath = $path;  
 imagePath	Image_Processing.php	/^        $imagePath = $savePath;     \/\/ here is relative path$/;"	v
 imagePath	test/Image_Processing.php	/^        $imagePath = $savePath;     \/\/ here is relative path$/;"	v
 imagePath	test/testim.php	/^$imagePath = realpath('image.jpg');$/;"	v
-imageSize	App/Graphics/Image_Processing.php	/^            $imageSize = $image->getImageSize();$/;"	v
+imageSize	App/Graphics/Image_Processing.php	/^            $imageSize = filesize($destination);$/;"	v
 imageSize	App/Upload/File_Upload.php	/^                    $imageSize = $fileInfo['size'];$/;"	v
 imageSize	Image_Processing.php	/^        $imageSize = $image->getImageSize();$/;"	v
 imageSize	test/Image_Processing.php	/^        $imageSize = $image->getImageSize();$/;"	v
@@ -2725,7 +2764,7 @@ info	Common/PHPMailer/SMTP.php	/^            $info = stream_get_meta_data($this-
 info	Common/PHPMailer/class.smtp.php	/^            $info = stream_get_meta_data($this->smtp_conn);$/;"	v
 info	PhpAmqpLib/Wire/IO/StreamIO.php	/^        $info = stream_get_meta_data($this->sock);$/;"	v
 info	index.php	/^                $info = $fu->insertPhotoInfo($mobileConnect,$imageInfo,$complaintID);$/;"	v
-info	index.php	/^                $info = $ip->insertthumbnailInfo($mobileConnect, $imageInfo, $complaintID);$/;"	v
+info	index.php	/^                $info = $ip->insertThumbnailInfo($mobileConnect, $imageInfo, $complaintID);$/;"	v
 info	test/mailtest/PHPMailer-master/class.smtp.php	/^            $info = stream_get_meta_data($this->smtp_conn);$/;"	v
 infos	index.php	/^            $infos = array();$/;"	v
 ini_sendmail_path	Common/PHPMailer/PHPMailer.php	/^        $ini_sendmail_path = ini_get('sendmail_path');$/;"	v
@@ -2860,7 +2899,7 @@ ismultipart	Common/PHPMailer/class.phpmailer.php	/^        $ismultipart = true;$
 ismultipart	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                $ismultipart = false;$/;"	v
 ismultipart	test/mailtest/PHPMailer-master/class.phpmailer.php	/^        $ismultipart = true;$/;"	v
 itemExist	App/Register/Mobile_Register.php	/^	\/\/private function itemExist($loginname, $email, $cellphone, $connect) 	$/;"	f
-itemExist	App/Register/Mobile_Register.php	/^	function itemExist($userInfo,$connect) {	$/;"	f
+itemExist	App/Register/Mobile_Register.php	/^	public function itemExist($userInfo,$connect) {	$/;"	f
 iv	Common/PHPMailer/extras/ntlm_sasl_client.php	/^        $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);$/;"	v
 iv	index.php	/^		$iv = new Vehicle_Inquiry();$/;"	v
 iv	test/mailtest/PHPMailer-master/extras/ntlm_sasl_client.php	/^        $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);$/;"	v
@@ -2870,6 +2909,7 @@ ivid	App/Inquiry/Vehicle_Inquiry.php	/^        $ivid = oci_parse($connect, $sql)
 j	PhpAmqpLib/Helper/MiscHelper.php	/^                $j = 0;$/;"	v
 j	PhpAmqpLib/Helper/MiscHelper.php	/^        for ($i = $j = 0; $i < $len; $i++) {$/;"	v
 json	Common/Response.php	/^	public static function json($code, $message = '', $data = array()) {$/;"	f
+json	test/handle_form.php	/^$json = json_encode($simpleXml);$/;"	v
 jsonStr	App/Mq/SendMessageToMq.php	/^        $jsonStr = json_encode($data);$/;"	v
 jsondata	index.php	/^        $jsondata = array('ComplaintId'=>'12345', 'UserId'=>'user110', 'ComplaintType'=>'type1', 'CreateTime'=>'2016-01-06 17:38:00');$/;"	v
 jsondata_str	index.php	/^        $jsondata_str = json_encode($jsondata);$/;"	v
@@ -2889,6 +2929,7 @@ keepalive	PhpAmqpLib/Wire/IO/SocketIO.php	/^    public function __construct($hos
 keepalive	PhpAmqpLib/Wire/IO/StreamIO.php	/^        $keepalive = false,$/;"	v
 keepalive	PhpAmqpLib/Wire/IO/StreamIO.php	/^        $this->keepalive = $keepalive;$/;"	v
 keepalive	PhpAmqpLib/Wire/IO/StreamIO.php	/^    protected $keepalive;$/;"	v
+key	App/Bus/BusInformation.php	/^        foreach($arr as $key => $value) {$/;"	v
 key	Common/CommonAPI.php	/^                foreach($file['name'] as $key=>$val){$/;"	v
 key	Common/PHPMailer/PHPMailer.php	/^        foreach ($lines as $key => $line) {$/;"	v
 key	Common/PHPMailer/SMTP.php	/^            $key = pack('H*', md5($key));$/;"	v
@@ -2906,6 +2947,7 @@ key	PhpAmqpLib/Wire/GenericContent.php	/^        foreach ($this->prop_types as $
 key	test/mailtest/PHPMailer-master/class.phpmailer.php	/^        foreach ($lines as $key => $line) {$/;"	v
 key	test/mailtest/PHPMailer-master/class.smtp.php	/^            $key = pack('H*', md5($key));$/;"	v
 key	test/mailtest/PHPMailer-master/class.smtp.php	/^        $key = str_pad($key, $bytelen, chr(0x00));$/;"	v
+key	test/test.php	/^foreach($arr as $key => $value) {$/;"	v
 key	testup/upload.func1.php	/^			foreach($file['name'] as $key=>$val){$/;"	v
 key1	Common/Config.php	/^        foreach ($xml as $key1 => $value1) { \/\/遍历数组$/;"	v
 key1	test/Config.php	/^        foreach ($xml as $key1 => $value1) { \/\/遍历数组$/;"	v
@@ -3175,7 +3217,9 @@ mailPassthru	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    private fu
 mailSend	Common/PHPMailer/PHPMailer.php	/^    protected function mailSend($header, $body)$/;"	f
 mailSend	Common/PHPMailer/class.phpmailer.php	/^    protected function mailSend($header, $body)$/;"	f
 mailSend	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    protected function mailSend($header, $body)$/;"	f
+mailer	index.php	/^                $mailer = new Mailer();$/;"	v
 mailer	index.php	/^            $mailer = new Mailer();$/;"	v
+mailer	index.php	/^            \/\/    $mailer = new Mailer();$/;"	v
 mailer	index.php	/^$mailer = new Mailer();$/;"	v
 mandatory	PhpAmqpLib/Channel/AMQPChannel.php	/^            $mandatory = isset($m[3]) ? $m[3] : false;$/;"	v
 mandatory	PhpAmqpLib/Channel/AMQPChannel.php	/^        $mandatory = false,$/;"	v
@@ -3224,6 +3268,7 @@ maxLength	Common/PHPMailer/class.phpmailer.php	/^                        $maxLen
 maxLength	Common/PHPMailer/class.phpmailer.php	/^                    $maxLength = $maxLength - ($lookBack - $encodedCharPos);$/;"	v
 maxLength	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                        $maxLength = $maxLength - ($lookBack - $encodedCharPos);$/;"	v
 maxLength	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                    $maxLength = $maxLength - ($lookBack - $encodedCharPos);$/;"	v
+maxNum	App/Complaint/User_Complaint.php	/^        $maxNum = 99999999;$/;"	v
 maxSize	App/Upload/File_Upload_old2.php	/^		$this->maxSize=$maxSize;$/;"	v
 maxSize	App/Upload/File_Upload_old2.php	/^	protected $maxSize;$/;"	v
 maxSize	App/Upload/SingleUpload.php	/^		$maxSize = 20971520; \/\/ 单位字节，20M$/;"	v
@@ -3255,6 +3300,8 @@ mes	testup/upload.func.php	/^				$mes = '没有找到临时目录';$/;"	v
 mes	testup/upload.func.php	/^				$mes = '没有选择上传文件';$/;"	v
 mes	testup/upload.func.php	/^				$mes = '系统错误';$/;"	v
 mes	testup/upload.func.php	/^				$mes = '超过了表单MAX_FILE_SIZE限制的大小';$/;"	v
+mess_flag	App/Mq/MessageLog.php	/^        $mess_flag = 4; \/\/ mobile$/;"	v
+mess_id	App/Mq/MessageLog.php	/^        $mess_id = $complaintid;$/;"	v
 message	Common/PHPMailer/PHPMailer.php	/^                        $message = preg_replace($/;"	v
 message	Common/PHPMailer/PHPMailer.php	/^                        $message = str_replace($/;"	v
 message	Common/PHPMailer/PHPMailer.php	/^            $message = substr($message, 0, -$lelen);$/;"	v
@@ -3270,6 +3317,7 @@ message	Common/PHPMailer/extras/ntlm_sasl_client.php	/^                $message 
 message	Common/PHPMailer/test/phpmailerTest.php	/^        $message = $this->Mail->getSentMIMEMessage();$/;"	v
 message	Common/PHPMailer/test/phpmailerTest.php	/^        $message = file_get_contents('..\/examples\/contentsutf8.html');$/;"	v
 message	Common/Response.php	/^	\/\/public static function show($code, $message = '', $data = array(), $type = self::JSON) {$/;"	v
+message	Common/Response.php	/^	public static function echo_show($code, $message = '', $data = array(),$type = self::JSON) {$/;"	v
 message	Common/Response.php	/^	public static function json($code, $message = '', $data = array()) {$/;"	v
 message	Common/Response.php	/^	public static function show($code, $message = '', $data = array(),$type = self::JSON) {$/;"	v
 message	PhpAmqpLib/Channel/AMQPChannel.php	/^            $message = $this->get_and_unset_message($delivery_tag);$/;"	v
@@ -3320,6 +3368,7 @@ mimes	test/mailtest/PHPMailer-master/class.phpmailer.php	/^        $mimes = arra
 min	App/UserInformation/User_ChangePWD.php	/^        $min = 0;$/;"	v
 min	App/UserInformation/User_ResetPWD.php	/^        $min = 0;$/;"	v
 min	test/test.php	/^$min = 0;$/;"	v
+minNum	App/Complaint/User_Complaint.php	/^        $minNum = 1;$/;"	v
 missing	Common/PHPMailer/test/phpmailerLangTest.php	/^                $missing = array_diff(array_keys($definedStrings), array_keys($PHPMAILER_LANG));$/;"	v
 missing	test/mailtest/PHPMailer-master/test/phpmailerLangTest.php	/^                $missing = array_diff(array_keys($definedStrings), array_keys($PHPMAILER_LANG));$/;"	v
 mixedsrc	Common/PHPMailer/test/phpmailerTest.php	/^        $mixedsrc = "hello\\nWorld\\rAgain\\r\\n";$/;"	v
@@ -3327,6 +3376,7 @@ mixedsrc	test/mailtest/PHPMailer-master/test/phpmailerTest.php	/^        $mixeds
 ml	App/Login/Mobile_Login.php	/^$ml = new Mobile_Login();$/;"	v
 ml	App/Login/Mobile_Login_old.php	/^$ml = new Mobile_Login();$/;"	v
 ml	index.php	/^		$ml = new Mobile_Login();$/;"	v
+ml	index.php	/^        $ml = new MessageLog();$/;"	v
 mn	PhpAmqpLib/Exception/AMQPException.php	/^            : $mn = '';$/;"	v
 mn	PhpAmqpLib/Exception/AMQPException.php	/^        $mn = isset($PROTOCOL_CONSTANTS_CLASS::$GLOBAL_METHOD_NAMES[$ms])$/;"	v
 mn	PhpAmqpLib/Exception/AMQPProtocolException.php	/^            : $mn = '';$/;"	v
@@ -3347,7 +3397,7 @@ mqMsg	index.php	/^        $mqMsg = $smtm->filterMessage($complaintInfo);$/;"	v
 ms	PhpAmqpLib/Exception/AMQPException.php	/^        $ms = MiscHelper::methodSig($method_sig);$/;"	v
 ms	PhpAmqpLib/Exception/AMQPProtocolException.php	/^        $ms = MiscHelper::methodSig($method_sig);$/;"	v
 msb	PhpAmqpLib/Wire/AMQPReader.php	/^        $msb = self::getLongMSB($hi);$/;"	v
-msg	App/Mq/SendMessageToMq.php	/^        $msg = new AMQPMessage($jsonStr);$/;"	v
+msg	App/Mq/SendMessageToMq.php	/^        $msg = new AMQPMessage($jsonStr, $property);$/;"	v
 msg	Common/PHPMailer/test/phpmailerTest.php	/^        $msg = $this->Mail->getSentMIMEMessage();$/;"	v
 msg	PhpAmqpLib/Channel/AMQPChannel.php	/^            $msg = $m[0];$/;"	v
 msg	PhpAmqpLib/Helper/DebugHelper.php	/^            $msg = 'waiting for ' . implode(', ', $allowed_methods);$/;"	v
@@ -3373,6 +3423,7 @@ multiple	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public function basicA
 multiple	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public function fileAck($delivery_tag = 0, $multiple = false)$/;"	v
 multiple	PhpAmqpLib/Helper/Protocol/Protocol091.php	/^    public function basicAck($delivery_tag = 0, $multiple = false)$/;"	v
 multiple	PhpAmqpLib/Helper/Protocol/Protocol091.php	/^    public function basicNack($delivery_tag = 0, $multiple = false, $requeue = true)$/;"	v
+myPid	test/test.php	/^\/\/    $myPid = getmypid();$/;"	v
 myXmailer	Common/PHPMailer/PHPMailer.php	/^            $myXmailer = trim($this->XMailer);$/;"	v
 myXmailer	Common/PHPMailer/class.phpmailer.php	/^            $myXmailer = trim($this->XMailer);$/;"	v
 myXmailer	test/mailtest/PHPMailer-master/class.phpmailer.php	/^            $myXmailer = trim($this->XMailer);$/;"	v
@@ -3469,6 +3520,8 @@ names	test/mailtest/PHPMailer-master/class.smtp.php	/^        \/\/Avoid clash wi
 newName	testup/doAction3.php	/^$newName=uploadFile($fileInfo,'imooc',false,$allowExt);$/;"	v
 newName	testup/doAction3.php	/^\/\/ $newName=uploadFile($fileInfo);$/;"	v
 newName	testup/doAction3.php	/^\/\/ $newName=uploadFile($fileInfo,'imooc');$/;"	v
+newStr	App/Bus/BusInformation.php	/^        $newStr = '';$/;"	v
+newStr	App/Bus/BusInformation.php	/^        $newStr = substr($newStr, 0, strlen($newStr)-1);$/;"	v
 newexpirationtime	App/UserInformation/User_ResetPWD.php	/^                    $newexpirationtime = $currenttime->modify('+2 day');$/;"	v
 newexpirationtime	App/UserInformation/User_ResetPWD.php	/^                $newexpirationtime = $currenttime->modify('+2 day');$/;"	v
 newexpirationtimestr	App/UserInformation/User_ResetPWD.php	/^                    $newexpirationtimestr = $newexpirationtime->format('Y-m-d H:i:s');$/;"	v
@@ -3582,7 +3635,23 @@ ord	Common/PHPMailer/class.phpmailer.php	/^            $ord = ord($txt[$i]);$/;"
 ord	Common/PHPMailer/class.phpmailer.php	/^            if (((0x21 <= $ord) && ($ord <= 0x3A)) || $ord == 0x3C || ((0x3E <= $ord) && ($ord <= 0x7E))) {$/;"	v
 ord	test/mailtest/PHPMailer-master/class.phpmailer.php	/^            $ord = ord($txt[$i]);$/;"	v
 ord	test/mailtest/PHPMailer-master/class.phpmailer.php	/^            if (((0x21 <= $ord) && ($ord <= 0x3A)) || $ord == 0x3C || ((0x3E <= $ord) && ($ord <= 0x7E))) {$/;"	v
+originPhotoAddr	App/Complaint/User_Complaint.php	/^                    $originPhotoAddr = $this->getPhotoAddr($hostName,$originPhotoPath,$originPhotoName);$/;"	v
+originPhotoAddr	App/Complaint/User_Complaint.php	/^                    $originPhotoAddr = '';$/;"	v
+originPhotoAddr	App/Complaint/User_Complaint.php	/^                $originPhotoAddr = $this->getPhotoAddr($hostName,$originPhotoPath,$originPhotoName);$/;"	v
+originPhotoAddr	App/Complaint/User_Complaint.php	/^                $originPhotoAddr = '';$/;"	v
+originPhotoAddrs	App/Complaint/User_Complaint.php	/^                $originPhotoAddrs = array();      \/\/ delete data$/;"	v
+originPhotoAddrs	App/Complaint/User_Complaint.php	/^        $originPhotoAddrs = array();$/;"	v
 originPhotoID	index.php	/^        $originPhotoID = $userDataSet['originphotoid'];$/;"	v
+originPhotoName	App/Complaint/User_Complaint.php	/^                $originPhotoName = $gcRows['ORIGIN_LOCAL_NAME'];$/;"	v
+originPhotoName	App/Complaint/User_Complaint.php	/^                $originPhotoName = isset($gcRows['ORIGIN_LOCAL_NAME']) ? $gcRows['ORIGIN_LOCAL_NAME'] : '';$/;"	v
+originPhotoName	App/Complaint/User_Complaint.php	/^            $originPhotoName = isset($gcRows['ORIGIN_LOCAL_NAME']) ? $gcRows['ORIGIN_LOCAL_NAME'] : '';$/;"	v
+originPhotoName	App/Complaint/User_Complaint.php	/^        $originPhotoName = ''; $/;"	v
+originPhotoPath	App/Complaint/User_Complaint.php	/^                $originPhotoPath = $gcRows['ORIGIN_PATH'];$/;"	v
+originPhotoPath	App/Complaint/User_Complaint.php	/^                $originPhotoPath = isset($gcRows['ORIGIN_PATH']) ? $gcRows['ORIGIN_PATH'] : '';$/;"	v
+originPhotoPath	App/Complaint/User_Complaint.php	/^            $originPhotoPath = isset($gcRows['ORIGIN_PATH']) ? $gcRows['ORIGIN_PATH'] : '';$/;"	v
+originPhotoPath	App/Complaint/User_Complaint.php	/^        $originPhotoPath = ''; $/;"	v
+originPhotoURL	App/Complaint/User_Complaint.php	/^                $originPhotoURL = array('originPhotoURL' => $originPhotoAddrs);$/;"	v
+originPhotoURL	App/Complaint/User_Complaint.php	/^        $originPhotoURL = array('originPhotoURL' => $originPhotoAddrs);$/;"	v
 originname	App/Graphics/Image_Processing.php	/^        $originname = $thumbnailInfo['originname'];         \/\/ file origin name$/;"	v
 originname	App/Upload/File_Upload.php	/^            $originname = $imageInfo['originname'];         \/\/ file origin name$/;"	v
 originname	App/Upload/File_Upload_old.php	/^		$originname = '"'.$params['filename'].'"';$/;"	v
@@ -3875,6 +3944,8 @@ position	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public functio
 postSend	Common/PHPMailer/PHPMailer.php	/^    public function postSend()$/;"	f
 postSend	Common/PHPMailer/class.phpmailer.php	/^    public function postSend()$/;"	f
 postSend	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function postSend()$/;"	f
+post_ip	sms.php	/^$post_ip = "http:\/\/200.125.146.59:9042\/mpluspru\/mt?id=mplus&pwd=agsdfv67";$/;"	v
+post_ip	test/handle_form.php	/^$post_ip = $_SERVER['SERVER_ADDR'];$/;"	v
 preSend	Common/PHPMailer/PHPMailer.php	/^    public function preSend()$/;"	f
 preSend	Common/PHPMailer/class.phpmailer.php	/^    public function preSend()$/;"	f
 preSend	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function preSend()$/;"	f
@@ -3920,6 +3991,7 @@ properties	PhpAmqpLib/Message/AMQPMessage.php	/^    public function __construct(
 properties	PhpAmqpLib/Wire/GenericContent.php	/^            $this->properties = array_intersect_key($props, $this->prop_types);$/;"	v
 properties	PhpAmqpLib/Wire/GenericContent.php	/^        $this->properties = $data;$/;"	v
 properties	PhpAmqpLib/Wire/GenericContent.php	/^    private $properties = array();$/;"	v
+property	App/Mq/SendMessageToMq.php	/^        $property = array('type' => '1', 'priority'=> 1, 'expiration' => 600000, 'content_type' => 'utf-8');$/;"	v
 propertyDefinitions	PhpAmqpLib/Message/AMQPMessage.php	/^    protected static $propertyDefinitions = array($/;"	v
 propertyDefinitions	PhpAmqpLib/Wire/GenericContent.php	/^    protected static $propertyDefinitions = array($/;"	v
 protocol	PhpAmqpLib/Channel/AbstractChannel.php	/^        $protocol = defined('AMQP_PROTOCOL') ? AMQP_PROTOCOL : self::PROTOCOL_091;$/;"	v
@@ -3953,6 +4025,8 @@ qp_mode	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function
 qpos	Common/PHPMailer/PHPMailer.php	/^        $qpos = strpos($filename, '?');$/;"	v
 qpos	Common/PHPMailer/class.phpmailer.php	/^        $qpos = strpos($filename, '?');$/;"	v
 qpos	test/mailtest/PHPMailer-master/class.phpmailer.php	/^        $qpos = strpos($filename, '?');$/;"	v
+queryType	index.php	/^        $queryType = $userDataSet['querytype'];$/;"	v
+querytype	Common/CommonAPI.php	/^        $this->params['querytype'] = $querytype = isset($_POST['querytype']) ? $_POST['querytype'] : '';$/;"	v
 queue	App/Mq/SendMessageToMq.php	/^        $this->queue    = $connectPara['rabbitMq']['queue'];$/;"	v
 queue	App/Mq/SendMessageToMq.php	/^    private $queue;$/;"	v
 queue	PhpAmqpLib/Channel/AMQPChannel.php	/^        $queue = $args->read_shortstr();$/;"	v
@@ -4059,6 +4133,7 @@ realm	Common/PHPMailer/SMTP.php	/^        $realm = '',$/;"	v
 realm	Common/PHPMailer/class.smtp.php	/^        $realm = '',$/;"	v
 realm	test/mailtest/PHPMailer-master/class.smtp.php	/^        $realm = '',$/;"	v
 realtime	test2.php	/^    $realtime = strtotime($time);$/;"	v
+receive_date	App/Mq/MessageLog.php	/^        $receive_date = date('Y-m-d H:i:s');$/;"	v
 recipient	Common/PHPMailer/SMTP.php	/^    public function recipient($toaddr)$/;"	f
 recipient	Common/PHPMailer/class.smtp.php	/^    public function recipient($toaddr)$/;"	f
 recipient	test/mailtest/PHPMailer-master/class.smtp.php	/^    public function recipient($toaddr)$/;"	f
@@ -4139,14 +4214,18 @@ resData	App/Login/Mobile_Login.php	/^            $resData = array('userId' => $u
 resData	App/Upload/File_Upload.php	/^        $resData = Array();$/;"	v
 resData	App/UserInformation/User_Info.php	/^        $resData = array();$/;"	v
 resData	App/UserInformation/User_ResetPWD.php	/^        $resData = array('email' => $email, 'securitycode' => $securitycode, 'sn' => $sn, 'timestamp' => $expirationtime);$/;"	v
-resData	index.php	/^		$resData = $iv->getVehicleInfo($antConnect, $userDataSet['vehicleid']);$/;"	v
+resData	index.php	/^		    $resData = $iv->getVehicleInfoByVehicleID($antConnect, $userDataSet['vehicleid']);$/;"	v
+resData	index.php	/^            $resData = $iv->getVehicleInfoByAntID($mobileConnect, $userDataSet['antid']);$/;"	v
 resData	index.php	/^            $resData = array();$/;"	v
 resData	index.php	/^        $resData = $uf->getSecurityCode($mobileConnect, $userDataSet);$/;"	v
+resData	index.php	/^        $resData = array();$/;"	v
 resData	trafic.php	/^        $resData = $resData + $complaintData;$/;"	v
 resData	trafic.php	/^        $resData = array('userID' => $userid);$/;"	v
 reset	Common/PHPMailer/SMTP.php	/^    public function reset()$/;"	f
 reset	Common/PHPMailer/class.smtp.php	/^    public function reset()$/;"	f
 reset	test/mailtest/PHPMailer-master/class.smtp.php	/^    public function reset()$/;"	f
+respond	sms.php	/^$respond = "<?xml version=\\"1.0\\" encoding=\\"ISO-8859-1\\" standalone=\\"yes\\"?> $/;"	v
+respond	test/handle_form.php	/^$respond = "<?xml version=\\"1.0\\" encoding=\\"ISO-8859-1\\" standalone=\\"yes\\" ?> $/;"	v
 response	Common/PHPMailer/SMTP.php	/^                $response = $username . ' ' . $this->hmac($challenge, $password);$/;"	v
 response	Common/PHPMailer/class.pop3.php	/^        $response = fgets($this->pop_conn, $size);$/;"	v
 response	Common/PHPMailer/class.smtp.php	/^                $response = $username . ' ' . $this->hmac($challenge, $password);$/;"	v
@@ -4513,6 +4592,8 @@ signed	Common/PHPMailer/class.phpmailer.php	/^                $signed = tempnam(
 signed	Common/PHPMailer/class.phpmailer.php	/^        $signed = $this->DKIM_Sign($toSign);$/;"	v
 signed	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                $signed = tempnam(sys_get_temp_dir(), 'signed');$/;"	v
 signed	test/mailtest/PHPMailer-master/class.phpmailer.php	/^        $signed = $this->DKIM_Sign($toSign);$/;"	v
+simpleXml	sms.php	/^$simpleXml = simplexml_load_string($fileContents);$/;"	v
+simpleXml	test/handle_form.php	/^$simpleXml = simplexml_load_string($fileContents);$/;"	v
 singleStop	App/Bus/BusInformation.php	/^            $singleStop = array();$/;"	v
 size	App/Graphics/Image_Processing.php	/^        $size = $thumbnailInfo['size'];                     \/\/ file size$/;"	v
 size	App/Upload/File_Upload.php	/^            $size = $imageInfo['size'];                     \/\/ file size$/;"	v
@@ -4606,11 +4687,12 @@ space_left	Common/PHPMailer/class.phpmailer.php	/^                    $space_lef
 space_left	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                    $space_left = $length - strlen($buf) - $crlflen;$/;"	v
 splitIntoQuads	PhpAmqpLib/Wire/AMQPWriter.php	/^    private function splitIntoQuads($n)$/;"	f
 splitSecondsMicroseconds	PhpAmqpLib/Helper/MiscHelper.php	/^    public static function splitSecondsMicroseconds($number)$/;"	f
-sql	App/Complaint/User_Complaint.php	/^        $sql = "select c.complaint_id, c.complaint, c.type, c.vehicle_id, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id where c.user_id='{$userID}' and c.valid=1";$/;"	v
+sql	App/Complaint/User_Complaint.php	/^        $sql = "select c.complaint_id, c.complaint, c.type, c.vehicle_id, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name, p.path as origin_path, p.local_name as origin_local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id left join photo p on t.photo_id=p.photo_id where c.user_id='{$userID}' and c.valid=1";$/;"	v
 sql	App/Complaint/User_Complaint.php	/^        $sql="INSERT INTO COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,TYPE,VEHICLE_ID,FEEDBACK,VALID,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$complainttype}','{$vehicleid}','{$feedback}','{$valid}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";$/;"	v
-sql	App/Graphics/Image_Processing.php	/^        $sql="INSERT INTO THUMBNAIL(THUMBNAIL_ID,PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$thumbnailid}','{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";$/;"	v
+sql	App/Graphics/Image_Processing.php	/^        $sql="INSERT INTO THUMBNAIL(THUMBNAIL_ID,PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,PHOTO_WIDTH, PHOTO_HEIGHT, TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$thumbnailid}','{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},{$width},{$height},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";$/;"	v
 sql	App/Inquiry/Vehicle_Inquiry.php	/^        $sql = "SELECT {$field} FROM {$tables} WHERE {$condition}";$/;"	v
-sql	App/Upload/File_Upload.php	/^            $sql="INSERT INTO PHOTO(PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";$/;"	v
+sql	App/Mq/MessageLog.php	/^        $sql = "INSERT INTO MESS_LOG(ID, MESS_ID, RECEIVE_DATE, MESS_FLAG) VALUES ('{$id}', '{$mess_id}', to_date('{$receive_date}','yyyy-mm-dd hh24:mi:ss'), $mess_flag)";$/;"	v
+sql	App/Upload/File_Upload.php	/^            $sql="INSERT INTO PHOTO(PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE, PHOTO_WIDTH, PHOTO_HEIGHT, TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},{$width},{$height},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";$/;"	v
 sql	App/UserInformation/User_ResetPWD.php	/^        $sql = "SELECT SECURITY_CODE, to_char(EXPIRATION_TIME,'yyyy-mm-dd hh24:mi:ss') AS EXPIRATION_TIME  FROM SECURITY_CODE WHERE USER_ID='{$userid}'";$/;"	v
 sql	Common/Db.php	/^$sql = "select * from login";$/;"	v
 sql	Common/MySQL.php	/^$sql = "select * from login";$/;"	v
@@ -4676,6 +4758,7 @@ stcp	App/Register/Mobile_Register.php	/^            $stcp = oci_parse($connect, 
 stcs	App/UserInformation/User_ChangePWD.php	/^        $stcs = oci_parse($connect, $checksql);$/;"	v
 stcs	App/UserInformation/User_ResetPWD.php	/^        $stcs = oci_parse($connect, $checksql);$/;"	v
 stem	App/Register/Mobile_Register.php	/^            $stem = oci_parse($connect, $check_em);$/;"	v
+stem	App/UserInformation/User_ResetPWD.php	/^            $stem = oci_parse($connect, $check_em);$/;"	v
 step	Common/PHPMailer/extras/ntlm_sasl_client.php	/^    public function step(&$client, $response, &$message, &$interactions)$/;"	f
 step	test/mailtest/PHPMailer-master/extras/ntlm_sasl_client.php	/^    public function step(&$client, $response, &$message, &$interactions)$/;"	f
 stes	App/UserInformation/User_Info.php	/^        $stes = oci_parse($connect, $emailsql);$/;"	v
@@ -4689,6 +4772,7 @@ stgu	App/UserInformation/User_ResetPWD.php	/^        $stgu = oci_parse($connect,
 stgv	App/Bus/BusInformation.php	/^        $stgv = oci_parse($connect, $get_version);$/;"	v
 stid	App/Complaint/User_Complaint.php	/^        $stid = oci_parse($connect,$sql);$/;"	v
 stid	App/Graphics/Image_Processing.php	/^        $stid = oci_parse($connect,$sql);$/;"	v
+stid	App/Mq/MessageLog.php	/^        $stid = oci_parse($connect, $sql);$/;"	v
 stid	App/Register/Mobile_Register.php	/^            $stid = oci_parse($connect, $insertsql);$/;"	v
 stid	App/Upload/File_Upload.php	/^            $stid = oci_parse($connect,$sql);$/;"	v
 stid	Common/SQL.php	/^        $stid = oci_parse($connect,$sql);$/;"	v
@@ -4710,6 +4794,7 @@ stpwd	App/Login/Mobile_Login.php	/^        $stpwd = oci_parse($connect, $get_pwd
 stpwd	App/Login/Mobile_Login_old.php	/^        $stpwd = oci_parse($connect, $get_pwd);$/;"	v
 stpwd	App/UserInformation/User_ChangePWD.php	/^        $stpwd = oci_parse($connect, $get_pwd);$/;"	v
 stpwd	App/UserInformation/User_ResetPWD.php	/^        $stpwd = oci_parse($connect, $get_pwd);$/;"	v
+str	App/Bus/BusInformation.php	/^        $str = $this->decodeFormate($stopsID);$/;"	v
 str	Common/PHPMailer/PHPMailer.php	/^                $str = preg_replace('\/(\\r\\n|\\r|\\n)\/ms', "\\n", $str);$/;"	v
 str	Common/PHPMailer/SMTP.php	/^                $str = preg_replace('\/(\\r\\n|\\r|\\n)\/ms', "\\n", $str);$/;"	v
 str	Common/PHPMailer/SMTP.php	/^            $str = @fgets($this->smtp_conn, 515);$/;"	v
@@ -4722,7 +4807,7 @@ str	PhpAmqpLib/Wire/AMQPReader.php	/^    protected $str;$/;"	v
 str	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                $str = preg_replace('\/(\\r\\n|\\r|\\n)\/ms', "\\n", $str);$/;"	v
 str	test/mailtest/PHPMailer-master/class.smtp.php	/^                $str = preg_replace('\/(\\r\\n|\\r|\\n)\/ms', "\\n", $str);$/;"	v
 str	test/mailtest/PHPMailer-master/class.smtp.php	/^            $str = @fgets($this->smtp_conn, 515);$/;"	v
-str	test/test.php	/^$str = 'test';$/;"	v
+str	test/test.php	/^$str = "1,2,3,4,5";$/;"	v
 str_length	PhpAmqpLib/Wire/AMQPReader.php	/^        $this->str_length = mb_strlen($this->str, 'ASCII');$/;"	v
 str_length	PhpAmqpLib/Wire/AMQPReader.php	/^    protected $str_length;$/;"	v
 streamCancel	PhpAmqpLib/Helper/Protocol/Protocol080.php	/^    public function streamCancel($consumer_tag, $nowait = false)$/;"	f
@@ -4749,6 +4834,7 @@ string	Common/PHPMailer/class.phpmailer.php	/^        $string = str_replace($/;"
 string	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                    $string = $attachment[0];$/;"	v
 string	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                $string = '';$/;"	v
 string	test/mailtest/PHPMailer-master/class.phpmailer.php	/^        $string = str_replace($/;"	v
+stringFormat	test/test.php	/^function stringFormat($str) {$/;"	f
 sttk	App/Login/Mobile_Login.php	/^        $sttk = oci_parse($connect, $get_token);$/;"	v
 sttk	App/Login/Mobile_Login.php	/^        $sttk = oci_parse($connect, $updateToken);$/;"	v
 sttk	App/Login/Mobile_Login_old.php	/^        $sttk = oci_parse($connect, $get_token);$/;"	v
@@ -4798,6 +4884,7 @@ table	createTable2.php	/^$table = 'feedback';$/;"	v
 table_data	PhpAmqpLib/Wire/AMQPReader.php	/^        $table_data = new AMQPReader($this->rawread($tlen), null);$/;"	v
 table_data	PhpAmqpLib/Wire/AMQPWriter.php	/^        $table_data = $table_data->getvalue();$/;"	v
 table_data	PhpAmqpLib/Wire/AMQPWriter.php	/^        $table_data = new AMQPWriter();$/;"	v
+tables	App/Inquiry/Vehicle_Inquiry.php	/^		$tables = 'SECURITY_SUITE_INFO ssi, SECURITY_SUITE_WORKING ssw';$/;"	v
 tables	App/Inquiry/Vehicle_Inquiry.php	/^		$tables = 'VEHICLE v, VEHICLE_COMPANY c, DISTRICT d';$/;"	v
 tag_list	Common/PHPMailer/extras/htmlfilter.php	/^    $tag_list = array($/;"	v
 tag_list	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^    $tag_list = array($/;"	v
@@ -4957,6 +5044,7 @@ testWordWrapMultibyte	Common/PHPMailer/test/phpmailerTest.php	/^    public funct
 testWordWrapMultibyte	test/mailtest/PHPMailer-master/test/phpmailerTest.php	/^    public function testWordWrapMultibyte()$/;"	f
 testarr	test.php	/^$testarr = Array('aa'=>'test');$/;"	v
 text	Common/PHPMailer/extras/htmlfilter.php	/^    $text = '#000000';$/;"	v
+text	sms.php	/^$text = $simpleXml;$/;"	v
 text	test/mailtest/PHPMailer-master/extras/htmlfilter.php	/^    $text = '#000000';$/;"	v
 textLine	Common/PHPMailer/PHPMailer.php	/^    public function textLine($value)$/;"	f
 textLine	Common/PHPMailer/class.phpmailer.php	/^    public function textLine($value)$/;"	f
@@ -5180,6 +5268,7 @@ u.output	test/mailtest/PHPMailer-master/examples/scripts/shCore.js	/^var XRegExp
 uc	App/Complaint/User_Complaint.php	/^$uc =new User_Complaint(); $/;"	v
 uc	index.php	/^        $uc = new User_Complaint();$/;"	v
 uf	index.php	/^        $uf = new User_ResetPWD();$/;"	v
+ui	index.php	/^            $ui = new User_Info();$/;"	v
 ui	index.php	/^        $ui = new User_Info();$/;"	v
 uid	Common/PHPMailer/extras/EasyPeasyICS.php	/^            $uid = md5(uniqid(mt_rand(), true)) . '@EasyPeasyICS';$/;"	v
 uid	test/mailtest/PHPMailer-master/extras/EasyPeasyICS.php	/^            $uid = md5(uniqid(mt_rand(), true)) . '@EasyPeasyICS';$/;"	v
@@ -5258,13 +5347,15 @@ useimap	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function
 user	Common/Db.php	/^    private $user = 'ant';$/;"	v
 user	Common/Oracle.php	/^    \/\/private $user = 'ant';$/;"	v
 userDataSet	index.php	/^$userDataSet = $check->params;$/;"	v
+userInfo	index.php	/^		$userInfo = $ml->login($userDataSet, $mobileConnect);$/;"	v
+userName	index.php	/^        $userName = $userInfo['userName'];$/;"	v
 user_length	Common/PHPMailer/extras/ntlm_sasl_client.php	/^        $user_length = strlen($user_unicode);$/;"	v
 user_length	test/mailtest/PHPMailer-master/extras/ntlm_sasl_client.php	/^        $user_length = strlen($user_unicode);$/;"	v
 user_offset	Common/PHPMailer/extras/ntlm_sasl_client.php	/^        $user_offset = $domain_offset + $domain_length;$/;"	v
 user_offset	test/mailtest/PHPMailer-master/extras/ntlm_sasl_client.php	/^        $user_offset = $domain_offset + $domain_length;$/;"	v
 user_unicode	Common/PHPMailer/extras/ntlm_sasl_client.php	/^        $user_unicode = $this->ASCIIToUnicode($user);$/;"	v
 user_unicode	test/mailtest/PHPMailer-master/extras/ntlm_sasl_client.php	/^        $user_unicode = $this->ASCIIToUnicode($user);$/;"	v
-userid	App/Complaint/User_Complaint.php	/^        $userid = $user_id;             \/\/ userid must exist or database would report error$/;"	v
+userid	App/Complaint/User_Complaint.php	/^        $userid = $userInfo['userId'];             \/\/ userid must exist or database would report error$/;"	v
 userid	App/Login/Mobile_Login.php	/^                $userid = preg_replace("\/\\s\/","",$pwdrows['USER_ID']);$/;"	v
 userid	App/Login/Mobile_Login.php	/^            $userid = preg_replace("\/\\s\/","",$tkrows['USER_ID']);$/;"	v
 userid	App/Login/Mobile_Login_old.php	/^                $userid = preg_replace("\/\\s\/","",$pwdrows['USER_ID']);$/;"	v
@@ -5276,9 +5367,11 @@ userid	App/UserInformation/User_ResetPWD.php	/^            $userid = preg_replac
 userid	App/UserInformation/User_ResetPWD.php	/^        $userid = $this->getUserID($connect, $userInfo);$/;"	v
 userid	Common/SQL.php	/^        $userid = $compliant['userid'];$/;"	v
 userid	index.php	/^        $userid = $arrayInfo['userId'];$/;"	v
+userid	index.php	/^        $userid = $userInfo['userId'];$/;"	v
 userid	test/insertTestData.php	/^$userid = md5(uniqid(microtime(true),true));$/;"	v
 userid	trafic.php	/^        $userid = $complaint['userid'];             \/\/ userid must exist or database would report error$/;"	v
 userid	trafic.php	/^$userid = '020f6e01d66ea7b97ff8ed4cd6c5e0da';$/;"	v
+username	App/Complaint/User_Complaint.php	/^        $username = $userInfo['userName'];             \/\/ userid must exist or database would report error$/;"	v
 username	App/Login/Mobile_Login.php	/^                $username = isset($pwdrows['USER_NAME']) ? $pwdrows['USER_NAME'] : '';$/;"	v
 username	App/Login/Mobile_Login.php	/^            $username = isset($tkrows['USER_NAME']) ? $tkrows['USER_NAME'] : '';$/;"	v
 username	App/Mq/SendMessageToMq.php	/^        $this->username = $connectPara['rabbitMq']['username'];$/;"	v
@@ -5301,6 +5394,8 @@ username	test/mailtest/PHPMailer-master/class.pop3.php	/^    public $username;$/
 utf8CharBoundary	Common/PHPMailer/PHPMailer.php	/^    public function utf8CharBoundary($encodedText, $maxLength)$/;"	f
 utf8CharBoundary	Common/PHPMailer/class.phpmailer.php	/^    public function utf8CharBoundary($encodedText, $maxLength)$/;"	f
 utf8CharBoundary	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function utf8CharBoundary($encodedText, $maxLength)$/;"	f
+uuid	Common/Guid.php	/^            $uuid = \/\/chr(123)\/\/ "{"$/;"	v
+uuid	test/test.php	/^        $uuid = \/\/chr(123)\/\/ "{"$/;"	v
 v	PhpAmqpLib/Connection/AbstractConnection.php	/^        $v = $args->read_long();$/;"	v
 v	PhpAmqpLib/Connection/AbstractConnection.php	/^        $v = $args->read_short();$/;"	v
 v	PhpAmqpLib/Wire/AMQPAbstractCollection.php	/^            $v = $this->decodeValue($v[1], $v[0]);$/;"	v
@@ -5387,8 +5482,6 @@ value	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function a
 value	test/mailtest/PHPMailer-master/class.phpmailer.php	/^    public function set($name, $value = '')$/;"	v
 value2	Common/RedisCache.php	/^ * $value2 = 200;$/;"	v
 var	test.php	/^$var = isset($testarr['bb']) ? $testarr['bb'] : 'kong';$/;"	v
-varifySecurityCode	App/UserInformation/User_ChangePWD.php	/^    public function varifySecurityCode($connect, $userInfo) {$/;"	f
-varifyUser	App/UserInformation/User_ChangePWD.php	/^    public function varifyUser($connect, $userInfo) {$/;"	f
 varifyUser	Common/SQL.php	/^    public function varifyUser($connect, $params) {$/;"	f
 varifyUser	trafic.php	/^    public function varifyUser($connect, $params) {$/;"	f
 vehicleField	App/Inquiry/Vehicle_Inquiry.php	/^		$vehicleField = "v.VEHICLE_ID, v.VEHICLE_TYPE, v.BRAND_MODEL, v.START_YEAR, v.REGION, v.OPERATION_LICENSE, v.OWNER";$/;"	v
@@ -5411,13 +5504,17 @@ vehicle_status	createTables.php	/^	$vehicle_status = 1;	\/\/ 0是不具备，１
 vehicle_type	createTable2.php	/^\/\/	$vehicle_type = 0; \/\/ 0是出租车，１是公交车，２是长途大巴$/;"	v
 vehicle_type	createTables.php	/^	$vehicle_type = 0; \/\/ 0是出租车，１是公交车，２是长途大巴$/;"	v
 vehicleid	App/Complaint/User_Complaint.php	/^        $vehicleid = $params['vehicleid'];$/;"	v
+vehicleid	App/Inquiry/Vehicle_Inquiry.php	/^	    $vehicleid = $this->getVehicleIDByAntID($connect, $antid);$/;"	v
 vehicleid	App/Inquiry/Vehicle_Inquiry.php	/^            $vehicleid = isset($ivRows['VEHICLE_ID']) ? $ivRows['VEHICLE_ID'] : '';$/;"	v
 vehicleid	Common/CommonAPI.php	/^		$this->params['vehicleid'] = $vehicleid = isset($_POST['vehicleid']) ? $_POST['vehicleid'] : '';$/;"	v
 vehicleid	Common/CommonAPI.php	/^		\/\/$this->params['vehicleid'] = $vehicleid = isset($_POST['vehicleid']) ? $_POST['vehicleid'] : '';$/;"	v
 verify	Common/PHPMailer/SMTP.php	/^    public function verify($name)$/;"	f
 verify	Common/PHPMailer/class.smtp.php	/^    public function verify($name)$/;"	f
 verify	test/mailtest/PHPMailer-master/class.smtp.php	/^    public function verify($name)$/;"	f
+verifyEmail	App/UserInformation/User_ResetPWD.php	/^    public function verifyEmail($connect, $email) {$/;"	f
+verifySecurityCode	App/UserInformation/User_ChangePWD.php	/^    public function verifySecurityCode($connect, $userInfo) {$/;"	f
 verifySecurityCode	App/UserInformation/User_ResetPWD.php	/^    public function verifySecurityCode($userInfo) {$/;"	f
+verifyUser	App/UserInformation/User_ChangePWD.php	/^    public function verifyUser($connect, $userInfo) {$/;"	f
 verifyUser	App/UserInformation/User_ResetPWD.php	/^    public function verifyUser($connect, $userInfo) {$/;"	f
 version	App/Bus/BusInformation.php	/^        $version = $this->getCityVersion($connect, $cityID); $/;"	v
 versionNumber	App/Bus/BusInformation.php	/^            $versionNumber = isset($gvrow['VERSION_NUM']) ? $gvrow['VERSION_NUM'] : '';$/;"	v
@@ -5459,7 +5556,9 @@ weight	PhpAmqpLib/Channel/AbstractChannel.php	/^        $weight = $this->wait_co
 which	Common/PHPMailer/PHPMailer.php	/^                \/\/ Use a custom function which correctly encodes and wraps long$/;"	f
 which	Common/PHPMailer/class.phpmailer.php	/^                \/\/ Use a custom function which correctly encodes and wraps long$/;"	f
 which	test/mailtest/PHPMailer-master/class.phpmailer.php	/^                \/\/ Use a custom function which correctly encodes and wraps long$/;"	f
+width	App/Graphics/Image_Processing.php	/^        $width = $thumbnailInfo['width'];$/;"	v
 width	App/Graphics/Mobile_Graphics.php	/^	function generate_thumbnail($originName, $thumbnailName, $path, $width=255, $height=255) {$/;"	v
+width	App/Upload/File_Upload.php	/^            $width = $imageInfo['width'];$/;"	v
 width	Common/captcha.php	/^$width = 80;$/;"	v
 width	test/captcha.php	/^$width = 80;$/;"	v
 will	Common/PHPMailer/test/test_callback.php	/^ * This callback function will echo the results of PHPMailer processing.$/;"	f
@@ -5505,6 +5604,7 @@ write	PhpAmqpLib/Wire/IO/SocketIO.php	/^        $write = null;$/;"	v
 write	PhpAmqpLib/Wire/IO/SocketIO.php	/^    public function write($data)$/;"	f
 write	PhpAmqpLib/Wire/IO/StreamIO.php	/^        $write = null;$/;"	v
 write	PhpAmqpLib/Wire/IO/StreamIO.php	/^    public function write($data)$/;"	f
+writeMessageLog	App/Mq/MessageLog.php	/^    public function writeMessageLog($connect, $guid, $complaintid) {$/;"	f
 write_array	PhpAmqpLib/Wire/AMQPWriter.php	/^    public function write_array($a)$/;"	f
 write_bit	PhpAmqpLib/Wire/AMQPWriter.php	/^    public function write_bit($b)$/;"	f
 write_bits	PhpAmqpLib/Wire/AMQPWriter.php	/^    public function write_bits($bits)$/;"	f
