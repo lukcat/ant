@@ -229,13 +229,14 @@ $check->params['password'] = sha1(md5('test'));
 
 /* inquiryVehicleByVehicleID */
 /*
-$check->params['vehicleid'] = 'GBI0142';
+$check->params['vehicleid'] = 'OAA1425';
 $check->params['querytype'] = 'vehicleid';
 $check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('test'));
 */
 
 /* inquiryVehicleByAntID */
+//$check->params['antid'] = '09.2.61351.1';
 /*
 $check->params['antid'] = '09.2.61351.1';
 $check->params['querytype'] = 'antid';
@@ -244,6 +245,9 @@ $check->params['password'] = sha1(md5('test'));
 */
 /* GetBusLineInformation */
 //$check->params['cityid'] = '1';
+
+/* GetSecurityCode */
+//$check->params['email'] = 'chendeqing@ceiec.com.cn';
 
 ////////////////end of test data//////////////////////
 
@@ -273,6 +277,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'GetCityInformation';
 //$userDataSet['action'] = 'GetBusLineInformation';
 //$userDataSet['action'] = 'testMQ';
+//$userDataSet['action'] = 'GetBusSetGPS';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -460,7 +465,8 @@ switch($action) {
 
         $resData = array();
         if ($queryType == 'vehicleid') {
-		    $resData = $iv->getVehicleInfoByVehicleID($antConnect, $userDataSet['vehicleid']);
+		    $resData = $iv->getVehicleInfoByVehicleID($mobileConnect, $userDataSet['vehicleid']);
+		    //$resData = $iv->getVehicleInfoByVehicleID($antConnect, $userDataSet['vehicleid']);
         } elseif ($queryType == 'antid') {
             $resData = $iv->getVehicleInfoByAntID($mobileConnect, $userDataSet['antid']);
         } else {
@@ -572,16 +578,19 @@ switch($action) {
 
     case 'GetSecurityCode':
         // 10
-        //Response::show(1,"test",$userDataSet);
 
+        //echo 'here';die();
         $uf = new User_ResetPWD();
 
         // get basic information
         $resData = $uf->getSecurityCode($mobileConnect, $userDataSet);
 
+        // Verify user accout
+        $email = $resData['email'];
+        //$uf->verifyEmail($mobileConnect, $email);
+        
         // Get parameters
         //$loginid = $resData['loginid'];
-        $email = $resData['email'];
         $securitycode = $resData['securitycode'];
         $sn = $resData['sn'];
         $timestamp = $resData['timestamp'];
@@ -668,6 +677,10 @@ switch($action) {
         $busLineInformation = $cv->getBusLineInformation($mobileConnect, $cityID);
 
         Response::show(1800, 'Get city list successful', $busLineInformation);
+
+        break;
+
+    case 'GetBusSetGPS':
 
         break;
 

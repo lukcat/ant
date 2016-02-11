@@ -6,6 +6,35 @@ use Common\Response as Response;
 
 class User_ResetPWD {
 
+    /* Verify user's password 
+     * @param connect oracle database handler
+     * @param email user's email address
+     * return json data 
+     */
+    public function verifyEmail($connect, $email) {
+		
+        // All three property shouldn't be empty
+        if ($email !='') {
+            // query sentance
+            // valid=0 means data is out of date, only valid=1 can be used
+		    $check_em= "SELECT USER_ID FROM APP_USER where EMAIL='{$email}' OR LOGIN_NAME='{$email}' OR CELLPHONE='{$email}' AND VALID=1";
+
+            // check email
+            $stem = oci_parse($connect, $check_em);
+            if (!oci_execute($stem)) {
+		        Response::show(1231,'Mobile_Register-email: query database error');
+            }
+            $emrows = oci_fetch_array($stem, OCI_BOTH);
+            if ($emrows) {
+                return true;
+            } else {
+                Response::show(1232,"Email do not exists");
+            }
+        }
+
+        Response::show(1233,"email is empty");
+    }
+
     // generate seed
     //protected function generateSeed($userInfo) {
     protected function generateSeed($email, $securitycode, $timestamp) {
