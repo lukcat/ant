@@ -243,6 +243,7 @@ $check->params['querytype'] = 'antid';
 $check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('test'));
 */
+
 /* GetBusLineInformation */
 //$check->params['cityid'] = '1';
 
@@ -518,7 +519,7 @@ switch($action) {
 
         $resData = array();
         if ($queryType == 'vehicleid') {
-		    $resData = $iv->getVehicleInfoByVehicleID($antConnect, $userDataSet['vehicleid']);
+		    $resData = $iv->getVehicleInfoByVehicleID($mobileConnect, $userDataSet['vehicleid']);
         } elseif ($queryType == 'antid') {
             $resData = $iv->getVehicleInfoByAntID($mobileConnect, $userDataSet['antid']);
         }
