@@ -84,7 +84,7 @@ class Vehicle_Inquiry {
             $company = isset($ivRows['COMPANY']) ? $ivRows['COMPANY'] : '';
             $district = isset($ivRows['DISTRICT']) ? $ivRows['DISTRICT'] : '';
             $region = isset($ivRows['REGION']) ? $ivRows['REGION'] : '';
-            $antSN= isset($ivRows['ANT_SN']) ? $ivRows['ANT_SN'] : '';
+            $antSN= isset($ivRows['ANT_SN']) ? substr($ivRows['ANT_SN'],0,-2) : '';
 
             // Resolve vehicle type 
             /*
