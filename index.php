@@ -108,7 +108,7 @@ try {
     // one for ant, another for mobile
     //print_r($configInfo['serverSet']['mobileServer']);
     //die();
-    $antConnect    = Oracle::getInstance()->connect($configInfo['serverSet']['antServer']);
+    //$antConnect    = Oracle::getInstance()->connect($configInfo['serverSet']['antServer']);
     $mobileConnect = Oracle::getInstance()->connect($configInfo['serverSet']['mobileServer']);
 
 } catch (Exception $e) {
@@ -310,6 +310,7 @@ switch($action) {
 
 	case 'Register':
         // 5
+        // This part need modified
 		$rg = new Mobile_Register();
 		$rg->register($userDataSet, $mobileConnect);
 

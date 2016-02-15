@@ -1,5 +1,1 @@
-
-
-
-
-
+{"celular":"Numero Celular","mensaje":"Texto del Mensaje","numero_corto":"numero corto","carrier":"Carrier Operadora MOVIL"}{"celular":"Numero Celular","mensaje":"Texto del Mensaje","numero_corto":"numero corto","carrier":"Carrier Operadora MOVIL"}00
