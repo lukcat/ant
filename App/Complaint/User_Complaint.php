@@ -72,7 +72,7 @@ class User_Complaint {
         //$sql = "select c.complaint_id, c.complaint, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and c.user_id='{$userID}' and c.valid=1";
         //$sql = "select c.complaint_id, c.complaint, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.path, t.local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id where c.user_id='{$userID}' and c.valid=1";
         //$sql = "select c.complaint_id, c.complaint, c.type, c.vehicle_id, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id where c.user_id='{$userID}' and c.valid=1";
-        $sql = "select c.complaint_id, c.complaint, c.type, c.vehicle_id, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name, p.path as origin_path, p.local_name as origin_local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id left join photo p on t.photo_id=p.photo_id where c.user_id='{$userID}' and c.valid=1";
+        $sql = "select c.complaint_id, c.complaint, c.type, c.vehicle_id, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name, p.path as origin_path, p.local_name as origin_local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id left join photo p on t.photo_id=p.photo_id where c.user_id='{$userID}' and c.valid=1 order by c.create_time desc";
         //echo $sql;die();
         //exit;
 

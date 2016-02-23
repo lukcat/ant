@@ -15,6 +15,7 @@ else
 
 $simpleXml = simplexml_load_string($fileContents);
 $jsonData = json_encode($simpleXml);
+echo $jsonData;
 //$jsonData += 'n';
 //echo $simpleXml;
 //var_dump($simpleXml);
