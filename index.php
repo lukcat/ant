@@ -182,15 +182,15 @@ $check->params['password'] = sha1(md5('qwerty'));
 $check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 */
 
-/* register */
+/* Register */
 /* 
-$check->params['loginname'] = 'chendeqing';
+$check->params['loginname'] = 'lukcatchen';
 $check->params['password'] = sha1(md5('test'));
-$check->params['icardid'] = '123321200010010908';
-$check->params['email'] = 'chendeqing@ceiec.com.cn';
-$check->params['cellphone'] = '12345678903';
+$check->params['icardid'] = '0906393079';
+$check->params['email'] = 'lukcatchen@126.com';
+$check->params['cellphone'] = '12345678909';
 $check->params['name'] = 'chendeqing';
-$check->params['note'] = 'lanren2';
+$check->params['note'] = 'no note';
 */
 
 /* ChangePWD*/
@@ -216,7 +216,7 @@ $check->params['complainttype'] = '1';
 /*
 $check->params['loginid'] = 'huojing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('qwerty'));
-$check->params['complainttype'] = '1';
+//$check->params['complainttype'] = '1';
 */
 
 /* Send vehicle information */
@@ -301,7 +301,9 @@ switch($action) {
         
         // Response information to client
         //if (!empty($loginid)) {
-            Response::show(400,"User Login Successful",$arrayInfo);
+
+        Response::show(400,"User Login Successful",$arrayInfo);
+
         //} else {
             //Response::show(401,"User Login Failure");
         //}
