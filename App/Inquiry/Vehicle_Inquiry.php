@@ -52,7 +52,7 @@ class Vehicle_Inquiry {
 		$vehicleField = "v.VEHICLE_TYPE, v.BRAND_MODEL, v.START_YEAR, v.REGION, v.OPERATION_LICENSE, v.OWNER";
         $companyField = 'c.NAME AS COMPANY';
         $districtField = 'd.NAME AS DISTRICT';
-        $sswField = 'ssw.VEHICLE_ID';
+        $sswField = 'ssw.VEHICLE_ID, ssw.ONLINE_FLAG';
         $ssiField = 'ssi.ANT_SN, ssi.ANT_SN';
         $field = $vehicleField.','.$districtField.','.$companyField.','.$sswField.','.$ssiField; 
 
@@ -84,7 +84,8 @@ class Vehicle_Inquiry {
             $company = isset($ivRows['COMPANY']) ? $ivRows['COMPANY'] : '';
             $district = isset($ivRows['DISTRICT']) ? $ivRows['DISTRICT'] : '';
             $region = isset($ivRows['REGION']) ? $ivRows['REGION'] : '';
-            $antSN= isset($ivRows['ANT_SN']) ? substr($ivRows['ANT_SN'],0,-2) : '';
+            $antSN = isset($ivRows['ANT_SN']) ? substr($ivRows['ANT_SN'],0,-2) : '';
+            $onlineFlag = isset($ivRows['ONLINE_FLAG']) ? $ivRows['ONLINE_FLAG'] : '';
 
             // Resolve vehicle type 
             /*
@@ -115,7 +116,8 @@ class Vehicle_Inquiry {
                     'company' => $company,
                     'district' => $district,
                     'region' => $region,
-                    'antSN' => $antSN
+                    'antSN' => $antSN,
+                    'onlineFlag' => $onlineFlag
                     );
             return $vehicleInfo;
         } else {
