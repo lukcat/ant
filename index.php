@@ -221,7 +221,7 @@ $check->params['password'] = sha1(md5('qwerty'));
 
 /* Send vehicle information */
 /*
-$check->params['vehicleid'] = 'GBI0142';
+$check->params['vehicleid'] = 'OAA1425';
 $check->params['querytype'] = 'vehicleid';
 $check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('test'));
@@ -532,18 +532,23 @@ switch($action) {
          * use multiple process of php
          */
         if (!empty($userDataSet['token']) || !empty($userDataSet['loginid'])) {
-            //// get user's email address
-            $ui = new User_Info();
-            $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
-            $body = json_encode($resData);
+            if (!empty($resData)) {
+                // vechile online, send detail information
+                //// get user's email address
+                $ui = new User_Info();
+                $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
+                $body = json_encode($resData);
 
-            if ($emailaddr) {
-                $mailer = new Mailer();
-                $mailer->sendmails($configInfo, $emailaddr, $body);
-                Response::show(1900,"Send email successful");
+                if ($emailaddr) {
+                    $mailer = new Mailer();
+                    $mailer->sendmails($configInfo, $emailaddr, $body);
+                    Response::show(1900,"Send email successful");
+                }
+
+                Response::show(1901,"Send email failure");
+            } else {
+                // vehicle offline
             }
-
-            Response::show(1901,"Send email failure");
         } 
 
         Response::show(1902,"Send email failure: NO user basic information");
