@@ -5,8 +5,15 @@ namespace Common\PHPMailer;
 class Mailer {
     function sendmails($config, $address, $body, $altbody = '请使用兼容HTML格式邮箱'){
 
+
+
         $mail = new PHPMailer();
         $mail->IsSMTP(); //设置PHPMailer应用SMTP发送Email
+        // after///////
+        //$mail->SMTPAuth = true;
+        $mail->SMTPSecure = 'tls';
+        //$mail->isHTML(true);
+        /////////////
         //$mail->CharSet = 'UTF-8';
         $mail->CharSet = $config['mail']['charset'];
         //$mail->Host = 'smtp.126.com';  // 指定邮件服务器
@@ -24,6 +31,8 @@ class Mailer {
         //$mail->FromName = '想学网测试服务器'; //为发送邮件地址命名
         $mail->FromName = $config['mail']['fromname']; //为发送邮件地址命名
         //这里为批量发送邮件
+        //echo "here in mailer class";
+        //var_dump($config);
         if (is_array($address)) {
             foreach ($address as $val) {
                 $mail->AddAddress($val);

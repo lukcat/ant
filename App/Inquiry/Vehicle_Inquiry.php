@@ -45,11 +45,11 @@ class Vehicle_Inquiry {
 
 	function getVehicleInfoByVehicleID($connect, $vehicle_id) {
         // tables
-		$tables = 'VEHICLE v, VEHICLE_COMPANY c, DISTRICT d, SECURITY_SUITE_WORKING ssw, SECURITY_SUITE_INFO ssi';
+		$tables = 'VEHICLE v, VEHICLE_COMPANY c, DISTRICT d, SECURITY_SUITE_WORKING ssw, SECURITY_SUITE_INFO ssi, INSTALLATION_DETAIL id';
 		//$tables = 'VEHICLE v, VEHICLE_COMPANY c';
 
         // field
-		$vehicleField = "v.VEHICLE_TYPE, v.BRAND_MODEL, v.START_YEAR, v.REGION, v.OPERATION_LICENSE, v.OWNER";
+		$vehicleField = "v.VEHICLE_TYPE, v.BRAND_MODEL, v.START_YEAR, v.REGION, v.OPERATION_LICENSE, v.OWNER, id.FINISH_TIME";
         $companyField = 'c.NAME AS COMPANY';
         $districtField = 'd.NAME AS DISTRICT';
         $sswField = 'ssw.VEHICLE_ID, ssw.ONLINE_FLAG';
@@ -57,7 +57,7 @@ class Vehicle_Inquiry {
         $field = $vehicleField.','.$districtField.','.$companyField.','.$sswField.','.$ssiField; 
 
         // condition
-	    $condition = "v.COMPANY_ID=c.ID AND v.DISTRICT_CODE=d.CODE AND v.VEHICLE_ID=ssw.VEHICLE_ID AND ssi.MDVR_CORE_SN=ssw.MDVR_CORE_SN AND ssw.STATUS IN (23,24) AND ssw.VEHICLE_ID='{$vehicle_id}'";
+	    $condition = "v.COMPANY_ID=c.ID AND v.DISTRICT_CODE=d.CODE AND v.VEHICLE_ID=ssw.VEHICLE_ID AND v.VEHICLE_ID=id.VEHICLE_ID AND ssi.MDVR_CORE_SN=ssw.MDVR_CORE_SN AND ssw.STATUS IN (23,24) AND ssw.VEHICLE_ID='{$vehicle_id}'";
         //$condition = "ssi.MDVR_CORE_SN=ssw.MDVR_CORE_SN AND ssw.STATUS IN (23,24) AND ssi.ANT_SN='{$antid}'";
         $sql = "SELECT {$field} FROM {$tables} WHERE {$condition}";
 
@@ -86,6 +86,7 @@ class Vehicle_Inquiry {
             $region = isset($ivRows['REGION']) ? $ivRows['REGION'] : '';
             $antSN = isset($ivRows['ANT_SN']) ? substr($ivRows['ANT_SN'],0,-2) : '';
             $onlineFlag = isset($ivRows['ONLINE_FLAG']) ? $ivRows['ONLINE_FLAG'] : '';
+            $installationFinishTime = isset($ivRows['FINISH_TIME']) ? $ivRows['FINISH_TIME'] : ''; 
 
             // Resolve vehicle type 
             /*
@@ -117,7 +118,8 @@ class Vehicle_Inquiry {
                     'district' => $district,
                     'region' => $region,
                     'antSN' => $antSN,
-                    'onlineFlag' => $onlineFlag
+                    'onlineFlag' => $onlineFlag,
+                    'installationFinishTime' => $installationFinishTime
                     );
             return $vehicleInfo;
         } else {
