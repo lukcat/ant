@@ -533,14 +533,35 @@ switch($action) {
          * use multiple process of php
          */
         if (!empty($userDataSet['token']) || !empty($userDataSet['loginid'])) {
+            // get user's email address
+            $ui = new User_Info();
+            $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
+
             if (!empty($resData)) {
                 //// get user's email address
-                $ui = new User_Info();
-                $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
                 $body = json_encode($resData);
 
                 //var_dump($resData);
+                $vehicleType = $resData['vehicleType'];
+                switch ($vehicleType) {
+                    case '1':
+                        $resData['vehicleType'] = 'Taxi'; //
+                        break;
 
+                    case '2':
+                        $resData['vehicleType'] = 'Bus'; //bus
+                        break;
+
+                    case '3':
+                        $resData['vehicleType'] = 'Bus de larga distancia'; //long range bus
+                        break;
+
+                    default:
+                        $resData['vehicleType'] = 'notypedata'; // no type data
+                        break;
+                }
+
+                $body = "<table border='1'> <tr> <td colspan='2' align='center' > Vehicle Information </td> </tr> <tr> <td> Estado </td> <td> En linea </td> </tr> <tr> <td> Placa </td> <td> {$resData['vehicleid']} </td> </tr> <tr> <td> ANT Kit SN  </td> <td> {$resData['antSN']} </td> </tr>  <tr> <td> Tipo de vehiculo  </td> <td> {$resData['vehicleType']} </td> </tr> <tr> <td> Compania  </td> <td> {$resData['company']} </td> </tr> <tr> <td> Dueno  </td> <td> {$resData['owner']} </td> </tr> <tr> <td> Marca  </td> <td> {$resData['brandModel']} </td> </tr> <tr> <td> Distrito </td> <td> {$resData['district']} </td> </tr> </tr> <tr> <td> Fecha de instalacion </td> <td> {$resData['installationFinishTime']} </td> </tr></table>";
 
                 if ($emailaddr) {
                     //echo $body;
@@ -549,6 +570,18 @@ switch($action) {
                     //echo $emailaddr;
                     //$emailaddr = 'chendeqing@ceiec.com.cn';
                     //echo $emailaddr;
+                    $mailer->sendmails($configInfo, $emailaddr, $body);
+                    Response::show(1900,"Send email successful");
+                }
+
+                Response::show(1901,"Send email failure");
+            } else {
+                // offline case
+                $body = "<table border='1'> <tr> <td colspan='2' align='center' > Vehicle Information </td> </tr> <tr> <td> Estado </td> <td> Fuera de linea </td> </tr> <tr> <td> Placa </td> <td> {$userDataSet['vehicleid']} </td> </tr></table>";
+
+                if ($emailaddr) {
+                    //echo $body;
+                    $mailer = new Mailer();
                     $mailer->sendmails($configInfo, $emailaddr, $body);
                     Response::show(1900,"Send email successful");
                 }
