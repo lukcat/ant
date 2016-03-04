@@ -207,7 +207,7 @@ $check->params['newpassword'] = sha1(md5('test'));
 /* Complaint */
 /*
 $check->params['loginid'] = 'chendeqing@ceiec.com.cn';
-$check->params['password'] = sha1(md5('test'));
+$check->params['password'] = sha1(md5('qwerty'));
 $check->params['complaint'] = 'complaint content here';
 $check->params['complainttype'] = '1';
 */
@@ -396,7 +396,8 @@ switch($action) {
         $mqMsg = $smtm->filterMessage($complaintInfo);
 
         // send message to mq
-        $smtm->send($mqMsg);
+        $result = $smtm->send($mqMsg);
+        
         /* End of Send message to RabbitMq*/
 
         /* Write message into database */

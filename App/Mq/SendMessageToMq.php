@@ -29,7 +29,12 @@ class SendMessageToMq {
      */
     public function send($data) {
         // New a connection to rabbitMq
-        $con = new AMQPStreamConnection($this->host, $this->port, $this->username, $this->password);
+        try {
+            $con = new AMQPStreamConnection($this->host, $this->port, $this->username, $this->password);
+        } catch (\Exception $e) {
+            return false;
+        }
+
 
         // Create a channel
         $channel = $con->channel();
