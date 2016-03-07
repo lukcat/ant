@@ -7,7 +7,8 @@
  */
 
 // set timezone
-date_default_timezone_set('UTC');
+//date_default_timezone_set('UTC');
+date_default_timezone_set('ECT');
 
 // use aliases
 use Common\Oracle as Oracle;

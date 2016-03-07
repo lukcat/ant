@@ -32,7 +32,8 @@ class SendMessageToMq {
         try {
             $con = new AMQPStreamConnection($this->host, $this->port, $this->username, $this->password);
         } catch (\Exception $e) {
-            return false;
+            //echo $e;
+            //return false;
         }
 
 
