@@ -8,8 +8,9 @@
 
 // set timezone
 //date_default_timezone_set('UTC');
-date_default_timezone_set('ECT');
-
+//date_default_timezone_set('ECT');
+date_default_timezone_set('America/New_York');
+//date_default_timezone_set('-5.0');
 // use aliases
 use Common\Oracle as Oracle;
 use Common\CommonAPI as CommonAPI;
