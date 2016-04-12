@@ -139,7 +139,7 @@ class Image_Processing {
         $modifytime = date('Y-m-d H:i:s');              // file's modify_time 
 
         // sql
-        $sql="INSERT INTO THUMBNAIL(THUMBNAIL_ID,PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,PHOTO_WIDTH, PHOTO_HEIGHT, TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$thumbnailid}','{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},{$width},{$height},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+        $sql="INSERT INTO MAPP_THUMBNAIL(THUMBNAIL_ID,PHOTO_ID,COMPLAINT_ID,LOCAL_NAME,ORIGIN_NAME,PHOTO_SIZE,PHOTO_WIDTH, PHOTO_HEIGHT, TYPE,VALID,PATH,DESCRIPTION,CREATE_TIME,MODIFY_TIME) VALUES ('{$thumbnailid}','{$photoid}','{$complaintid}','{$localname}','{$originname}',{$size},{$width},{$height},'{$type}',{$valid},'{$path}','{$description}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
         //echo $sql;die();
         $thumbnailInfo['thumbnailid'] = $thumbnailid;

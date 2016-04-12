@@ -17,7 +17,7 @@ class User_ResetPWD {
         if ($email !='') {
             // query sentance
             // valid=0 means data is out of date, only valid=1 can be used
-		    $check_em= "SELECT USER_ID FROM APP_USER where EMAIL='{$email}' OR LOGIN_NAME='{$email}' OR CELLPHONE='{$email}' AND VALID=1";
+		    $check_em= "SELECT USER_ID FROM MAPP_USER where EMAIL='{$email}' OR LOGIN_NAME='{$email}' OR CELLPHONE='{$email}' AND VALID=1";
 
             // check email
             $stem = oci_parse($connect, $check_em);
@@ -97,7 +97,7 @@ class User_ResetPWD {
         }
 
         // get userid sql
-        $gusql = "SELECT USER_ID FROM APP_USER WHERE EMAIL='{$email}'";
+        $gusql = "SELECT USER_ID FROM MAPP_USER WHERE EMAIL='{$email}'";
 
         // parse
         $stgu = oci_parse($connect, $gusql);
@@ -132,7 +132,7 @@ class User_ResetPWD {
     // get security code of user, if exist and valid, return security code; else, return false
     public function generateSecurityCode($connect, $userid) {
         // sql 
-        $sql = "SELECT SECURITY_CODE, to_char(EXPIRATION_TIME,'yyyy-mm-dd hh24:mi:ss') AS EXPIRATION_TIME  FROM SECURITY_CODE WHERE USER_ID='{$userid}'";
+        $sql = "SELECT SECURITY_CODE, to_char(EXPIRATION_TIME,'yyyy-mm-dd hh24:mi:ss') AS EXPIRATION_TIME  FROM MAPP_SECURITY_CODE WHERE USER_ID='{$userid}'";
 
         // parse
         $stgs = oci_parse($connect, $sql);
@@ -166,7 +166,7 @@ class User_ResetPWD {
 
                 
                 // Update sql
-                $updatesql = "UPDATE SECURITY_CODE SET SECURITY_CODE='{$securityCode}', EXPIRATION_TIME=to_date('{$newexpirationtimestr}','yyyy-mm-dd hh24:mi:ss') WHERE USER_ID='{$userid}'";
+                $updatesql = "UPDATE MAPP_SECURITY_CODE SET SECURITY_CODE='{$securityCode}', EXPIRATION_TIME=to_date('{$newexpirationtimestr}','yyyy-mm-dd hh24:mi:ss') WHERE USER_ID='{$userid}'";
 
                 // parse
                 $stus = oci_parse($connect, $updatesql);
@@ -484,7 +484,7 @@ class User_ResetPWD {
 
     public function checkSecurityCode($connect, $userid) {
         // check sql
-        $checksql = "SELECT SECURITY_CODE, EXPIRATION_TIME FROM SECURITY_CODE WHERE USER_ID='{$userid}'";
+        $checksql = "SELECT SECURITY_CODE, EXPIRATION_TIME FROM MAPP_SECURITY_CODE WHERE USER_ID='{$userid}'";
 
         // parse
         $stcs = oci_parse($connect, $checksql);

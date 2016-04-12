@@ -16,7 +16,7 @@ class User_ChangePWD {
             Response::show(1301,'Login id is empty');
         }
 
-        $get_pwd = "SELECT USER_ID FROM APP_USER WHERE (LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}') AND PASSWORD='{$password}'"; 
+        $get_pwd = "SELECT USER_ID FROM MAPP_USER WHERE (LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}') AND PASSWORD='{$password}'"; 
 
         // parse
         $stpwd = oci_parse($connect, $get_pwd);
@@ -43,7 +43,7 @@ class User_ChangePWD {
             //$password = $userInfo['password'];
             $newpassword = $userInfo['newpassword'];
 
-            $updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
+            $updatePwd = "UPDATE MAPP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
 
             // parse
             $stup = oci_parse($connect, $updatePwd);
@@ -65,7 +65,7 @@ class User_ChangePWD {
         $loginid = $userInfo['loginid'];
 
         // get userid sql
-        $gusql = "SELECT USER_ID FROM APP_USER WHERE EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR LOGIN_NAME='{$loginid}'";
+        $gusql = "SELECT USER_ID FROM MAPP_USER WHERE EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR LOGIN_NAME='{$loginid}'";
 
         // parse
         $stgu = oci_parse($connect, $gusql);
@@ -98,7 +98,7 @@ class User_ChangePWD {
     //***********************************************//
     public function checkSecurityCode($connect, $userid) {
         // check sql
-        $checksql = "SELECT SECURITY_CODE, EXPIRATION_TIME FROM SECURITY_CODE WHERE USER_ID='{$userid}'";
+        $checksql = "SELECT SECURITY_CODE, EXPIRATION_TIME FROM MAPP_SECURITY_CODE WHERE USER_ID='{$userid}'";
 
         // parse
         $stcs = oci_parse($connect, $checksql);

@@ -11,7 +11,7 @@ class User_Info {
         // query sql
         $loginid = $userInfo['loginid'];
         $token = $userInfo['token'];
-        $emailsql= "SELECT EMAIL FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR TOKEN='{$token}'";
+        $emailsql= "SELECT EMAIL FROM MAPP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR TOKEN='{$token}'";
 
         // parse
         $stes = oci_parse($connect, $emailsql);
@@ -43,11 +43,11 @@ class User_Info {
 
         // Get basic information
         if (!empty($loginid) && !empty($password)) {
-        $basicsql = "SELECT LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME, to_char(MODIFY_TIME,'yyyy-mm-dd hh24:mi:ss') AS MODIFY_TIME FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' AND PASSWORD='{$password}'";
+        $basicsql = "SELECT LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME, to_char(MODIFY_TIME,'yyyy-mm-dd hh24:mi:ss') AS MODIFY_TIME FROM MAPP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' AND PASSWORD='{$password}'";
 
         } elseif (!empty($token)) {
 
-        $basicsql = "SELECT LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME, to_char(MODIFY_TIME,'yyyy-mm-dd hh24:mi:ss') AS MODIFY_TIME FROM APP_USER WHERE TOKEN='{$token}'";
+        $basicsql = "SELECT LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME, to_char(MODIFY_TIME,'yyyy-mm-dd hh24:mi:ss') AS MODIFY_TIME FROM MAPP_USER WHERE TOKEN='{$token}'";
         
         } else {
 

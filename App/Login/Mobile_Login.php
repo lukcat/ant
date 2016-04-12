@@ -15,10 +15,10 @@ class Mobile_Login {
 
     private function checkToken($userInfo, $connect) {
         // check token in database
-        //$get_token = "select PASSWORD from APP_USER where TOKEN = '{$userInfo['token']}'";
-        //$get_pwd = "SELECT PASSWORD,USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, CREATE_TIME FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'"; 
+        //$get_token = "select PASSWORD from MAPP_USER where TOKEN = '{$userInfo['token']}'";
+        //$get_pwd = "SELECT PASSWORD,USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, CREATE_TIME FROM MAPP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'"; 
 
-        $get_token = "SELECT USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME, TOKEN FROM APP_USER WHERE TOKEN = '{$userInfo['token']}'";
+        $get_token = "SELECT USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME, TOKEN FROM MAPP_USER WHERE TOKEN = '{$userInfo['token']}'";
         //echo $get_token;
         //exit;
 
@@ -65,16 +65,16 @@ class Mobile_Login {
     private function checkPassword($userInfo, $connect) {
 
         // sql example
-		//$get_pwd= "select PASSWORD from APP_USER where LOGINNAME ='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";
+		//$get_pwd= "select PASSWORD from MAPP_USER where LOGINNAME ='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";
 
         // flag to indentity first condition
         $isFirst = true;
         // generate update sql
-        //$get_pwd = "SELECT PASSWORD FROM APP_USER WHERE"; 
+        //$get_pwd = "SELECT PASSWORD FROM MAPP_USER WHERE"; 
 
         /***********************
          * The start of old sql version
-        $get_pwd = "SELECT PASSWORD,USER_ID FROM APP_USER WHERE"; 
+        $get_pwd = "SELECT PASSWORD,USER_ID FROM MAPP_USER WHERE"; 
         if (isset($userInfo['loginname'])) {
             if ($userInfo['loginname'] != '') {
                 $get_pwd = $get_pwd . " LOGIN_NAME='{$userInfo['loginname']}'";
@@ -111,7 +111,7 @@ class Mobile_Login {
         //  Get loginid first
         $loginid = $userInfo['loginid'];
         // Generate sql santence
-        $get_pwd = "SELECT PASSWORD,USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME FROM APP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'"; 
+        $get_pwd = "SELECT PASSWORD,USER_ID, LOGIN_NAME, USER_NAME, EMAIL, CELLPHONE, ICARD_ID, to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') AS CREATE_TIME FROM MAPP_USER WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'"; 
 
         /***********
          * End of new version using loginid
@@ -172,7 +172,7 @@ class Mobile_Login {
         $token = md5(uniqid(microtime(true),true));
 
         // sql example
-        //$updateToken = "UPDATE APP_USER SET TOKEN='{$token}' WHERE LOGINNAME='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";
+        //$updateToken = "UPDATE MAPP_USER SET TOKEN='{$token}' WHERE LOGINNAME='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";
 
         // flag to indentity first condition
         $isFirst = true;
@@ -181,7 +181,7 @@ class Mobile_Login {
           * Old version of update sql
           **************
         // generate update sql
-        $updateToken = "UPDATE APP_USER SET TOKEN='{$token}' WHERE";
+        $updateToken = "UPDATE MAPP_USER SET TOKEN='{$token}' WHERE";
         if (isset($userInfo['loginname'])) {
             if ($userInfo['loginname'] != '') {
                 $updateToken = $updateToken . " LOGIN_NAME='{$userInfo['loginname']}'";
@@ -220,7 +220,7 @@ class Mobile_Login {
         // Get user login id: loginid 
         $loginid = $userInfo['loginid'];
         // Generate sql santence
-        $updateToken = "UPDATE APP_USER SET TOKEN='{$token}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
+        $updateToken = "UPDATE MAPP_USER SET TOKEN='{$token}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
 
 
         /****************
@@ -332,7 +332,7 @@ if ($ml->varify_loginname($ln, $pwd, $connect)) {
 
         /*
 		// query database for spacific user
-		$get_pwd= "select PASSWORD from APP_USER where LOGINNAME ='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";
+		$get_pwd= "select PASSWORD from MAPP_USER where LOGINNAME ='{$userInfo['loginname']}' OR EMAIL='{$userInfo['email']}' OR CELLPHONE='{$userInfo['cellphone']}'";
 
         // only token without loginname
 

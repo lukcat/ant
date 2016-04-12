@@ -12,7 +12,7 @@ class BusInformation {
      * @return: city_version_number
      */
     public function getCityVersion($connect, $cityID) {
-        $get_version = "SELECT VERSION_NUM FROM CITY_VERSION WHERE VERSION_ID='{$cityID}'";
+        $get_version = "SELECT VERSION_NUM FROM MAPP_CITY_VERSION WHERE VERSION_ID='{$cityID}'";
 
         // parse
         $stgv = oci_parse($connect, $get_version);
@@ -44,7 +44,7 @@ class BusInformation {
      */
     public function getCountryVersion($connect, $countryID) {
         // sql sentence, query COUNTRY_VERSION table
-        $get_version = "SELECT VERSION_NUM FROM COUNTRY_VERSION WHERE VERSION_ID='{$countryID}'";
+        $get_version = "SELECT VERSION_NUM FROM MAPP_COUNTRY_VERSION WHERE VERSION_ID='{$countryID}'";
 
         // parse
         $stgv = oci_parse($connect, $get_version);
@@ -75,7 +75,7 @@ class BusInformation {
      */
     public function getCityInformation($connect) {
         // sql sentence 
-        $get_city = "SELECT CITY_ID, COUNTRY_ID, CITY_NAME FROM CITY";
+        $get_city = "SELECT CITY_ID, COUNTRY_ID, CITY_NAME FROM MAPP_CITY";
 
         // parse
         $stgc = oci_parse($connect, $get_city);
@@ -126,7 +126,7 @@ class BusInformation {
         /* query BUS_LINE table, get basic information of busline
          */
         // query sentence
-        $getBusLine = "SELECT BL_NAME, DIRECTION, STOPS, POINTS_NUMS, POINTS FROM BUS_LINE WHERE CITY_ID='{$cityID}'";
+        $getBusLine = "SELECT BL_NAME, DIRECTION, STOPS, POINTS_NUMS, POINTS FROM MAPP_BUS_LINE WHERE CITY_ID='{$cityID}'";
         //echo $getBusLine;die();
 
         // parse
@@ -213,7 +213,7 @@ class BusInformation {
         //$getStopsPosition = "SELECT BUSSTOP_NAME, LATITUDE, LONGITUDE FROM BUSSTOP WHERE BS_ID IN ({$stopsID})";
         $str = $this->decodeFormate($stopsID);
 
-        $getStopsPosition = "SELECT BUSSTOP_NAME, LATITUDE, LONGITUDE FROM BUSSTOP WHERE BS_ID IN ({$stopsID}) ORDER BY \"DECODE\"(BS_ID ,{$str})";
+        $getStopsPosition = "SELECT BUSSTOP_NAME, LATITUDE, LONGITUDE FROM MAPP_BUSSTOP WHERE BS_ID IN ({$stopsID}) ORDER BY \"DECODE\"(BS_ID ,{$str})";
         //echo $getStopsPosition;die();
         //echo $getStopsPosition;die();
 

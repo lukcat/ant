@@ -10,7 +10,6 @@
 //date_default_timezone_set('UTC');
 //date_default_timezone_set('ECT');
 date_default_timezone_set('America/New_York');
-//date_default_timezone_set('-5.0');
 // use aliases
 use Common\Oracle as Oracle;
 use Common\CommonAPI as CommonAPI;
@@ -292,6 +291,7 @@ $userDataSet = $check->params;
 $action = $userDataSet['action'];
 
 switch($action) {
+    // User login
 	case 'Login':
         // 4
 		// verify loginname and password
@@ -314,6 +314,7 @@ switch($action) {
 
 		break;
 
+    // User Register
 	case 'Register':
         // 5
         // This part need modified
@@ -322,6 +323,7 @@ switch($action) {
 
 		break;
 
+    // User Complaint, including text and photos
 	case 'Complaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
@@ -421,6 +423,7 @@ switch($action) {
 
         break;
 
+    // Get user Complaint information
     case 'GetComplaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
@@ -442,6 +445,7 @@ switch($action) {
 
         break;
 
+    // Delete user's complaint, not use yet
     case 'DeleteComplaint':
         //Varify user's indentity first
 		$ml = new Mobile_Login();
@@ -464,6 +468,7 @@ switch($action) {
 
         break;
 
+    // Inquiry vehicle information
 	case 'InquiryVehicle':
 
         // get vehicle's information
@@ -517,6 +522,7 @@ switch($action) {
 
         //}
 
+    // Inquery user information and send to user's email
 	case 'SendVehicleInformation':
 
         // get vehicle's information
@@ -549,15 +555,23 @@ switch($action) {
                 $vehicleType = $resData['vehicleType'];
                 switch ($vehicleType) {
                     case '1':
-                        $resData['vehicleType'] = 'Taxi'; //
+                        $resData['vehicleType'] = 'Taxi'; 
                         break;
 
                     case '2':
-                        $resData['vehicleType'] = 'Bus'; //bus
+                        $resData['vehicleType'] = 'Bus'; 
                         break;
 
                     case '3':
-                        $resData['vehicleType'] = 'Bus de larga distancia'; //long range bus
+                        $resData['vehicleType'] = 'Bus de larga distancia'; 
+                        break;
+
+                    case '4':
+                        $resData['vehicleType'] = 'Ambulancia'; 
+                        break;
+
+                    case '5':
+                        $resData['vehicleType'] = 'Bus intraprovincial'; 
                         break;
 
                     default:
@@ -565,7 +579,14 @@ switch($action) {
                         break;
                 }
 
-                $body = "<table border='1'> <tr> <td colspan='2' align='center' > Vehicle Information </td> </tr> <tr> <td> Estado </td> <td> En linea </td> </tr> <tr> <td> Placa </td> <td> {$resData['vehicleid']} </td> </tr> <tr> <td> ANT Kit SN  </td> <td> {$resData['antSN']} </td> </tr>  <tr> <td> Tipo de vehiculo  </td> <td> {$resData['vehicleType']} </td> </tr> <tr> <td> Compania  </td> <td> {$resData['company']} </td> </tr> <tr> <td> Dueno  </td> <td> {$resData['owner']} </td> </tr> <tr> <td> Marca  </td> <td> {$resData['brandModel']} </td> </tr> <tr> <td> Distrito </td> <td> {$resData['district']} </td> </tr> </tr> <tr> <td> Fecha de instalacion </td> <td> {$resData['installationFinishTime']} </td> </tr></table>";
+                if ($resData['onlineFlag'] = '0') {
+                    $resData['onlineFlag'] = 'En linea';
+                } else {
+                    $resData['onlineFlag'] = 'fuera de linea';
+                }
+
+                // Table formate
+                $body = "<table border='1'> <tr> <td colspan='2' align='center' > Vehicle Information </td> </tr> <tr> <td> Estado </td> <td> {$resData['onlineFlag']} </td> </tr> <tr> <td> Placa </td> <td> {$resData['vehicleid']} </td> </tr> <tr> <td> ANT Kit SN  </td> <td> {$resData['antSN']} </td> </tr>  <tr> <td> Tipo de vehiculo  </td> <td> {$resData['vehicleType']} </td> </tr> <tr> <td> Compania  </td> <td> {$resData['company']} </td> </tr> <tr> <td> Dueno  </td> <td> {$resData['owner']} </td> </tr> <tr> <td> Marca  </td> <td> {$resData['brandModel']} </td> </tr> <tr> <td> Distrito </td> <td> {$resData['district']} </td> </tr> </tr> <tr> <td> Fecha de instalacion </td> <td> {$resData['installationFinishTime']} </td> </tr></table>";
 
                 if ($emailaddr) {
                     //echo $body;

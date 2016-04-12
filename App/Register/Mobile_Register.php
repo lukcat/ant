@@ -13,14 +13,14 @@ use Common\Response as Response;
 use Common\Guid as Guid;
 
 class Mobile_Register {
-    // check user id in table APP_USER
+    // check user id in table MAPP_USER
     public function idNumberExist($idnumber, $connect) {
         //$loginname = $userInfo['loginname'];
 
         if ($idnumber!='') {
             // query sentance
             // valid=0 means data is out of date, only valid=1 can be used
-		    $check_id = "SELECT USER_ID FROM APP_USER where ICARD_ID='{$idnumber}' AND VALID=1";
+		    $check_id = "SELECT USER_ID FROM MAPP_USER WHERE ICARD_ID='{$idnumber}' AND VALID=1";
 
             // parse sql
             // check loginname
@@ -37,14 +37,14 @@ class Mobile_Register {
             return false;
         }
     }
-    // check loginname in table APP_USER
+    // check loginname in table MAPP_USER
     public function loginnameExist($loginname, $connect) {
         //$loginname = $userInfo['loginname'];
 
         if ($loginname !='') {
             // query sentance
             // valid=0 means data is out of date, only valid=1 can be used
-		    $check_ln= "SELECT USER_ID FROM APP_USER where LOGIN_NAME='{$loginname}' AND VALID=1";
+		    $check_ln= "SELECT USER_ID FROM MAPP_USER where LOGIN_NAME='{$loginname}' AND VALID=1";
 
             // parse sql
             // check loginname
@@ -69,7 +69,7 @@ class Mobile_Register {
         if ($email !='') {
             // query sentance
             // valid=0 means data is out of date, only valid=1 can be used
-		    $check_em= "SELECT USER_ID FROM APP_USER where EMAIL='{$email}' AND VALID=1";
+		    $check_em= "SELECT USER_ID FROM MAPP_USER where EMAIL='{$email}' AND VALID=1";
 
             // parse sql
             // check email
@@ -94,13 +94,13 @@ class Mobile_Register {
         if ($cellphone !='') {
             // query sentance
             // valid=0 means data is out of date, only valid=1 can be used
-		    $check_cp= "SELECT USER_ID FROM APP_USER where CELLPHONE='{$cellphone}' AND VALID=1 ";
+		    $check_cp= "SELECT USER_ID FROM MAPP_USER where CELLPHONE='{$cellphone}' AND VALID=1 ";
 
             // parse sql
             // check cellphone
             $stcp = oci_parse($connect, $check_cp);
             if (!oci_execute($stcp)) {
-		        Response::show(508,'Mobile_Register-cellphone: query database error');
+		        Response::show(508,'Mobile_Register-cellphone2: query database error');
             }
             $cprows = oci_fetch_array($stcp, OCI_BOTH);
             if ($cprows) {
@@ -121,13 +121,13 @@ class Mobile_Register {
         if ($cellphone !='') {
             // query sentance
             // valid=0 means data is out of date, only valid=1 can be used
-		    $check_cp= "SELECT TYPE FROM APP_USER where CELLPHONE='{$cellphone}' AND VALID=1 ";
+		    $check_cp= "SELECT TYPE FROM MAPP_USER where CELLPHONE='{$cellphone}' AND VALID=1 ";
 
             // parse sql
             // check cellphone
             $stcp = oci_parse($connect, $check_cp);
             if (!oci_execute($stcp)) {
-		        Response::show(508,'Mobile_Register-cellphone: query database error');
+		        Response::show(508,'Mobile_Register-cellphone3: query database error');
             }
             $cprows = oci_fetch_array($stcp, OCI_BOTH);
             if ($cprows) {
@@ -154,7 +154,7 @@ class Mobile_Register {
         if ($cellphone != '') {
             // query sentance
             // valid=0 means data is out of date, only valid=1 can be used
-		    $check_cp= "SELECT USER_ID FROM APP_USER where CELLPHONE='{$cellphone}' AND VALID=1 ";
+		    $check_cp= "SELECT USER_ID FROM MAPP_USER where CELLPHONE='{$cellphone}' AND VALID=1 ";
 
             // parse sql
             // check cellphone
@@ -183,9 +183,9 @@ class Mobile_Register {
         if ($loginname !='' && $email !='' && $cellphone !='') {
             // query sentance
             // valid=0 means data is out of date, only valid=1 can be used
-		    $check_ln= "SELECT USER_ID FROM APP_USER where LOGIN_NAME='{$loginname}' OR EMAIL='{$loginname}' OR CELLPHONE='{$loginname}' AND VALID=1";
-		    $check_em= "SELECT USER_ID FROM APP_USER where EMAIL='{$email}' OR LOGIN_NAME='{$email}' OR CELLPHONE='{$email}' AND VALID=1";
-		    $check_cp= "SELECT USER_ID FROM APP_USER where CELLPHONE='{$cellphone}' OR LOGIN_NAME='{$cellphone}' OR EMAIL='{$cellphone}' AND VALID=1";
+		    $check_ln= "SELECT USER_ID FROM MAPP_USER where LOGIN_NAME='{$loginname}' OR EMAIL='{$loginname}' OR CELLPHONE='{$loginname}' AND VALID=1";
+		    $check_em= "SELECT USER_ID FROM MAPP_USER where EMAIL='{$email}' OR LOGIN_NAME='{$email}' OR CELLPHONE='{$email}' AND VALID=1";
+		    $check_cp= "SELECT USER_ID FROM MAPP_USER where CELLPHONE='{$cellphone}' OR LOGIN_NAME='{$cellphone}' OR EMAIL='{$cellphone}' AND VALID=1";
 
             // parse sql
             // check loginname
@@ -256,7 +256,7 @@ class Mobile_Register {
         // generate token
         $token = md5(uniqid(microtime(true),true));
 
-        $insertsql = "insert into APP_USER(USER_ID,LOGIN_NAME,USER_NAME,EMAIL,CELLPHONE,ICARD_ID,NOTE,VALID,PASSWORD,TOKEN,TYPE,CREATE_TIME,MODIFY_TIME) values('{$userid}','{$loginname}','{$name}','{$email}','{$cellphone}','{$icardid}','{$note}',{$valid},'{$password}','{$token}',0,to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+        $insertsql = "INSERT INTO MAPP_USER(USER_ID,LOGIN_NAME,USER_NAME,EMAIL,CELLPHONE,ICARD_ID,NOTE,VALID,PASSWORD,TOKEN,TYPE,CREATE_TIME,MODIFY_TIME) VALUES ('{$userid}','{$loginname}','{$name}','{$email}','{$cellphone}','{$icardid}','{$note}',{$valid},'{$password}','{$token}',0,to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
         // parse sql
         $stid = oci_parse($connect, $insertsql);
@@ -302,8 +302,8 @@ class Mobile_Register {
         // generate token
         $token = md5(uniqid(microtime(true),true));
 
-        //$updatesql = "UPDATE APP_USER SET USER_ID='{$userid}',LOGIN_NAME='{$loginname}',USER_NAME='{$name}',EMAIL='{$email}',CELLPHONE='{$cellphone'},ICARD_ID='{$icardid}',NOTE='{$note}',VALID='{$valid}',PASSWORD='{$password}',TOKEN='{$token}',CREATE_TIME=to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),MODIFY_TIME=to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'))";
-        $updatesql = "UPDATE APP_USER SET LOGIN_NAME='{$loginname}',USER_NAME='{$name}',EMAIL='{$email}',ICARD_ID='{$icardid}',NOTE='{$note}',VALID='{$valid}',PASSWORD='{$password}',TOKEN='{$token}',TYPE=0, CREATE_TIME=to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),MODIFY_TIME=to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss') where CELLPHONE='{$cellphone}'";
+        //$updatesql = "UPDATE MAPP_USER SET USER_ID='{$userid}',LOGIN_NAME='{$loginname}',USER_NAME='{$name}',EMAIL='{$email}',CELLPHONE='{$cellphone'},ICARD_ID='{$icardid}',NOTE='{$note}',VALID='{$valid}',PASSWORD='{$password}',TOKEN='{$token}',CREATE_TIME=to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),MODIFY_TIME=to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'))";
+        $updatesql = "UPDATE MAPP_USER SET LOGIN_NAME='{$loginname}',USER_NAME='{$name}',EMAIL='{$email}',ICARD_ID='{$icardid}',NOTE='{$note}',VALID='{$valid}',PASSWORD='{$password}',TOKEN='{$token}',TYPE=0, CREATE_TIME=to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),MODIFY_TIME=to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss') where CELLPHONE='{$cellphone}'";
 
         // parse sql
         $stid = oci_parse($connect, $updatesql);

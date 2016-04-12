@@ -1,13 +1,6 @@
 <ant>
 
   <serverSet>
-    <antServer>
-      <hostname> 172.18.7.21 </hostname>
-      <instance> bgdata </instance>
-      <username> ant </username>
-      <password> ant </password>
-    </antServer>
-
     <mobileServer>
       <hostname> 172.18.8.16 </hostname>
       <instance> antodb </instance>
@@ -16,7 +9,7 @@
     </mobileServer>
   </serverSet>
 
-  <host> 181.113.224.19:9090 </host>
+  <host> 172.18.7.11 </host>
 
   <mail>
     <host> smtp.126.com </host>

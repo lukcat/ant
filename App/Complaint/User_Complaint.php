@@ -23,7 +23,7 @@ class User_Complaint {
         $modifytime = date('Y-m-d H:i:s');          // use oracle to_date function to format the date
 
         // sql sentence
-        $sql="INSERT INTO COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,TYPE,VEHICLE_ID,FEEDBACK,VALID,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$complainttype}','{$vehicleid}','{$feedback}','{$valid}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+        $sql="INSERT INTO MAPP_COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,TYPE,VEHICLE_ID,FEEDBACK,VALID,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$complainttype}','{$vehicleid}','{$feedback}','{$valid}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
         $stid = oci_parse($connect,$sql);
 
@@ -72,7 +72,8 @@ class User_Complaint {
         //$sql = "select c.complaint_id, c.complaint, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.path, t.local_name from complaint c,thumbnail t where c.complaint_id=t.complaint_id and c.user_id='{$userID}' and c.valid=1";
         //$sql = "select c.complaint_id, c.complaint, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.path, t.local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id where c.user_id='{$userID}' and c.valid=1";
         //$sql = "select c.complaint_id, c.complaint, c.type, c.vehicle_id, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id where c.user_id='{$userID}' and c.valid=1";
-        $sql = "select c.complaint_id, c.complaint, c.type, c.vehicle_id, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name, p.path as origin_path, p.local_name as origin_local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id left join photo p on t.photo_id=p.photo_id where c.user_id='{$userID}' and c.valid=1 order by c.create_time desc";
+        //$sql = "select c.complaint_id, c.complaint, c.type, c.vehicle_id, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name, p.path as origin_path, p.local_name as origin_local_name from complaint c left join thumbnail t on c.complaint_id=t.complaint_id left join photo p on t.photo_id=p.photo_id where c.user_id='{$userID}' and c.valid=1 order by c.create_time desc";
+        $sql = "SELECT c.complaint_id, c.complaint, c.type, c.vehicle_id, c.feedback, to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time, t.photo_id, t.path, t.local_name, p.path as origin_path, p.local_name as origin_local_name from MAPP_COMPLAINT c left join MAPP_THUMBNAIL t on c.complaint_id=t.complaint_id left join MAPP_PHOTO p on t.photo_id=p.photo_id WHERE c.user_id='{$userID}' and c.valid=1 order by c.create_time desc";
         //echo $sql;die();
         //exit;
 
@@ -300,8 +301,7 @@ class User_Complaint {
         $complaintID = $userInfo['complaintid'];
         if (!empty($complaintID)) {
             // update database and set valid column equals to 0
-            $update_sql = "UPDATE COMPLAINT SET VALID=0 WHERE COMPLAINT_ID='{$complaintID}'";
-
+            $update_sql = "UPDATE COMPLAINT SET VALID=0 WHERE MAPP_COMPLAINT_ID='{$complaintID}'";
             // parse
             $dcid = oci_parse($connect, $update_sql);
 
