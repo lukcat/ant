@@ -1,0 +1,30 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<form action="./index.php" method="post" >
+		username: <input type="text" value="" name="username" /><br />
+		password: <input type="text" value="" name="password" /><br />
+		action: <input type="text" value="" name="action" /><br />
+		<input type="submit" value="submit" />
+		</form>
+
+		<br />
+		<br />
+		Test user upload function
+		<!--
+		<form action="./App/Upload/File_Upload.php" method="post" enctype="multipart/form-data">
+		<input type="hidden" name = 'Max_FILE_SIZE' value = '10240' />
+		-->
+		<form action="./index.php" method="post" enctype="multipart/form-data">
+		<!--
+		<form action="./test.php" method="post" enctype="multipart/form-data">
+		-->
+		<input type="file" name="myfile" /><br />
+		action: <input type="text" value="Upload" name="action" /><br />
+		<input type="submit" value="Upload File" />
+		</form>
+
+
+	</body>
+</html>

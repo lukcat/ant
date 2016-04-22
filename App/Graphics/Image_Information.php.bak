@@ -1,0 +1,34 @@
+<?php 
+
+namespace App\Graphics;
+
+use Common\Response as Response;
+
+class Image_Information {
+
+    public function getOriginPhoto($connect, $originID, $hostName) {
+        echo 'here';
+        $hostName = 'http://' . $hostName;
+
+        $goSql = "SELECT PATH FROM PHOTO WHERE VALID=1 AND PHOTO_ID='{$originID}'";
+
+        $stGo = oci_parse($connect, $goSql);
+
+        if (!oci_execute($stGo)) {
+            return false;
+        }
+
+
+        $path = '';
+        if ($goRow = oci_fetch_array($stGo, OCI_BOTH)) {
+            $path = $hostName . $goRow['PATH'];
+        }
+
+        $resData = array(
+            'photoURL' => $path,
+            );
+        Response::show(0,'Get origin photo successful', $resData);
+
+    }
+
+}

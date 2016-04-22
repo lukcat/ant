@@ -1,0 +1,41 @@
+<ant>
+
+  <serverSet>
+    <antServer>
+      <hostname> 172.18.7.21 </hostname>
+      <instance> bgdata </instance>
+      <username> ant </username>
+      <password> ant </password>
+    </antServer>
+
+    <mobileServer>
+      <hostname> 172.18.8.16 </hostname>
+      <instance> antodb </instance>
+      <username> antman </username>
+      <password> antman </password>
+    </mobileServer>
+  </serverSet>
+
+  <host> 181.113.224.19:9090 </host>
+
+  <mail>
+    <host> smtp.126.com </host>
+    <port> 25 </port>
+    <username> lukcatchen@126.com </username>
+    <password> j88j,ui7i97 </password>
+    <fromaddress> lukcatchen@126.com </fromaddress>
+    <fromname> ANTServer</fromname>
+    <subject> Notice </subject>
+    <charset> UTF-8 </charset>
+  </mail>
+
+  <rabbitMq>
+    <host> 172.18.8.13 </host>
+    <port> 5672 </port>
+    <username> guest</username>
+    <password> guest </password>
+    <exchange> MB_EXCHANGE </exchange>
+    <queue> TASK.mobile.yyy16lyy-7986-6577-323w-r43q7a9c9876 </queue>
+  </rabbitMq>
+
+</ant>

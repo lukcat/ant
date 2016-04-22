@@ -1,0 +1,11 @@
+<ant>
+
+  <hostname> 172.16.3.12 </hostname>
+
+  <instance> bgdata </instance>
+
+  <username> ant </username>
+
+  <password> ant </password>
+
+</ant>

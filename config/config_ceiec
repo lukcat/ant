@@ -1,0 +1,19 @@
+<ant>
+
+  <hostname>
+    172.16.0.73
+  </hostname>
+
+  <instance>
+    mobile
+  </instance>
+
+  <username>
+    ant
+  </username>
+
+  <password>
+    ant
+  </password>
+
+</ant>
