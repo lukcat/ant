@@ -1,7 +1,10 @@
 <?php 
 
+<<<<<<< HEAD
 date_default_timezone_set('Asia/Chongqing');
 
+=======
+>>>>>>> dcbadb7ebdca9c225c9e6861c596b9ea708921dd
 // use aliases
 /*
 use Common\Db as Db;

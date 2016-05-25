@@ -62,7 +62,6 @@ class SendMessageToMq {
             //return false;
         }
 
-
     }
 
     public function filterMessage($data) {
