@@ -3,8 +3,9 @@
 namespace App\Bus;
 
 class BusInformation {
-    public function getBusInformation($connect, $cityName) {
-        $cityID = $this->getCityID($connect, $cityName); 
+    public function getBusLineInformation($connect, $cityID) {
+    //public function getBusInformation($connect, $cityName) {
+        //$cityID = $this->getCityID($connect, $cityName); 
         //echo "cityID";
         //echo $cityID;
         if (!$cityID) {
@@ -13,7 +14,7 @@ class BusInformation {
 
         $busLineInfo = $this->getBusLine($connect, $cityID);
         $busstopInfo = $this->getBusstop($connect, $cityID);
-        $versionInfo = $this->getVersion($connect, $cityID);
+        //$versionInfo = $this->getVersion($connect, $cityID);
 
         if (empty($busLineInfo)) {
             $busLineInfo = '';
@@ -21,17 +22,17 @@ class BusInformation {
         if (empty($busstopInfo)) {
             $busstopInfo = '';
         }
-        if (empty($versionInfo)) {
-            $versionInfo = '';
-        }
+        //if (empty($versionInfo)) {
+        //    $versionInfo = '';
+        //}
 
         // formate data as JSON
         $resData = array();
-        $resData['cityName'] = $cityName;
-        $resData['version'] = $versionInfo;
+        //$resData['cityName'] = $cityName;
+        //$resData['version'] = $versionInfo;
 
-        $resData['busLine'] = $busLineInfo;
-        $resData['busstopInfo'] = $busstopInfo;
+        $resData['busline'] = $busLineInfo;
+        $resData['busstop'] = $busstopInfo;
 
         return $resData;
     }
@@ -56,7 +57,8 @@ class BusInformation {
     }
 
     private function getBusLine($connect, $cityID) {
-        $buslineSql = "SELECT * FROM BUS_LINE WHERE CITY_ID='{$cityID}'";
+        //$buslineSql = "SELECT * FROM BUS_LINE WHERE CITY_ID='{$cityID}'";
+        $buslineSql = "SELECT BL_ID, BL_NAME, DIRECTION, STOPS, POINTS_NUMS, POINTS FROM MAPP_BUS_LINE WHERE CITY_ID='{$cityID}'";
         // parse
         $stbl = oci_parse($connect, $buslineSql);
         // execute
@@ -69,11 +71,12 @@ class BusInformation {
             //$cityID = preg_replace("/\s/","",$ciRows['CITY_ID']);
             //$lineInfo['buslineid'] = $blRows['BL_ID'];
             $lineInfo = array();
-            $lineInfo['buslineid'] = preg_replace("/\s/","",$blRows['BL_ID']);
-            $lineInfo['line'] = $blRows['BL_NAME'];
+            $lineInfo['bl_id'] = preg_replace("/\s/","",$blRows['BL_ID']);
+            $lineInfo['city_id'] = $cityID;
+            $lineInfo['bl_name'] = $blRows['BL_NAME'];
             $lineInfo['direction'] = $blRows['DIRECTION'];
             $lineInfo['stops'] = $blRows['STOPS'];
-            $lineInfo['point_nums'] = $blRows['POINTS_NUMS'];
+            //$lineInfo['point_nums'] = $blRows['POINTS_NUMS'];
             // read method not being limited by the script memory limit
             $lineInfo['points'] = $blRows['POINTS']->read(2000);
             // or load method
@@ -88,7 +91,8 @@ class BusInformation {
     }
 
     private function getBusstop($connect, $cityID) {
-        $busstopSql = "SELECT * FROM BUSSTOP WHERE CITY_ID='{$cityID}'";
+        //$busstopSql = "SELECT * FROM BUSSTOP WHERE CITY_ID='{$cityID}'";
+        $busstopSql = "SELECT BS_ID, BUSSTOP_NAME, LATITUDE, LONGITUDE FROM MAPP_BUSSTOP WHERE CITY_ID='{$cityID}'";
         // parse
         $stbs = oci_parse($connect, $busstopSql);
         // execute
@@ -100,8 +104,9 @@ class BusInformation {
         while ($bsRows = oci_fetch_array($stbs, OCI_ASSOC)) {
             //$cityID = preg_replace("/\s/","",$ciRows['CITY_ID']);
             $busstopInfo = array();
-            $busstopInfo['busID'] = preg_replace("/\s/","",$bsRows['BS_ID']);
-            $busstopInfo['stopName'] = $bsRows['BUSSTOP_NAME'];
+            $busstopInfo['bs_id'] = preg_replace("/\s/","",$bsRows['BS_ID']);
+            $busstopInfo['city_id'] = $cityID;
+            $busstopInfo['busstop_name'] = $bsRows['BUSSTOP_NAME'];
             $busstopInfo['longitude'] = $bsRows['LONGITUDE'];
             $busstopInfo['latitude'] = $bsRows['LATITUDE'];
             
@@ -128,4 +133,65 @@ class BusInformation {
         }
     }
 
+    /* Get country version number
+     * @param: countryID
+     * @param: connect
+     * @return: country_version_number
+     */
+    public function getCountryVersion($connect, $countryID) {
+        // sql sentence, query COUNTRY_VERSION table
+        $get_version = "SELECT VERSION_NUM FROM MAPP_COUNTRY_VERSION WHERE VERSION_ID='{$countryID}'";
+
+        // parse
+        $stgv = oci_parse($connect, $get_version);
+
+        // execute
+        if (!oci_execute($stgv)) {
+            //return false;
+            Response::show(1501,'BusInformation-getCountryVersion: query database error');
+        }
+
+        // get row
+        if ($gvrow = oci_fetch_array($stgv, OCI_BOTH)) {
+            $versionNumber = isset($gvrow['VERSION_NUM']) ? $gvrow['VERSION_NUM'] : '';
+
+            $resData = array('version'=>$versionNumber);
+
+            return $resData;
+        }
+
+        Response::show(1502, 'No country version data in database');
+        //return false;
+    }
+
+    /* Get city version number
+     * @param: cityID
+     * @param: connect
+     * @return: city_version_number
+     */
+    public function getCityVersion($connect, $cityID) {
+        $get_version = "SELECT VERSION_NUM FROM MAPP_CITY_VERSION WHERE VERSION_ID='{$cityID}'";
+
+        // parse
+        $stgv = oci_parse($connect, $get_version);
+
+        // execute
+        if (!oci_execute($stgv)) {
+            //return false;
+            Response::show(1601,'BusInformation-getCityVersion: query database by cityID error');
+        }
+
+        // flag 
+        // get row
+        if ($gvrow = oci_fetch_array($stgv, OCI_BOTH)) {
+            $versionNumber = isset($gvrow['VERSION_NUM']) ? $gvrow['VERSION_NUM'] : '';
+
+            $resData = array('version'=>$versionNumber);
+
+            return $resData;
+        }
+
+        Response::show(1602, 'No city version data in database');
+        //return false;
+    }
 }

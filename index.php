@@ -282,6 +282,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'GetBusLineInformation';
 //$userDataSet['action'] = 'testMQ';
 //$userDataSet['action'] = 'GetBusGPS';
+//$userDataSet['action'] = 'GetTaxiGPS';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -850,6 +851,44 @@ switch($action) {
         Response::show(2000, 'Get bus GPS successful', $resData);
         break;
 
+    case 'GetTaxiGPS':
+        // basic test data
+        $longitude = array( -79.864969, -79.865145, -79.865431, -79.866343, -79.866692, -79.867073, -79.867722, -79.867990, -79.869068, -79.870892, -79.876713, -79.877698, -79.878176, -79.878398, -79.878543, -79.878527, -79.878345, -79.877723, -79.877317, -79.877050, -79.876889, -79.876704, -79.876548, -79.876433, -79.876462, -79.876556, -79.876629, -79.876886);
+        $latitude = array(-2.150012,-2.150752,-2.150993,-2.151331,-2.151883,-2.152162,-2.152291,-2.152296,-2.152457,-2.152929,-2.154333,-2.154649,-2.154574,-2.154398,-2.154135,-2.153787,-2.153353,-2.152565,-2.151886,-2.151383,-2.150945,-2.150358,-2.149677,-2.148810,-2.147966,-2.146633,-2.146246,-2.145361);
+        $speed = array(20,30,40,50,60);
+        $direction = array(1,10,20,50,90,100,120,150,180,270,350);
+        $vehicleid = array('GSX1001','QET2346','ASD2432','FDJ3464');
+
+        // random index 
+        $gpsIndexGroup1 = rand(0,6);   
+        $gpsIndexGroup2 = rand(7,13);   
+        $gpsIndexGroup3 = rand(14,20);   
+        $gpsIndexGroup4 = rand(21,27);    
+
+        
+        // assign data
+        
+        // 1#vehicle
+        $speedIndex = rand(0,4);
+        $directionIndex = rand(0,10);
+        //$vehicleidIndex = rand(0,3);
+
+        $longitude1 = $longitude[$gpsIndexGroup1];
+        $latitude1 = $latitude[$gpsIndexGroup1];
+        $speed1 = $speed[$speedIndex];
+        $direction1 = $direction[$directionIndex];
+        $vehicleid1 = $vehicleid[1];
+
+        $vehicleInfo1 = array('longitude'=>$longitude1, 'latitude'=>$latitude1, 'vehicleID'=>$vehicleid1, 'speed'=>$speed1, 'direction'=>$direction1);
+
+        $resData = array();
+        array_push($resData, $vehicleInfo1);
+
+        //$deleteIndex = rand(0,3);
+        //array_splice($resData,$deleteIndex,1);
+
+        Response::show(2000, 'Get bus GPS successful', $resData);
+        break;
 	default:
 		// no action matches
         //$data = array('code' => 0, 'msg' => 'No action spacified');
