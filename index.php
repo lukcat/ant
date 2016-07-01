@@ -31,6 +31,7 @@ use App\UserInformation\User_ChangePWD as User_ChangePWD;
 use App\UserInformation\User_ResetPWD as User_ResetPWD;
 use App\Graphics\Image_Information as Image_Information;
 use App\Mq\SendMessageToMq as SendMessageToMq;
+use App\VehicleHistoryRoute\VehicleBasicInformation as VehicleBasicInformation;
 use Common\Guid as Guid;
 use App\Mq\MessageLog as MessageLog;
 
@@ -253,6 +254,9 @@ $check->params['password'] = sha1(md5('test'));
 /* GetSecurityCode */
 //$check->params['email'] = 'chendeqing@ceiec.com.cn';
 
+/* GetVehicleList' */
+//$check->params['companyid'] = 'f64f20bc-e7ad-45ac-e043-1f021aac284c';
+
 ////////////////end of test data//////////////////////
 
 
@@ -283,6 +287,8 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'testMQ';
 //$userDataSet['action'] = 'GetBusGPS';
 //$userDataSet['action'] = 'GetTaxiGPS';
+//$userDataSet['action'] = 'GetCompanyList';
+//$userDataSet['action'] = 'GetVehicleList';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -889,6 +895,24 @@ switch($action) {
 
         Response::show(2000, 'Get bus GPS successful', $resData);
         break;
+
+    case 'GetCompanyList':
+        $vbi = new VehicleBasicInformation();
+
+        $resData = $vbi->getCompanyList($mobileConnect);
+		Response::show(2200,"Get company list successful",$resData);
+
+        break;
+
+    case 'GetVehicleList':
+        $vbi = new VehicleBasicInformation();
+
+        $resData = $vbi->getVehicleList($mobileConnect, $check->params['companyid']);
+        //$resData = $vbi->getVehicleList($mobileConnect);
+
+		Response::show(2300,"Get vehicle list successful",$resData);
+        break;
+
 	default:
 		// no action matches
         //$data = array('code' => 0, 'msg' => 'No action spacified');
