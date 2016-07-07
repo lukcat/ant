@@ -23,12 +23,15 @@ class User_Complaint {
         $modifytime = date('Y-m-d H:i:s');          // use oracle to_date function to format the date
 
         // sql sentence
-        $sql="INSERT INTO MAPP_COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,TYPE,VEHICLE_ID,FEEDBACK,VALID,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$complainttype}','{$vehicleid}','{$feedback}','{$valid}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+        //$sql="INSERT INTO MAPP_COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,TYPE,VEHICLE_ID,FEEDBACK,VALID,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$complainttype}','{$vehicleid}','{$feedback}','{$valid}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+
+        //$sql="INSERT INTO MAPP_COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,TYPE,VEHICLE_ID,FEEDBACK,VALID,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$complainttype}','{$vehicleid}','{$feedback}','{$valid}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
+        $sql= "UPDATE MAPP_COMPLAINT SET USER_ID='{$userid}', COMPLAINT='{complaint}', TYPE='{$complainttype}', VEHICLE_ID='{$vehicleid}', FEEDBACK='{$feedback}', VALID='{$VALID}', CREATE_TIME=to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'), MODIFY_TIME=to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss')";
 
         $stid = oci_parse($connect,$sql);
 
         if(!oci_execute($stid)) {
-            Response::show(603,'User_Complaint: Query database error');
+            Response::show(603,'User_Complaint-Receieve: Query database error');
             //return false;
         } 
 
@@ -46,7 +49,7 @@ class User_Complaint {
     }
 
     // generate complaint id
-    public function generateComplaintID() {
+    public function generateComplaintID($connect) {
         
         mt_srand((double) microtime() * 1000000);
         $minNum = 1;
@@ -54,8 +57,17 @@ class User_Complaint {
         $complaintid = date('Ymdhis') . str_pad(mt_rand($minNum, $maxNum), 5, '0', STR_PAD_LEFT);
         //echo $complaintid;die();
 
-        // old version
-        //$complaintid = md5(uniqid(microtime(true),true));
+        // insert complaintid into database
+        $sql="INSERT INTO MAPP_COMPLAINT(COMPLAINT_ID) VALUES ('{$complaintid}')";
+        //echo $sql;die();
+
+        $stid = oci_parse($connect,$sql);
+
+        if(!oci_execute($stid)) {
+            Response::show(603,'User_Complaint-generateID: Query database error');
+            //return false;
+        } 
+
         return $complaintid;
     }
 

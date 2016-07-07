@@ -114,7 +114,7 @@ class VehicleBasicInformation {
             $ownerAddress       = isset($gvRows['OWNER_ADDRESS']) ? $gvRows['OWNER_ADDRESS'] : '';
             $note               = isset($gvRows['NOTE']) ? $gvRows['NOTE'] : '';
 
-            $vehicle = array('vehilceType'=>$vehicleType, 'vehicleStatus'=>$vehicleStatus, 'brandModel'=>$brandModel, 'startYear'=>$startYear, 'companyId'=>$companyId, 'region'=>$region, 'operationLicense'=>$operationLicense, 'districtCode'=>$districtCode, 'owner'=>$owner, 'ownerId'=>$ownerId, 'ownerPhone'=>$ownerPhone, 'owner_email'=>$ownerEmail, 'ownerAddress'=>$ownerAddress, 'note'=>$note);
+            $vehicle = array('vehicleType'=>$vehicleType, 'vehicleStatus'=>$vehicleStatus, 'brandModel'=>$brandModel, 'startYear'=>$startYear, 'companyId'=>$companyId, 'region'=>$region, 'operationLicense'=>$operationLicense, 'districtCode'=>$districtCode, 'owner'=>$owner, 'ownerId'=>$ownerId, 'ownerPhone'=>$ownerPhone, 'owner_email'=>$ownerEmail, 'ownerAddress'=>$ownerAddress, 'note'=>$note);
 
             array_push($vehicleList, $vehicle);
         }

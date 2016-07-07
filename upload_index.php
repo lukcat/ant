@@ -6,21 +6,8 @@
 </head>
 <body>
 <form action="index.php" method="post" enctype="multipart/form-data">
-<<<<<<< HEAD
 请选择您要上传的文件：<input type="file" name='myFile[]' /><br/>
 请选择您要上传的文件：<input type="file" name='myFile[]' /><br/>
-
-<!--
-First name: <input type="text" name="fname"><br>
-Last name: <input type="text" name="lname"><br>
---!>
-=======
-<!--
-请选择您要上传的文件：<input type="file" name='myFile[]' /><br/>
---!>
-First name: <input type="text" name="fname"><br>
-Last name: <input type="text" name="lname"><br>
->>>>>>> dcbadb7ebdca9c225c9e6861c596b9ea708921dd
 <input type="submit" value="上传文件" />
 </form>
 </body>

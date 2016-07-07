@@ -122,6 +122,10 @@ class CommonAPI {
         $this->params['querytype'] = $querytype = isset($_POST['querytype']) ? $_POST['querytype'] : '';
     }
 
+    protected function getCompanyId() {
+        $this->params['companyid'] = $companyid = isset($_POST['companyid']) ? $_POST['companyid'] : '';
+    }
+
     public function check() {
 		/*************
          * Get query type (By vehicle_id OR ant_id)
@@ -132,6 +136,11 @@ class CommonAPI {
          * Get query type (By vehicle_id OR ant_id)
          */
         $this->getQueryType();
+
+		/*************
+         * Get company id
+         */
+        $this->getCompanyId();
 
 		/*************
          * Get country id

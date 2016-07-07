@@ -347,9 +347,9 @@ switch($action) {
         // get complaint text
         $uc = new User_Complaint();
         //$complaintid = $uc->ReceiveComplaint($connect,$check->params, $userid);
-        $complaintID = $uc->generateComplaintID();
+        $complaintID = $uc->generateComplaintID($mobileConnect);
         // Insert compaint text into database
-        $complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userInfo, $complaintID);
+        //$complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userInfo, $complaintID);
         //var_dump($complaintInfo);die();
 
         // get files
@@ -380,14 +380,12 @@ switch($action) {
             // Insert infomation into database
             // $res contains file basic information, include file's localname, photoid etc.
             $infos = array();
-            //var_dump($res);die();
             foreach($res as $imageInfo) {
-                //var_dump($imageInfo);die();
                 $info = $fu->insertPhotoInfo($mobileConnect,$imageInfo,$complaintID);
-                //var_dump($info);die();
                 array_push($infos, $info);
             }
 
+            // save thumbnail image
             $ip = new Image_Processing();
             $ipRes = $ip->generateThumbnail($mobileConnect,$infos);
 
@@ -398,6 +396,9 @@ switch($action) {
             }
 
         }
+
+        // Insert compaint text into database
+        $complaintInfo = $uc->ReceiveComplaint($mobileConnect,$userDataSet, $userInfo, $complaintID);
 
         /* Send message to RabbitMq*/
         // new a rabbitMq sender
