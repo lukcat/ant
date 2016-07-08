@@ -26,7 +26,7 @@ class User_Complaint {
         //$sql="INSERT INTO MAPP_COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,TYPE,VEHICLE_ID,FEEDBACK,VALID,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$complainttype}','{$vehicleid}','{$feedback}','{$valid}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
 
         //$sql="INSERT INTO MAPP_COMPLAINT(COMPLAINT_ID,USER_ID,COMPLAINT,TYPE,VEHICLE_ID,FEEDBACK,VALID,CREATE_TIME,MODIFY_TIME) VALUES ('{$complaintid}','{$userid}','{$complaint}','{$complainttype}','{$vehicleid}','{$feedback}','{$valid}',to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'),to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss'))";
-        $sql= "UPDATE MAPP_COMPLAINT SET USER_ID='{$userid}', COMPLAINT='{complaint}', TYPE='{$complainttype}', VEHICLE_ID='{$vehicleid}', FEEDBACK='{$feedback}', VALID='{$VALID}', CREATE_TIME=to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'), MODIFY_TIME=to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss')";
+        $sql= "UPDATE MAPP_COMPLAINT SET USER_ID='{$userid}', COMPLAINT='{$complaint}', TYPE='{$complainttype}', VEHICLE_ID='{$vehicleid}', FEEDBACK='{$feedback}', VALID='{$valid}', CREATE_TIME=to_date('{$createtime}','yyyy-mm-dd hh24:mi:ss'), MODIFY_TIME=to_date('{$modifytime}','yyyy-mm-dd hh24:mi:ss') WHERE COMPLAINT_ID='{$complaintid}'";
 
         $stid = oci_parse($connect,$sql);
 
