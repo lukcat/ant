@@ -201,7 +201,7 @@ class User_ResetPWD {
                     $newexpirationtimestr = $newexpirationtime->format('Y-m-d H:i:s');
 
                     // Update sql
-                    $updatesql = "UPDATE SECURITY_CODE SET SECURITY_CODE='{$securityCode}', EXPIRATION_TIME=to_date('{$newexpirationtimestr}','yyyy-mm-dd hh24:mi:ss') WHERE USER_ID='{$userid}'";
+                    $updatesql = "UPDATE MAPP_SECURITY_CODE SET SECURITY_CODE='{$securityCode}', EXPIRATION_TIME=to_date('{$newexpirationtimestr}','yyyy-mm-dd hh24:mi:ss') WHERE USER_ID='{$userid}'";
 
                     // parse
                     $stus = oci_parse($connect, $updatesql);
@@ -309,7 +309,7 @@ class User_ResetPWD {
         $curDate = date('Y-m-d H:i:s');
 
         // sql
-        $setSCDate = "UPDATE SECURITY_CODE SET EXPIRATION_TIME=to_date('{$curDate}','yyyy-mm-dd hh24:mi:ss') WHERE USER_ID='{$userid}'";
+        $setSCDate = "UPDATE MAPP_SECURITY_CODE SET EXPIRATION_TIME=to_date('{$curDate}','yyyy-mm-dd hh24:mi:ss') WHERE USER_ID='{$userid}'";
 
         // parse sql
         $ssd = oci_parse($connect, $setSCDate);
@@ -429,7 +429,7 @@ class User_ResetPWD {
             //$password = $userInfo['password'];
             $newpassword = $userInfo['newpassword'];
 
-            $updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
+            $updatePwd = "UPDATE MAPP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
 
             // parse
             $stup = oci_parse($connect, $updatePwd);
