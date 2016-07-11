@@ -101,7 +101,7 @@ class File_Upload {
                 }
                 $uniName=$this->getUniName();
                 $destination=$path.'/'.$uniName.'.'.$ext;
-                //echo $destination;die();
+                //echo $fileInfo['tmp_name'];die();
                 if(!move_uploaded_file($fileInfo['tmp_name'],$destination)){
                     $res['code'] = 16;
                     $res['message'] = 'move file:'.$fileInfo['name'].' error';
