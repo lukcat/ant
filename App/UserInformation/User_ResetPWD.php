@@ -238,7 +238,7 @@ class User_ResetPWD {
             $createtimestr = $currenttime->format('Y-m-d H:i:s');
 
             // insert sql
-            $insertsql = "INSERT INTO SECURITY_CODE(SC_ID, USER_ID, SECURITY_CODE, EXPIRATION_TIME, CREATE_TIME) VALUES('{$scid}', '{$userid}', '{$securityCode}', to_date('{$expirationtimestr}','yyyy-mm-dd hh24:mi:ss'), to_date('{$createtimestr}','yyyy-mm-dd hh24:mi:ss'))";
+            $insertsql = "INSERT INTO MAPP_SECURITY_CODE(SC_ID, USER_ID, SECURITY_CODE, EXPIRATION_TIME, CREATE_TIME) VALUES('{$scid}', '{$userid}', '{$securityCode}', to_date('{$expirationtimestr}','yyyy-mm-dd hh24:mi:ss'), to_date('{$createtimestr}','yyyy-mm-dd hh24:mi:ss'))";
 
             // parse
             $stis = oci_parse($connect, $insertsql);
@@ -362,7 +362,7 @@ class User_ResetPWD {
 
                 // valid sn and security code, then modify password
                 //$updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE LOGIN_NAME='{$loginid}' OR EMAIL='{$loginid}' OR CELLPHONE='{$loginid}'";
-                $updatePwd = "UPDATE APP_USER SET PASSWORD='{$newpassword}' WHERE EMAIL='{$email}'";
+                $updatePwd = "UPDATE MAPP_USER SET PASSWORD='{$newpassword}' WHERE EMAIL='{$email}'";
 
                 // parse
                 $stup = oci_parse($connect, $updatePwd);
@@ -451,7 +451,7 @@ class User_ResetPWD {
         $email = $userInfo['email'];
 
         // get userid sql
-        $gusql = "SELECT USER_ID FROM APP_USER WHERE EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR LOGIN_NAME='{$loginid}' AND EMAIL='{$email}'";
+        $gusql = "SELECT USER_ID FROM MAPP_USER WHERE EMAIL='{$loginid}' OR CELLPHONE='{$loginid}' OR LOGIN_NAME='{$loginid}' AND EMAIL='{$email}'";
 
         // parse
         $stgu = oci_parse($connect, $gusql);
