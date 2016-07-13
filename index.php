@@ -16,9 +16,7 @@ use Common\CommonAPI as CommonAPI;
 use App\Login\Mobile_Login as Mobile_Login;
 use App\Register\Mobile_Register as Mobile_Register;
 use App\Upload\File_Upload as File_Upload;
-//use App\Upload\Graphic_Upload as Graphic_Upload;
 use App\Inquiry\Vehicle_Inquiry as Vehicle_Inquiry;
-//use App\Graphics\Mobile_Graphics as Mobile_Graphics;
 use App\Graphics\Image_Processing as Image_Processing;
 use App\Complaint\User_Complaint as User_Complaint;
 use App\Bus\BusInformation as BusInformation;
@@ -34,6 +32,8 @@ use App\Mq\SendMessageToMq as SendMessageToMq;
 use App\VehicleHistoryRoute\VehicleBasicInformation as VehicleBasicInformation;
 use Common\Guid as Guid;
 use App\Mq\MessageLog as MessageLog;
+use App\Register\SM_Register as SM_Register;
+use App\Complaint\SM_Complaint as SM_Complaint;
 
 // for mq
 //use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -231,15 +231,15 @@ $check->params['password'] = sha1(md5('test'));
 //$check->params['password'] = sha1(md5('qwerty'));
 */
 
-/* inquiryVehicleByVehicleID */
+/* InquiryVehicleByVehicleID */
 /*
-$check->params['vehicleid'] = 'OAA1425';
+$check->params['vehicleid'] = 'EBA1440';
 $check->params['querytype'] = 'vehicleid';
 $check->params['loginid'] = 'chendeqing@ceiec.com.cn';
 $check->params['password'] = sha1(md5('test'));
 */
 
-/* inquiryVehicleByAntID */
+/* InquiryVehicleByAntID */
 //$check->params['antid'] = '09.2.61351.1';
 /*
 $check->params['antid'] = '09.2.61351.1';
@@ -254,8 +254,16 @@ $check->params['password'] = sha1(md5('test'));
 /* GetSecurityCode */
 //$check->params['email'] = 'chendeqing@ceiec.com.cn';
 
-/* GetVehicleList' */
+/* GetVehicleList */
 //$check->params['companyid'] = 'f64f20bc-e7ad-45ac-e043-1f021aac284c';
+
+/* SMComplaint */
+//$check->params['action'] = 'SMComplaint';
+//$check->params['type'] = 'denunciar';
+//$check->params['smguid'] = '123232334';
+//$check->params['cellphone'] = '1234567891';
+//$check->params['vehicleid'] = 'ASDF1223';
+//$check->params['complaint'] = 'This is complaint';
 
 ////////////////end of test data//////////////////////
 
@@ -270,6 +278,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'Register';
 //$userDataSet['action'] = 'Complaint';
+//$userDataSet['action'] = 'SMComplaint';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'InquiryVehicle';
 //$userDataSet['action'] = 'SendVehicleInformation';
@@ -431,6 +440,25 @@ switch($action) {
 
         break;
 
+	case 'SMComplaint':
+        
+        // insert user information to MAPP_USER
+        $cellphone = $userDataSet['cellphone'];
+        $vehicleid = $userDataSet['vehicleid'];
+        $complaint = $userDataSet['complaint'];
+
+        $sr = new SM_Register();
+        $userid = $sr->getUseridByCellphone($cellphone, $mobileConnect);
+        //echo $userid;die();
+
+        $sc = new SM_Complaint();
+        $res = $sc->ReceiveComplaint($mobileConnect, $userid, $vehicleid, $complaint);
+        if ($res) {
+            Response::show(2400,'Complaint message upload successful');
+        }
+
+        break;
+
     // Get user Complaint information
     case 'GetComplaint':
         //Varify user's indentity first
@@ -506,6 +534,7 @@ switch($action) {
             $body = json_encode($resData);
 
             if ($resData) {
+                //var_dump($resData);
                 Response::show(900,"Vehicle Exist", $resData);
             } else {
                 //Response::show(901,"Vehicle Do Not Exist",$testData);
@@ -518,17 +547,46 @@ switch($action) {
             //}
 
             break;
-        //} else {
-        //    if ($resData) {
-        //        Response::show(900,"Vehicle Exist", $resData);
-        //    } else {
-        //        //Response::show(901,"Vehicle Do Not Exist",$testData);
-        //        Response::show(901,"Vehicle Do Not Exist");
-        //    }
 
-        //    break;
+    // Inquiry vehicle information
+	case 'SMInquiryVehicle':
 
-        //}
+        // get vehicle's information
+		$iv = new Vehicle_Inquiry();
+
+        // get query type 
+        $queryType = $userDataSet['querytype'];
+
+        $resData = array();
+        if ($queryType == 'vehicleid') {
+		    $resData = $iv->getVehicleInfoByVehicleID($mobileConnect, $userDataSet['vehicleid']);
+		    //$resData = $iv->getVehicleInfoByVehicleID($antConnect, $userDataSet['vehicleid']);
+        } elseif ($queryType == 'antid') {
+            $resData = $iv->getVehicleInfoByAntID($mobileConnect, $userDataSet['antid']);
+        } else {
+            Response::show(2510,'queryType is not correct');
+        }
+        //var_dump($resData);die();
+
+        /* send result to user's email box
+         * use multiple process of php
+         */
+        //if (!empty($userDataSet['token']) || !empty($userDataSet['loginid'])) {
+            // get user's email address
+            $ui = new User_Info();
+            $emailaddr = $ui->getEmail($mobileConnect, $userDataSet);
+            $body = json_encode($resData);
+
+            if ($resData) {
+                //var_dump($resData);
+                Response::show(2500,"Vehicle Exist", $resData);
+            } else {
+                //Response::show(901,"Vehicle Do Not Exist",$testData);
+                Response::show(2501,"Vehicle Do Not Exist");
+            }
+
+
+            break;
 
     // Inquery user information and send to user's email
 	case 'SendVehicleInformation':
