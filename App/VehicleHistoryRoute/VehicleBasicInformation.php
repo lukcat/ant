@@ -78,7 +78,7 @@ class VehicleBasicInformation {
     public function getVehicleList($connect, $companyId) {
     //public function getVehicleList($connect) {
         // sql sentance
-        $get_vehicle = "SELECT VEHICLE_TYPE, VEHICLE_STATUS, BRAND_MODEL, START_YEAR, SERVICE_TYPE, COMPANY_ID, REGION, OPERATION_LICENSE, DISTRICT_CODE, OWNER, OWNER_ID, OWNER_PHONE, OWNER_EMAIL, OWNER_ADDRESS, NOTE  FROM MAPP_VEHICLE WHERE COMPANY_ID = '{$companyId}'";
+        $get_vehicle = "SELECT VEHICLE_ID,VEHICLE_TYPE, VEHICLE_STATUS, BRAND_MODEL, START_YEAR, SERVICE_TYPE, COMPANY_ID, REGION, OPERATION_LICENSE, DISTRICT_CODE, OWNER, OWNER_ID, OWNER_PHONE, OWNER_EMAIL, OWNER_ADDRESS, NOTE  FROM MAPP_VEHICLE WHERE COMPANY_ID = '{$companyId}'";
         //$get_vehicle = "SELECT VEHICLE_TYPE, VEHICLE_STATUS, BRAND_MODEL, START_YEAR, SERVICE_TYPE, COMPANY_ID, REGION, OPERATION_LICENSE, DISTRICT_CODE, OWNER, OWNER_ID, OWNER_PHONE, OWNER_EMAIL, OWNER_ADDRESS, NOTE  FROM MAPP_VEHICLE";
             
         //var_dump($get_vehicle);die();
@@ -98,6 +98,7 @@ class VehicleBasicInformation {
             //$get_district = "SELECT CODE, NAME, SHORTNAME, FULLNAME, NOTE FROM MAPP_DISTRICT";
             //$code       = isset($gvRows['CODE']) ? preg_replace("/\s/","",$gcRows['CODE']) : '';
             //$get_vehicle = "SELECT VEHICLE_TYPE, VEHICLE_STATS, BRAND_MODEL, START_YEAR, SERVICE_TYPE, COMPANY_ID, REGION, OPERATION_LICENSE, DISTRICT_CODE, OWNER, OWNER_ID, OWNER_PHONE, OWNER_EMAIL, OWNER_ADDRESS, NOTE  FROM MAPP_VEHICLE";
+            $vehicleId    = isset($gvRows['VEHICLE_ID']) ? $gvRows['VEHICLE_ID'] : '';
             $vehicleType    = isset($gvRows['VEHICLE_TYPE']) ? $gvRows['VEHICLE_TYPE'] : '';
             $vehicleStatus  = isset($gvRows['VEHICLE_STATUS']) ? $gvRows['VEHICLE_STATUS'] : '';
             $brandModel     = isset($gvRows['BRAND_MODEL']) ? $gvRows['BRAND_MODEL'] : '';
@@ -114,7 +115,7 @@ class VehicleBasicInformation {
             $ownerAddress       = isset($gvRows['OWNER_ADDRESS']) ? $gvRows['OWNER_ADDRESS'] : '';
             $note               = isset($gvRows['NOTE']) ? $gvRows['NOTE'] : '';
 
-            $vehicle = array('vehicleType'=>$vehicleType, 'vehicleStatus'=>$vehicleStatus, 'brandModel'=>$brandModel, 'startYear'=>$startYear, 'companyId'=>$companyId, 'region'=>$region, 'operationLicense'=>$operationLicense, 'districtCode'=>$districtCode, 'owner'=>$owner, 'ownerId'=>$ownerId, 'ownerPhone'=>$ownerPhone, 'owner_email'=>$ownerEmail, 'ownerAddress'=>$ownerAddress, 'note'=>$note);
+            $vehicle = array('vehicleId'=>$vehicleId,'vehicleType'=>$vehicleType, 'vehicleStatus'=>$vehicleStatus, 'brandModel'=>$brandModel, 'startYear'=>$startYear, 'companyId'=>$companyId, 'region'=>$region, 'operationLicense'=>$operationLicense, 'districtCode'=>$districtCode, 'owner'=>$owner, 'ownerId'=>$ownerId, 'ownerPhone'=>$ownerPhone, 'owner_email'=>$ownerEmail, 'ownerAddress'=>$ownerAddress, 'note'=>$note);
 
             array_push($vehicleList, $vehicle);
         }
