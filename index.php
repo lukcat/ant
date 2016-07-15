@@ -233,10 +233,10 @@ $check->params['password'] = sha1(md5('test'));
 
 /* InquiryVehicleByVehicleID */
 /*
-$check->params['vehicleid'] = 'EBA1440';
+$check->params['vehicleid'] = 'TBC9954';
 $check->params['querytype'] = 'vehicleid';
-$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
-$check->params['password'] = sha1(md5('test'));
+//$check->params['loginid'] = 'chendeqing@ceiec.com.cn';
+//$check->params['password'] = sha1(md5('test'));
 */
 
 /* InquiryVehicleByAntID */
@@ -281,6 +281,7 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'SMComplaint';
 //$userDataSet['action'] = 'GetComplaint';
 //$userDataSet['action'] = 'InquiryVehicle';
+//$userDataSet['action'] = 'SMInquiryVehicle';
 //$userDataSet['action'] = 'SendVehicleInformation';
 //$userDataSet['action'] = 'Login';
 //$userDataSet['action'] = 'ChangePWD';
@@ -534,7 +535,6 @@ switch($action) {
             $body = json_encode($resData);
 
             if ($resData) {
-                //var_dump($resData);
                 Response::show(900,"Vehicle Exist", $resData);
             } else {
                 //Response::show(901,"Vehicle Do Not Exist",$testData);

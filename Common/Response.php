@@ -97,7 +97,15 @@ class Response {
 		);
 
         // erase \ in front of /
+        //exit(str_replace("\\/","/", json_encode($result)));
+        //exit(urldecode(str_replace("\\/","/", json_encode($result))));
+        //$str = json_encode($result);
+        //echo utf8_decode(preg_replace("/\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})/e", 'chr(hexdec("$1")).chr(hexdec("$2"))', json_encode($result)));
+        //exit($result);
+		header("Content-Type:application/json");
         exit(str_replace("\\/","/", json_encode($result)));
+        //exit(preg_replace("/\\\\u([a-f0-9]{4})/e", "iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))", json_encode($result)));
+		//var_dump($result);
 
         // for php version >= 5.4.0
 		//exit(json_encode($result,JSON_UNESCAPED_SLASHES));

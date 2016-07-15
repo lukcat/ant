@@ -39,7 +39,7 @@ class Db {
 
 	public function connect() {
 		if(!self::$_connectSource) {
-            self::$_connectSource = oci_connect($this->user,$this->pwd,$this->svr);
+            self::$_connectSource = oci_connect($this->user,$this->pwd,$this->svr,'AL32UTF8');
 
 			if(!self::$_connectSource) {
                 $e = oci_error();

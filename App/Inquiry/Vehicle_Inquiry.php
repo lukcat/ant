@@ -57,7 +57,7 @@ class Vehicle_Inquiry {
         $field = $vehicleField.','.$districtField.','.$companyField.','.$sswField.','.$ssiField; 
 
         // condition
-	    $condition = "v.COMPANY_ID=c.ID AND v.DISTRICT_CODE=d.CODE AND v.VEHICLE_ID=ssw.VEHICLE_ID AND v.VEHICLE_ID=id.VEHICLE_ID AND ssi.MDVR_CORE_SN=ssw.MDVR_CORE_SN AND ssw.STATUS IN (23,24) AND ssw.VEHICLE_ID='{$vehicle_id}'";
+	    $condition = "v.COMPANY_ID=c.ID AND v.DISTRICT_CODE=d.CODE AND v.VEHICLE_ID=ssw.VEHICLE_ID AND v.VEHICLE_ID=id.VEHICLE_ID AND ssi.MDVR_CORE_SN=ssw.MDVR_CORE_SN AND ssw.STATUS IN (23,24) AND ssw.VEHICLE_ID=Upper('{$vehicle_id}')";
         //$condition = "ssi.MDVR_CORE_SN=ssw.MDVR_CORE_SN AND ssw.STATUS IN (23,24) AND ssi.ANT_SN='{$antid}'";
         $sql = "SELECT {$field} FROM {$tables} WHERE {$condition}";
 
@@ -72,7 +72,7 @@ class Vehicle_Inquiry {
 
         // get data from database
         if ($ivRows = oci_fetch_array($ivid, OCI_BOTH)) {
-            //var_dump($ivRows);
+            //var_dump($ivRows);die();
             $vehicleid = isset($ivRows['VEHICLE_ID']) ? $ivRows['VEHICLE_ID'] : '';
             //$vehicleType = isset($ivRows['VEHICLE_TYPE']) ? $ivRows['VEHICLE_TYPE'] : '';
             //$vehicleTypeNum = isset($ivRows['VEHICLE_TYPE']) ? $ivRows['VEHICLE_TYPE'] : '';
@@ -82,6 +82,7 @@ class Vehicle_Inquiry {
             $operationLicense = isset($ivRows['OPERATION_LICENSE']) ? $ivRows['OPERATION_LICENSE'] : '';
             $owner = isset($ivRows['OWNER']) ? $ivRows['OWNER'] : '';
             $company = isset($ivRows['COMPANY']) ? $ivRows['COMPANY'] : '';
+            //echo $company;die();
             $district = isset($ivRows['DISTRICT']) ? $ivRows['DISTRICT'] : '';
             $region = isset($ivRows['REGION']) ? $ivRows['REGION'] : '';
             $antSN = isset($ivRows['ANT_SN']) ? substr($ivRows['ANT_SN'],0,-2) : '';
@@ -121,6 +122,7 @@ class Vehicle_Inquiry {
                     'onlineFlag' => $onlineFlag,
                     'installationFinishTime' => $installationFinishTime
                     );
+            //var_dump($vehicleInfo);die();
             return $vehicleInfo;
         } else {
             return false;
