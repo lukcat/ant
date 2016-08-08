@@ -454,6 +454,18 @@ switch($action) {
 
         $sc = new SM_Complaint();
         $res = $sc->ReceiveComplaint($mobileConnect, $userid, $vehicleid, $complaint);
+
+        /* Send message to RabbitMq*/
+        // new a rabbitMq sender
+        $smtm = new SendMessageToMq($configInfo);
+
+        // Get message which will send to rabbitMq
+        $mqMsg = $smtm->filterMessage($res);
+
+        // send message to mq
+        $result = $smtm->send($mqMsg);
+        /* End of Send message to RabbitMq*/
+
         if ($res) {
             Response::show(2400,'Complaint message upload successful');
         }
