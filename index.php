@@ -299,6 +299,9 @@ $userDataSet = $check->params;
 //$userDataSet['action'] = 'GetTaxiGPS';
 //$userDataSet['action'] = 'GetCompanyList';
 //$userDataSet['action'] = 'GetVehicleList';
+//$userDataSet['action'] = 'GetRealTimeVideo';
+//$userDataSet['action'] = 'GetHistoricalVideo';
+//$userDataSet['action'] = 'GetHistoricalRoute';
 
 // return password to user
 //$testdata = array("password" => $userDataSet['password'], "loginname" => $userDataSet['loginname'], "action" => $userDataSet['action']);
@@ -982,6 +985,45 @@ switch($action) {
         //$resData = $vbi->getVehicleList($mobileConnect);
 
 		Response::show(2300,"Get vehicle list successful",$resData);
+        break;
+
+    case 'GetRealTimeVideo':
+
+        $channel1 = array("channel"=>"1","url"=>"rtsp://172.16.3.41:554/16578/RealTime");
+        $channel2 = array("channel"=>"2","url"=>"rtsp://172.16.3.41:554/16579/RealTime");
+        $data = array();
+        array_push($data, $channel1);
+        array_push($data, $channel2);
+
+		Response::show(2600,"Get real time video successful",$data);
+
+        break;
+
+    case 'GetHistoricalVideo':
+        $video1 = array("videoName"=>"video1", "channel"=>"3", "url"=>"rtsp://172.16.3.41:555/874/File");
+        $video2 = array("videoName"=>"video2", "channel"=>"4", "url"=>"rtsp://172.16.3.41:555/875/File");
+        array_push($data, $video1);
+        array_push($data, $video2);
+
+        $data=array();
+        array_push($data, $video1);
+        array_push($data, $video2);
+        
+		Response::show(2700,"Get historical video successful",$data);
+        break;
+
+    case 'GetHistoricalRoute':
+        //$longitude = array(             -79.878176, -79.878398, -79.878543, -79.878527, -79.878345, -79.877723, -79.877317, -79.877050, -79.876889, -79.876704, -79.876548, -79.876433, -79.876462, -79.876556, -79.876629, -79.876886);
+        //$latitude = array(-2.154574,-2.154398,-2.154135,-2.153787,-2.153353,-2.152565,-2.151886,-2.151383,-2.150945,-2.150358,-2.149677,-2.148810,-2.147966,-2.146633,-2.146246,-2.145361);
+        
+        $route1=array("startTime"=>"2014-04-06 06:06","endTime"=>"2014-04-06 07:06","route"=>"-79.864969,-2.150012,-79.865145,-2.150752,-79.865431,-2.150993,-79.866343,-2.151331,-79.866692,-2.151883,-79.867073,-2.152162");
+        $route2=array("startTime"=>"2014-04-06 08:06","endTime"=>"2014-04-06 09:06","route"=>"-79.867722,-2.152291,-79.867990,-2.152296,-79.869068,-2.152457,-79.870892,-2.152929,-79.876713,-2.154333,-79.877698,-2.154649");
+
+        $data=array();
+        array_push($data, $route1);
+        array_push($data, $route2);
+        
+		Response::show(2800,"Get historical route successful",$data);
         break;
 
 	default:
